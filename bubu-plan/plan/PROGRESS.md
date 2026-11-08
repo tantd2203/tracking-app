@@ -12,7 +12,7 @@ Làm **từ trên xuống**: mỗi task chỉ bắt đầu khi các task ở c�
 | 4   | 🟡         | [FE-01 · Đăng nhập, đăng ký, chặn route](fe/FE-01-auth-screens.md)        | BE-03               | 3 giờ     |           |
 | 5   | ✅         | [BE-04 · Hàm SQL (RPC)](be/BE-04-rpc-functions.md)                        | BE-01               | 3–4 giờ   |           |
 | 6   | 🟡         | [BE-05 · API board](be/BE-05-boards-api.md)                               | BE-02, BE-04        | 3 giờ     |           |
-| 7   | ⬜         | [FE-02 · Danh sách board](fe/FE-02-boards-list.md)                        | BE-05, FE-01        | 4 giờ     |           |
+| 7   | 🟡         | [FE-02 · Danh sách board](fe/FE-02-boards-list.md)                        | BE-05, FE-01        | 4 giờ     |           |
 | 8   | ⬜         | [FE-03 · Tạo/sửa board, menu, xoá](fe/FE-03-board-actions.md)             | FE-02               | 3–4 giờ   | `v0.2.0`  |
 | 9   | ⬜         | [BE-06 · API card + kéo thả](be/BE-06-cards-api.md)                       | BE-02, BE-04        | 4 giờ     |           |
 | 10  | ⬜         | [FE-04 · Board Kanban](fe/FE-04-kanban-layout.md)                         | BE-06, FE-02        | 4 giờ     |           |

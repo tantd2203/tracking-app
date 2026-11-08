@@ -50,4 +50,8 @@ Tạo src/lib/palette.ts đúng như design/README.md. Liệt kê file trước 
 
 ## Ghi chú sau khi làm
 
-…
+- Đã làm: `BoardsPage`, `BoardTile`, `StreakBanner`, `ArchivedSection`, `src/lib/palette.ts` (+ `palette.test.ts`). Ô tìm kiếm dùng `matchBoard`, hiện khi có hơn 3 board hoặc đang có từ khoá.
+- "+ Tạo" và nút ⋯ gọi `toast('Sắp có')` đúng spec. Sheet tạo board thuộc FE-03, đã bỏ khỏi màn này.
+- `npm run lint`, `npm test` (32 test) và `npm run build` đều qua.
+- Chưa kiểm tra: số liệu card/quá hạn/% khớp DB, ghim nằm đầu, khôi phục board lưu trữ (cần Supabase thật), và so ảnh 02 ở light/dark. Các mục này chưa tick.
+- Streak banner và streak badge đang dùng số 0 tạm, FE-09 sẽ nối dữ liệu thật.
