@@ -72,4 +72,9 @@ Dùng RPC move_card, create_card từ BE-04. Chưa làm giao diện.
 
 ## Ghi chú sau khi làm
 
-…
+- Đã làm: `src/api/cards.ts` gồm `useBoardData`, `useCard`, `useCreateCard`, `useUpdateCard`, `useMoveCard`, `useDeleteCard` (xoá mềm). `src/lib/position.ts` có `positionBetween` và `needsRebalance`, kèm test.
+- `useMoveCard` tính `position` trong `onMutate` theo list đích, không tính card đang kéo. Cờ `completedNow` được tính so với list cũ.
+- `useUpdateCard` không cần `boardId`: cập nhật card trong mọi cache `['board', …]`.
+- Chưa làm: đánh số lại list khi `needsRebalance` trả true. Hàm đã có, nhưng chưa có RPC để gọi, nên hiện chỉ là hàm kiểm tra.
+- `npm run lint`, `npm test` (41 test) và `npm run build` đều qua.
+- Chưa kiểm tra trên Supabase thật: thứ tự sau khi tải lại, `completed_on`, activity `card_completed`/`card_reopened`, rollback khi mất mạng. Các mục này chưa tick.
