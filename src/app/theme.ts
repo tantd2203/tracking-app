@@ -17,7 +17,7 @@ export function applyTheme(theme: Theme) {
   }
 }
 
-/** Đọc/đổi chế độ sáng–tối. Giai đoạn 1 sẽ lưu thêm vào bảng profiles. */
+/** Đọc/đổi chế độ sáng–tối trên máy này. Trạng thái lưu trong profiles qua useUpdateProfile. */
 export function useTheme() {
   const [theme, setThemeState] = useState<Theme>(readTheme)
   const setTheme = useCallback((t: Theme) => {

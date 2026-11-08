@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
 import { useBoards, useDeleteBoard, type BoardWithStats } from '../../api/boards'
+import { useProfile } from '../../api/profile'
 import { useStreakSummary, useYearCounts } from '../../api/stats'
 import { useSession } from '../../api/auth'
 import { Button3D } from '../../components/Button3D'
@@ -89,8 +90,8 @@ export default function BoardsPage() {
   }
   const showSearch = active.length > SEARCH_THRESHOLD || query.trim() !== ''
 
-  const meta = session?.user.user_metadata as { display_name?: string } | undefined
-  const displayName = meta?.display_name ?? session?.user.email?.split('@')[0] ?? ''
+  const profile = useProfile()
+  const displayName = profile.data?.display_name || session?.user.email?.split('@')[0] || ''
 
   return (
     <div className="px-5">

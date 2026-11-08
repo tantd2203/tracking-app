@@ -44,4 +44,8 @@ Liệt kê file trước khi code.
 
 ## Ghi chú sau khi làm
 
-…
+- Đã làm: `ProfileCard` (avatar chữ cái, chạm tên để sửa, email, "Thành viên từ MM/YYYY"), `EditNameSheet` (sửa tên hiển thị, không cho để trống), `MePage` (3 ô Streak / Kỷ lục / Card xong lấy từ `useStreakSummary`, công tắc chế độ tối lưu vào profile, "Nhắc nhở hằng ngày" 20:00 kèm nhãn "Sắp có", "Ngôn ngữ" chỉ hiển thị, nút Đăng xuất, phiên bản và link bộ component chỉ hiện ở chế độ dev).
+- Lời chào ở Danh sách board lấy `display_name` từ profile, nên đổi tên là đổi theo.
+- Không làm mục "Dữ liệu demo" theo spec.
+- `npm run lint`, `npm test` (88 test) và `npm run build` đều qua.
+- Chưa kiểm tra: đổi tên rồi lời chào đổi theo trên Supabase thật, chế độ tối đồng bộ giữa hai máy, và giao diện light/dark so với ảnh 08.

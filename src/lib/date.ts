@@ -24,3 +24,9 @@ export const WEEKDAY_LONG = [
   'Thứ Bảy',
 ]
 export const WEEKDAY_SHORT = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7']
+
+/** Tháng và năm dạng MM/YYYY, ví dụ "Thành viên từ 11/2025". */
+export function formatMonthYear(d: Date): string {
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  return `${m}/${d.getFullYear()}`
+}

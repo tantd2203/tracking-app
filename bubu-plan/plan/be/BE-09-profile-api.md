@@ -41,4 +41,8 @@ Làm task BE-09: src/api/profile.ts, đồng bộ dark_mode với theme, src/lib
 
 ## Ghi chú sau khi làm
 
-…
+- Đã làm: `src/api/profile.ts` (`useProfile` trả thêm `email` và `memberSince` dạng MM/YYYY; `useUpdateProfile` cập nhật cache trước, lỗi thì quay lại). `src/lib/text.ts` (`initials`) và `src/lib/date.ts` (`formatMonthYear`), có test.
+- Đổi `dark_mode` thì áp dụng theme ngay trên máy và lưu vào profile. `ProfileThemeSync` (mount trong `main.tsx`) áp dụng chế độ đã lưu khi hồ sơ tải xong.
+- `initials('Nguyễn Minh Anh') === 'MA'`, `initials('bubu') === 'B'` đều có test.
+- `npm run lint`, `npm test` (88 test) và `npm run build` đều qua.
+- Chưa kiểm tra trên Supabase thật: bật chế độ tối trên máy A rồi mở máy B thấy tối, và lưu tên hiển thị.

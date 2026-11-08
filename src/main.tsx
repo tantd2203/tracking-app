@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client'
 import { RouterProvider } from 'react-router/dom'
 import { AuthProvider } from './app/AuthProvider'
 import { router } from './app/router'
+import { ProfileThemeSync } from './app/ProfileThemeSync'
 import { CelebrateOverlay } from './components/CelebrateOverlay'
 import { ToastHost } from './components/ToastHost'
 import { toastError } from './api/errors'
@@ -23,6 +24,7 @@ createRoot(document.getElementById('root')!).render(
         <RouterProvider router={router} />
         <ToastHost />
         <CelebrateOverlay />
+        <ProfileThemeSync />
       </AuthProvider>
     </QueryClientProvider>
   </StrictMode>,
