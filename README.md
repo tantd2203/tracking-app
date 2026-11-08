@@ -22,7 +22,7 @@ PWA dạng Kanban: mỗi card hoàn thành tô màu một ô heatmap (kiểu Git
 
 ## Mở bằng WebStorm
 
-1. **File → Open…** chọn thư mục `bubu-app`.
+1. **File → Open…** chọn thư mục `tracking-app`.
 2. **Settings → Languages & Frameworks → Node.js**: chọn Node interpreter 22.23.2, package manager `npm`.
 3. Khi WebStorm hỏi _"Run npm install"_ thì bấm chạy (hoặc mở Terminal: `npm install`).
 4. **Settings → Languages & Frameworks → JavaScript → Code Quality Tools → ESLint**: chọn _Automatic ESLint configuration_, tick _Run eslint --fix on save_.
@@ -89,7 +89,7 @@ git init
 git add .
 git commit -m "chore: khởi tạo project base Bubu (giai đoạn 0)"
 git branch -M main
-git remote add origin https://github.com/<tài-khoản>/bubu-app.git
+git remote add origin https://github.com/<tài-khoản>/tracking-app.git
 git push -u origin main
 ```
 
