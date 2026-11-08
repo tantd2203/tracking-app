@@ -8,4 +8,5 @@ export const qk = {
   labels: ['labels'] as const,
   dayCounts: (from: string, to: string) => ['dayCounts', from, to] as const,
   dayCards: (day: string) => ['dayCards', day] as const,
+  overdue: ['overdue'] as const,
 }

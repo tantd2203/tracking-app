@@ -43,4 +43,9 @@ Xem ảnh plan/design/screens/06-report.png (đính kèm). Làm task FE-10. Li�
 
 ## Ghi chú sau khi làm
 
-…
+- Đã làm: `ReportView` (Segmented Tuần/Tháng đổi về kỳ hiện tại, hàng chọn kỳ, 3 KPI, biểu đồ, nhận xét của Bubu), `PeriodPicker` (nút mờ khi hết giới hạn 50 tuần / 10 tháng hoặc khi chạm tương lai), `KpiCard`, `BarChart` (SVG tự vẽ, tháng 31 cột co theo màn hình), `OverdueSheet` (danh sách card quá hạn, chạm mở card).
+- Logic số liệu nằm trong `src/lib/report.ts` (`periodDays`, `periodLabel`, `buildReport`, `reportNote`, `reportMood`, `bestLine`, `canGoBack`, `canGoForward`), có 16 test.
+- Quá hạn: KPI luôn hiện số card quá hạn **hiện tại** cho mọi kỳ. Prototype trong file HTML tạo số giả cho kỳ cũ, bản này không làm vậy vì không có dữ liệu lịch sử quá hạn.
+- Cache quá hạn (`qk.overdue`) được làm mới sau khi chuyển, sửa hạn chót, xoá và khôi phục card.
+- `npm run lint`, `npm test` (82 test) và `npm run build` đều qua.
+- Chưa kiểm tra: số liệu khớp dữ liệu thật, tuần trước và tháng trước với dữ liệu thật, biểu đồ tháng trên thiết bị, và giao diện light/dark so với ảnh 06.

@@ -281,6 +281,7 @@ export function useUpdateCard(): UseMutationResult<
     onSettled: (_data, _err, { id }) => {
       qc.invalidateQueries({ queryKey: qk.card(id) })
       qc.invalidateQueries({ queryKey: ['board'] })
+      qc.invalidateQueries({ queryKey: qk.overdue })
     },
   })
 }
@@ -347,6 +348,7 @@ export function useMoveCard(): UseMutationResult<
       pending.current.delete(cardId)
       qc.invalidateQueries({ queryKey: ['dayCounts'] })
       qc.invalidateQueries({ queryKey: qk.boards })
+      qc.invalidateQueries({ queryKey: qk.overdue })
     },
     onSettled: (_data, _err, { boardId, cardId }) => {
       qc.invalidateQueries({ queryKey: qk.board(boardId) })
@@ -430,6 +432,7 @@ export function useDeleteCard(): UseMutationResult<
       qc.invalidateQueries({ queryKey: qk.board(boardId) })
       qc.invalidateQueries({ queryKey: qk.boards })
       qc.invalidateQueries({ queryKey: ['dayCounts'] })
+      qc.invalidateQueries({ queryKey: qk.overdue })
     },
   })
 }
@@ -447,6 +450,7 @@ export function useRestoreCard(): UseMutationResult<void, Error, { id: string; b
       qc.invalidateQueries({ queryKey: qk.board(boardId) })
       qc.invalidateQueries({ queryKey: qk.boards })
       qc.invalidateQueries({ queryKey: ['dayCounts'] })
+      qc.invalidateQueries({ queryKey: qk.overdue })
     },
   })
 }

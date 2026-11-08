@@ -93,3 +93,48 @@ export function useDayCards(day: string): UseQueryResult<DayCard[]> {
     enabled: !demo && Boolean(session) && Boolean(day),
   })
 }
+
+/** Số card đang quá hạn ở mọi board (chưa xong, chưa lưu trữ, có hạn trước hôm nay). */
+export function useOverdueCount(): UseQueryResult<number> {
+  const { demo, session } = useSession()
+  return useQuery({
+    queryKey: qk.overdue,
+    queryFn: async () => {
+      const rows = unwrap(await db().rpc('board_stats', { p_today: toLocalISO(new Date()) }))
+      return rows.reduce((sum, r) => sum + r.overdue, 0)
+    },
+    enabled: !demo && Boolean(session),
+  })
+}
+
+export type OverdueCard = { id: string; title: string; dueDate: string; boardName: string }
+
+/** Danh sách card quá hạn, cũ nhất trước. */
+export function useOverdueCards(): UseQueryResult<OverdueCard[]> {
+  const { demo, session } = useSession()
+  return useQuery({
+    queryKey: [...qk.overdue, 'list'],
+    queryFn: async () => {
+      const res = await db()
+        .from('cards')
+        .select('id, title, due_date, boards(name)')
+        .is('archived_at', null)
+        .is('completed_at', null)
+        .lt('due_date', toLocalISO(new Date()))
+        .order('due_date', { ascending: true })
+      const rows = unwrap(res) as unknown as {
+        id: string
+        title: string
+        due_date: string
+        boards: { name: string } | null
+      }[]
+      return rows.map((r) => ({
+        id: r.id,
+        title: r.title,
+        dueDate: r.due_date,
+        boardName: r.boards?.name ?? '',
+      }))
+    },
+    enabled: !demo && Boolean(session),
+  })
+}

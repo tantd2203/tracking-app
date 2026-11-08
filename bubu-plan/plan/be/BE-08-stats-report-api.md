@@ -89,6 +89,6 @@ Làm task BE-08: src/api/stats.ts và src/lib/report.ts kèm test đầy đủ. 
 
 - Đã làm một phần, để FE-06 dùng: `src/api/stats.ts` gồm `yearRange`, `useRangeCounts`, `useYearCounts` (364 ngày, key `qk.dayCounts`), `getCachedYearCounts`, `useStreakSummary`. Giới hạn 364 ngày được chấp nhận như spec.
 - Đã thêm `useDayCards` (FE-09 dùng cho chi tiết ngày).
-- Chưa làm: `useOverdueCount` và toàn bộ `src/lib/report.ts` (`periodDays`, `periodLabel`, `buildReport`) cùng test. Các phần này dùng cho FE-10.
+- Đã làm thêm ở FE-10: `useOverdueCount`, `useOverdueCards`, và `src/lib/report.ts` (`periodDays`, `periodLabel`, `buildReport`) cùng test.
 - `npm run lint`, `npm test` và `npm run build` đều qua (phần đã làm có test qua `celebrate.test.ts` và `heat.test.ts`).
 - Chưa kiểm tra số liệu với dữ liệu thật.

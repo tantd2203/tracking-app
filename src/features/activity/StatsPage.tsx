@@ -4,6 +4,7 @@ import { useStreakSummary, useYearCounts } from '../../api/stats'
 import { Segmented } from '../../components/Segmented'
 import { toLocalISO } from '../../lib/date'
 import { buildWeeks } from '../../lib/heat'
+import { ReportView } from '../reports/ReportView'
 import { DayDetail } from './DayDetail'
 import { EmptyStats } from './EmptyStats'
 import { Heatmap } from './Heatmap'
@@ -13,7 +14,7 @@ type View = 'heatmap' | 'report'
 
 /**
  * Màn Thống kê. Chế độ Heatmap có streak, lưới 52 tuần và chi tiết ngày.
- * Chế độ Báo cáo (`?view=report`) làm ở FE-10.
+ * Chế độ Báo cáo (`?view=report`) nằm trong `features/reports`.
  */
 export default function StatsPage() {
   const [params, setParams] = useSearchParams()
@@ -66,9 +67,7 @@ export default function StatsPage() {
           <DayDetail date={selected} count={dayCount} isToday={selected === today} />
         </div>
       ) : (
-        <section className="rounded-card border-2 border-line bg-surface p-6 text-center font-bold text-ink2 shadow-block">
-          Báo cáo tuần / tháng sẽ được làm ở FE-10.
-        </section>
+        <ReportView />
       )}
     </div>
   )
