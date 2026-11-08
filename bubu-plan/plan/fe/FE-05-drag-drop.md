@@ -51,4 +51,10 @@ nhưng cài đặt bằng dnd-kit. Làm task FE-05 với useMoveCard. Liệt kê
 
 ## Ghi chú sau khi làm
 
-…
+- Đã làm: `BoardDnd` (DndContext, cảm biến Touch 280 ms/tolerance 10, Mouse 6 px, Keyboard, `pointerWithin`, DragOverlay nghiêng 2°), `CardTile` dùng `useSortable` (thẻ gốc thành khung nét đứt), `KanbanColumn` và `ColumnTabs` là vùng thả, `DropDock` thay TabBar lúc kéo (ẩn TabBar qua `src/app/dragState.ts`). Vạch chèn 3px brand. Tự cuộn mép 30px, 9px mỗi khung. Chặn scroll-snap lúc kéo, `touch-none` trên thẻ.
+- Logic đích thả nằm trong `dropTarget.ts`, có 8 test. Thả vào tab hoặc thanh dưới thì vào đầu cột. Thả đúng chỗ cũ thì không gọi API.
+- Sau khi đổi cột: cuộn tới cột đích, toast "Đã chuyển sang To Do/Doing" (Done không toast). Click sau khi kéo bị bỏ qua 400 ms (`dragGuard.ts`) để không mở chi tiết card.
+- Lưu bằng `useMoveCard` (optimistic, rollback và toast khi lỗi).
+- `touch-none` trên thẻ nghĩa là vuốt dọc bắt đầu từ thẻ sẽ không cuộn trang. Đây là đánh đổi để nhấn giữ hoạt động ổn định. Cần thử trên iPhone để quyết định có giữ không.
+- `npm run lint`, `npm test` (55 test) và `npm run build` đều qua.
+- Chưa kiểm tra trên iPhone thật hoặc với dữ liệu thật: vuốt không kích hoạt kéo, nhấn giữ không bị chọn chữ, thứ tự sau khi tải lại, thả vào tab/thanh dưới, mất mạng khi kéo. Thiết bị và iOS đã thử: chưa có.

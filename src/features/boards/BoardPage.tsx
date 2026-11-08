@@ -7,6 +7,7 @@ import { IconBack } from '../../components/icons'
 import { toLocalISO } from '../../lib/date'
 import { boardColor } from '../../lib/palette'
 import { ColumnTabs } from './ColumnTabs'
+import { BoardDnd } from './BoardDnd'
 import { COLUMNS } from './columns'
 import { KanbanColumn } from './KanbanColumn'
 
@@ -138,63 +139,65 @@ export default function BoardPage() {
   }
 
   return (
-    <div className="pb-4">
-      <header className="safe-top flex items-center gap-3 px-5 pb-3">
-        <button
-          type="button"
-          aria-label="Quay lại"
-          onClick={() => navigate('/boards')}
-          className="grid size-10 flex-none cursor-pointer place-items-center rounded-xl border-2 border-line bg-surface text-ink shadow-block-sm active:translate-y-[3px] active:shadow-none"
-        >
-          <IconBack size={18} />
-        </button>
-        <div className="min-w-0 flex-1">
-          <h1 className="truncate text-[22px] leading-tight font-black text-ink">
-            {data.board.name}
-          </h1>
-          <p className="truncate text-[13px] font-bold text-ink2">
-            Nhấn giữ card để kéo · vuốt ngang đổi cột
-          </p>
-        </div>
-        <span
-          aria-hidden="true"
-          className="h-9 w-2 flex-none rounded-full"
-          style={{ background: color.c }}
-        />
-      </header>
-
-      <ColumnTabs counts={counts} active={active} onSelect={selectColumn} />
-
-      {total === 0 && (
-        <EmptyBoard
-          onAdd={() => {
-            setAddingIn('todo')
-            selectColumn('todo')
-          }}
-        />
-      )}
-
-      <div
-        ref={scrollerRef}
-        onScroll={onScroll}
-        className="flex snap-x snap-mandatory scroll-pl-5 overflow-x-auto pr-5 pl-5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-      >
-        {LIST_KEYS.map((key) => (
-          <KanbanColumn
-            key={key}
-            boardId={boardId}
-            listKey={key}
-            cards={data.cards[key]}
-            today={today}
-            adding={addingIn === key}
-            onStartAdd={() => {
-              setAddingIn(key)
-              selectColumn(key)
-            }}
-            onStopAdd={() => setAddingIn(null)}
+    <BoardDnd boardId={boardId} data={data} scrollerRef={scrollerRef} onMoved={selectColumn}>
+      <div className="pb-4">
+        <header className="safe-top flex items-center gap-3 px-5 pb-3">
+          <button
+            type="button"
+            aria-label="Quay lại"
+            onClick={() => navigate('/boards')}
+            className="grid size-10 flex-none cursor-pointer place-items-center rounded-xl border-2 border-line bg-surface text-ink shadow-block-sm active:translate-y-[3px] active:shadow-none"
+          >
+            <IconBack size={18} />
+          </button>
+          <div className="min-w-0 flex-1">
+            <h1 className="truncate text-[22px] leading-tight font-black text-ink">
+              {data.board.name}
+            </h1>
+            <p className="truncate text-[13px] font-bold text-ink2">
+              Nhấn giữ card để kéo · vuốt ngang đổi cột
+            </p>
+          </div>
+          <span
+            aria-hidden="true"
+            className="h-9 w-2 flex-none rounded-full"
+            style={{ background: color.c }}
           />
-        ))}
+        </header>
+
+        <ColumnTabs counts={counts} active={active} onSelect={selectColumn} />
+
+        {total === 0 && (
+          <EmptyBoard
+            onAdd={() => {
+              setAddingIn('todo')
+              selectColumn('todo')
+            }}
+          />
+        )}
+
+        <div
+          ref={scrollerRef}
+          onScroll={onScroll}
+          className="flex snap-x snap-mandatory scroll-pl-5 overflow-x-auto pr-5 pl-5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {LIST_KEYS.map((key) => (
+            <KanbanColumn
+              key={key}
+              boardId={boardId}
+              listKey={key}
+              cards={data.cards[key]}
+              today={today}
+              adding={addingIn === key}
+              onStartAdd={() => {
+                setAddingIn(key)
+                selectColumn(key)
+              }}
+              onStopAdd={() => setAddingIn(null)}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </BoardDnd>
   )
 }
