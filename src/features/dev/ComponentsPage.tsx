@@ -38,7 +38,7 @@ export default function ComponentsPage() {
         <Section title="Button3D">
           <Button3D block>ĐĂNG NHẬP</Button3D>
           <Button3D block variant="secondary">
-            Tiếp tục với Google
+            Đăng ký
           </Button3D>
           <div className="flex gap-3">
             <Button3D size="md">+ Tạo</Button3D>

@@ -37,6 +37,6 @@ Làm lần lượt từng mục 1→7 của FE-12, mỗi mục một commit riê
 
 ## Ghi chú sau khi làm
 
-- Mục 1 (Google): đã nối nút "Tiếp tục với Google" với `useSignInWithGoogle`. Chưa kiểm tra trên iPhone, và cần cấu hình Google ở BE-10 trước.
+- Mục 1 (Google): đã làm rồi gỡ bỏ theo yêu cầu. Màn đăng nhập chỉ còn bằng email.
 - Các mục 2–9 chưa làm. Theo prompt của task, dừng sau mỗi mục để kiểm tra trên iPhone, mỗi mục một commit riêng.
 - Mục 8 (tag `v1.0.0`) và mục 9 (dùng thật 3 ngày) cần bạn quyết định và làm trên thiết bị.

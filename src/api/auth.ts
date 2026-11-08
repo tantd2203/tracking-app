@@ -48,22 +48,6 @@ export function useSignIn() {
 }
 
 /**
- * Đăng nhập bằng Google (OAuth). Trình duyệt chuyển sang Google rồi quay về `/boards`.
- * Cần cấu hình provider Google trong Supabase (xem BE-10).
- */
-export function useSignInWithGoogle() {
-  return useMutation<void, Error, void>({
-    mutationFn: async () => {
-      const { error } = await db().auth.signInWithOAuth({
-        provider: 'google',
-        options: { redirectTo: `${window.location.origin}/boards` },
-      })
-      if (error) throw mapAuthError(error)
-    },
-  })
-}
-
-/**
  * Tạo tài khoản. `needsConfirm` = true khi Supabase yêu cầu xác nhận email trước khi có session.
  * `displayName` đi vào `user_metadata.display_name`. Trigger `profiles` hiện chưa đọc giá trị này
  * (BE-09 sẽ cập nhật hồ sơ sau khi đăng nhập).

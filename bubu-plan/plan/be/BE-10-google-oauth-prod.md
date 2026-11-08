@@ -35,7 +35,7 @@ Thêm useSignInWithGoogle vào src/api/auth.ts và liệt kê checklist cấu h�
 
 ## Ghi chú sau khi làm
 
-- Đã làm (code): `useSignInWithGoogle` trong `src/api/auth.ts`, gọi `signInWithOAuth` với `redirectTo` = `${origin}/boards`. Nút "Tiếp tục với Google" ở màn đăng nhập đã nối vào hook này (xem FE-12 mục 1).
+- Đã thử rồi gỡ bỏ: `useSignInWithGoogle` và nút "Tiếp tục với Google" đã bị xoá theo yêu cầu. Đăng nhập chỉ còn bằng email. Các bước cấu hình Google bên dưới không còn cần thiết trừ khi bật lại tính năng.
 - Chưa làm (cần làm tay trên dashboard, không thể làm bằng code):
   1. Google Cloud Console: tạo OAuth Client ID loại Web, Authorized redirect URI = `https://<project-ref>.supabase.co/auth/v1/callback`.
   2. Supabase → Authentication → Providers → Google: dán Client ID và Secret.
