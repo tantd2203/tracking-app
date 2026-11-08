@@ -109,14 +109,35 @@ function CardEditor({ card, boardName }: EditorProps) {
       return
     }
     if (next === lastTitle.current) return
+    const previous = lastTitle.current
     lastTitle.current = next
-    update.mutate({ id: card.id, patch: { title: next } }, { onSuccess: flashSaved })
+    update.mutate(
+      { id: card.id, patch: { title: next } },
+      {
+        onSuccess: flashSaved,
+        // Lỗi: trả lại giá trị đã lưu để lần gõ sau cùng nội dung vẫn được lưu.
+        onError: () => {
+          lastTitle.current = previous
+          setTitle(previous)
+        },
+      },
+    )
   }
 
   function saveDesc(next: string) {
     if (next === lastDesc.current) return
+    const previous = lastDesc.current
     lastDesc.current = next
-    update.mutate({ id: card.id, patch: { description: next } }, { onSuccess: flashSaved })
+    update.mutate(
+      { id: card.id, patch: { description: next } },
+      {
+        onSuccess: flashSaved,
+        onError: () => {
+          lastDesc.current = previous
+          setDesc(previous)
+        },
+      },
+    )
   }
 
   function flushTitle() {

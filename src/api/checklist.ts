@@ -25,11 +25,6 @@ function itemsOf(qc: QueryClient, cardId: string): ChecklistItem[] {
   return qc.getQueryData<CardDetail>(qk.card(cardId))?.checklistItems ?? []
 }
 
-/** Việc con thật (bỏ bản tạm đang chờ server). */
-function savedItems(items: ChecklistItem[]): ChecklistItem[] {
-  return items.filter((i) => !i.id.startsWith('temp-'))
-}
-
 type Ctx = { prev: ChecklistItem[] }
 
 function settle(qc: QueryClient, cardId: string, boardId: string) {
@@ -47,9 +42,10 @@ export function useAddChecklistItem(): UseMutationResult<
   const qc = useQueryClient()
   return useMutation({
     mutationFn: async ({ cardId, text }) => {
-      const items = savedItems(itemsOf(qc, cardId))
-      const last = items[items.length - 1]
-      const position = (last?.position ?? 0) + STEP
+      // Tính trên cả bản tạm: hai lần thêm liên tiếp sẽ có vị trí tăng dần, không trùng nhau.
+      const items = itemsOf(qc, cardId)
+      const top = items.reduce((max, i) => Math.max(max, i.position), 0)
+      const position = top + STEP
       return unwrap(
         await db()
           .from('checklist_items')
