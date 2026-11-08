@@ -44,4 +44,8 @@ Chưa làm kéo thả. Liệt kê file trước khi code.
 
 ## Ghi chú sau khi làm
 
-…
+- Đã làm: `BoardPage` (đầu trang, thanh màu board, trạng thái trống, đang tải, lỗi), `ColumnTabs` (3 tab có số đếm), `KanbanColumn`, `CardTile` (nhãn, hạn, ưu tiên, checklist, quá hạn), `AddCardInput` (Enter giữ ô mở, Esc/bấm ra ngoài đóng). Thêm `columns.ts` chứa thứ tự và tên cột. `src/lib/due.ts` có `dueLabel` kèm test.
+- Bấm tab cuộn tới cột bằng easing cubic 280 ms, tắt scroll-snap trong lúc chạy. Cuộn tay thì cập nhật tab.
+- Chưa có kéo thả (FE-05). Ký hiệu ⋮⋮ chỉ là hình minh hoạ.
+- `npm run lint`, `npm test` (47 test) và `npm run build` đều qua.
+- Chưa kiểm tra: số đếm và thứ tự với dữ liệu thật, vuốt dừng đúng từng cột, quá hạn và ngày mai trên card thật, khớp ảnh 03 ở light và dark. Không đăng nhập được nên chưa xem giao diện thật.
