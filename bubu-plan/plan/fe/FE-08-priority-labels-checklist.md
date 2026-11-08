@@ -41,4 +41,8 @@ Liệt kê file trước khi code.
 
 ## Ghi chú sau khi làm
 
-…
+- Đã làm: `PriorityPicker` (4 ô có vạch, ô đang chọn đổi nền và viền theo mức, gợi ý bên phải), `LabelPicker` (chip nhãn bật/tắt, "+ Nhãn mới" có 5 màu, Enter thêm, Esc huỷ, nhãn mới gắn luôn), `Checklist` (thanh tiến độ, tick có rung 8 ms, sửa chữ tại chỗ, xoá hiện khi rê chuột hoặc focus, thêm bằng Enter). Gợi ý Bubu phía trên nút khi tick hết việc con. Thứ tự sau Mô tả như ảnh 04.
+- `PriorityBars` chuyển sang `src/components/` để dùng chung với thẻ Kanban.
+- Lưu ý: nút xoá việc con chỉ hiện khi rê chuột hoặc focus, nên trên cảm ứng cần chạm vào dòng đó trước. Spec nói chạm giữ, chưa làm.
+- `npm run lint`, `npm test` (59 test) và `npm run build` đều qua.
+- Chưa kiểm tra: đổi ưu tiên thấy trên thẻ Kanban, nhãn dùng được ở board khác, số "x/y" đúng trên Kanban, và giao diện light/dark so với ảnh 04. Chưa test trên iPhone thật.

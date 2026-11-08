@@ -61,4 +61,9 @@ Làm task BE-07: src/api/labels.ts và src/api/checklist.ts với optimistic upd
 
 ## Ghi chú sau khi làm
 
-…
+- Đã làm: `src/api/labels.ts` (`useLabels`, `useCreateLabel`, `useToggleCardLabel`) và `src/api/checklist.ts` (`useAddChecklistItem`, `useUpdateChecklistItem`, `useDeleteChecklistItem`). Mọi thao tác đều optimistic trên `qk.card`, và cập nhật `labels` và `checklist` trong cache board qua `patchCardInBoards` (đã export từ `cards.ts`).
+- Nhãn mới gắn vào card bằng tham số `attachTo?: { cardId, boardId }` của `useCreateLabel` (đã chọn cách này, không gọi 2 hook).
+- Việc con mới đặt `position` = max + 1024 trên các việc con đã lưu. Bản tạm đang chờ server không được tính.
+- Bảng `labels`, `card_labels`, `checklist_items` đã có RLS "own rows" từ migration 0001, nên không cần migration mới.
+- `npm run lint`, `npm test` (59 test) và `npm run build` đều qua.
+- Chưa kiểm tra trên Supabase thật: tick đổi số "x/y" trên thẻ Kanban, bỏ gắn không xoá nhãn chung, RLS với tài khoản khác, và nhân bản board còn nhãn và checklist.

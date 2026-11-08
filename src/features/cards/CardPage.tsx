@@ -8,18 +8,22 @@ import {
   useUpdateCard,
   type CardDetail,
 } from '../../api/cards'
-import type { ListKey } from '../../api/types'
+import type { ListKey, Priority } from '../../api/types'
 import { BottomSheet } from '../../components/BottomSheet'
 import { Button3D } from '../../components/Button3D'
 import { ConfirmDialog } from '../../components/ConfirmDialog'
 import { Segmented } from '../../components/Segmented'
+import { Whale } from '../../components/Whale'
 import { IconBack } from '../../components/icons'
 import { showUndo, toast } from '../../components/toast'
 import { toLocalISO } from '../../lib/date'
 import { dueLabel } from '../../lib/due'
 import { useCardMove } from '../boards/useCardMove'
 import { AutoTextarea } from './AutoTextarea'
+import { Checklist } from './Checklist'
 import { DueDateField } from './DueDateField'
+import { LabelPicker } from './LabelPicker'
+import { PriorityPicker } from './PriorityPicker'
 
 /** Thời gian chờ sau lần gõ cuối trước khi lưu tiêu đề và mô tả. */
 const DEBOUNCE_MS = 600
@@ -89,6 +93,8 @@ function CardEditor({ card, boardName }: EditorProps) {
   const today = toLocalISO(new Date())
   const boardPath = `/boards/${card.board_id}`
   const info = card.list !== 'done' ? dueLabel(card.due_date, today) : null
+  const allDone =
+    card.checklist.total > 0 && card.checklist.done === card.checklist.total && card.list !== 'done'
 
   function flashSaved() {
     setSaved(true)
@@ -248,7 +254,19 @@ function CardEditor({ card, boardName }: EditorProps) {
         </div>
       </section>
 
+      <div className="mt-6 flex flex-col gap-6">
+        <PriorityPicker cardId={card.id} value={card.priority as Priority} />
+        <LabelPicker boardId={card.board_id} card={card} />
+        <Checklist boardId={card.board_id} card={card} />
+      </div>
+
       <div className="safe-bottom fixed inset-x-0 bottom-0 z-40 mx-auto max-w-md border-t-2 border-line bg-surface px-5 pt-3 pb-4">
+        {allDone && (
+          <p className="mb-3 flex items-center gap-2 text-[13px] font-bold text-ink2">
+            <Whale mood="happy" size={36} />
+            Xong hết việc con rồi! Bấm HOÀN THÀNH nhé
+          </p>
+        )}
         {card.list === 'done' ? (
           <Button3D
             variant="secondary"

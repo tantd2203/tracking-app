@@ -20,8 +20,8 @@ Làm **từ trên xuống**: mỗi task chỉ bắt đầu khi các task ở c�
 | 12  | 🟡         | [BE-08 · API thống kê + báo cáo](be/BE-08-stats-report-api.md)            | BE-04               | 3–4 giờ   |           |
 | 13  | 🟡         | [FE-06 · Popup ăn mừng](fe/FE-06-celebrate.md)                            | FE-05, BE-08        | 2 giờ     |           |
 | 14  | 🟡         | [FE-07 · Chi tiết card](fe/FE-07-card-detail.md)                          | BE-06, FE-04, FE-06 | 3 giờ     | `v0.3.0`  |
-| 15  | ⬜         | [BE-07 · API nhãn, checklist](be/BE-07-labels-checklist-api.md)           | BE-06               | 2–3 giờ   |           |
-| 16  | ⬜         | [FE-08 · Ưu tiên, nhãn, checklist](fe/FE-08-priority-labels-checklist.md) | BE-07, FE-07        | 4 giờ     | `v0.4.0`  |
+| 15  | 🟡         | [BE-07 · API nhãn, checklist](be/BE-07-labels-checklist-api.md)           | BE-06               | 2–3 giờ   |           |
+| 16  | 🟡         | [FE-08 · Ưu tiên, nhãn, checklist](fe/FE-08-priority-labels-checklist.md) | BE-07, FE-07        | 4 giờ     | `v0.4.0`  |
 | 17  | ⬜         | [FE-09 · Heatmap, streak, trạng thái trống](fe/FE-09-heatmap-streak.md)   | BE-08, FE-02        | 4–5 giờ   |           |
 | 18  | ⬜         | [FE-10 · Báo cáo tuần/tháng](fe/FE-10-report.md)                          | BE-08, FE-09        | 3–4 giờ   | `v0.5.0`  |
 | 19  | ⬜         | [BE-09 · API hồ sơ](be/BE-09-profile-api.md)                              | BE-03               | 1–2 giờ   |           |

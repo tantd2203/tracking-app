@@ -180,7 +180,7 @@ export function useCard(cardId: string): UseQueryResult<CardDetail> {
 }
 
 /** Thay đổi một card trong mọi cache board đang có (không cần biết boardId). */
-function patchCardInBoards(qc: QueryClient, cardId: string, patch: Partial<CardView>) {
+export function patchCardInBoards(qc: QueryClient, cardId: string, patch: Partial<CardView>) {
   qc.setQueriesData<BoardData>({ queryKey: ['board'] }, (data) => {
     if (!data) return data
     const cards = emptyCards()

@@ -5,23 +5,7 @@ import type { CardView } from '../../api/cards'
 import { dueLabel } from '../../lib/due'
 import { LABEL_COLORS, PRIORITY } from '../../lib/palette'
 import { wasJustDragged } from './dragGuard'
-
-const BAR_HEIGHTS = ['h-[6px]', 'h-[10px]', 'h-[14px]']
-
-/** 3 vạch tăng dần, số vạch sáng theo mức ưu tiên. */
-function PriorityBars({ level, color }: { level: number; color: string }) {
-  return (
-    <span aria-hidden="true" className="flex items-end gap-[2px]">
-      {BAR_HEIGHTS.map((h, i) => (
-        <span
-          key={h}
-          className={`w-[3px] rounded-sm ${h}`}
-          style={{ background: i < level ? color : 'var(--color-line)' }}
-        />
-      ))}
-    </span>
-  )
-}
+import { PriorityBars } from '../../components/PriorityBars'
 
 const CHIP = 'inline-flex h-[26px] items-center gap-1 rounded-lg px-2 text-xs font-extrabold'
 
