@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef } from 'react'
+import { isEnterKey } from '../../lib/keys'
 
 type Props = {
   value: string
@@ -42,7 +43,7 @@ export function AutoTextarea({
       }
       onBlur={onBlur}
       onKeyDown={(e) => {
-        if (singleLine && e.key === 'Enter') {
+        if (singleLine && isEnterKey(e)) {
           e.preventDefault()
           e.currentTarget.blur()
         }

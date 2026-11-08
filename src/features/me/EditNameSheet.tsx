@@ -5,6 +5,7 @@ import { BottomSheet } from '../../components/BottomSheet'
 import { Button3D } from '../../components/Button3D'
 import { TextField } from '../../components/TextField'
 import { toast } from '../../components/toast'
+import { isEnterKey } from '../../lib/keys'
 
 const NAME_MAX = 40
 
@@ -46,7 +47,7 @@ export function EditNameSheet({ current, onClose }: Props) {
             setName(e.target.value)
             setError('')
           }}
-          onKeyDown={(e) => e.key === 'Enter' && save()}
+          onKeyDown={(e) => isEnterKey(e) && save()}
         />
         <Button3D block onClick={save} disabled={update.isPending}>
           LƯU

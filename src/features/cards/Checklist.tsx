@@ -6,6 +6,7 @@ import {
 } from '../../api/checklist'
 import type { CardDetail } from '../../api/cards'
 import type { ChecklistItem } from '../../api/types'
+import { isEnterKey } from '../../lib/keys'
 
 type Props = { boardId: string; card: CardDetail }
 
@@ -55,7 +56,7 @@ export function Checklist({ boardId, card }: Props) {
       <input
         value={draft}
         onChange={(e) => setDraft(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && submit()}
+        onKeyDown={(e) => isEnterKey(e) && submit()}
         placeholder="Thêm việc con…"
         aria-label="Thêm việc con"
         className="mt-2 h-11 w-full rounded-2xl border-2 border-dashed border-heat-2 bg-surface px-4 text-[15px] font-bold outline-none placeholder:text-ink2/70 focus:border-brand"
@@ -105,7 +106,7 @@ function ChecklistRow({
         value={text}
         onChange={(e) => setText(e.target.value)}
         onBlur={commit}
-        onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
+        onKeyDown={(e) => isEnterKey(e) && e.currentTarget.blur()}
         aria-label="Nội dung việc con"
         className={`min-w-0 flex-1 bg-transparent font-bold outline-none ${
           item.done ? 'text-ink2 line-through' : ''

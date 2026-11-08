@@ -6,6 +6,7 @@ import { Button3D } from '../../components/Button3D'
 import { TextField } from '../../components/TextField'
 import { toast } from '../../components/toast'
 import { BOARD_COLORS } from '../../lib/palette'
+import { isEnterKey } from '../../lib/keys'
 
 /** Ô tên tối đa 40 ký tự, khớp với bộ đếm "12/40". */
 const NAME_MAX = 40
@@ -71,7 +72,7 @@ export function BoardSheet({ board, initialName = '', defaultColor, onClose }: P
             setName(e.target.value)
             setError('')
           }}
-          onKeyDown={(e) => e.key === 'Enter' && save()}
+          onKeyDown={(e) => isEnterKey(e) && save()}
         />
 
         <TextField
@@ -79,7 +80,7 @@ export function BoardSheet({ board, initialName = '', defaultColor, onClose }: P
           placeholder="Không bắt buộc"
           value={desc}
           onChange={(e) => setDesc(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && save()}
+          onKeyDown={(e) => isEnterKey(e) && save()}
         />
 
         <div className="flex flex-col gap-2">

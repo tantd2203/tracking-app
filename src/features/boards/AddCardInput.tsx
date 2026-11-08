@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useCreateCard } from '../../api/cards'
 import type { ListKey } from '../../api/types'
+import { isEnterKey } from '../../lib/keys'
 
 type Props = {
   boardId: string
@@ -38,7 +39,7 @@ export function AddCardInput({ boardId, list, onDone }: Props) {
         aria-label="Tên card mới"
         onChange={(e) => setTitle(e.target.value)}
         onKeyDown={(e) => {
-          if (e.key === 'Enter') {
+          if (isEnterKey(e)) {
             e.preventDefault()
             submit()
           } else if (e.key === 'Escape') {
