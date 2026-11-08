@@ -6,6 +6,7 @@ import { AuthProvider } from './app/AuthProvider'
 import { router } from './app/router'
 import { ProfileThemeSync } from './app/ProfileThemeSync'
 import { CelebrateOverlay } from './components/CelebrateOverlay'
+import { OfflineBanner } from './components/OfflineBanner'
 import { ToastHost } from './components/ToastHost'
 import { toastError } from './api/errors'
 import './styles/index.css'
@@ -22,6 +23,7 @@ createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <RouterProvider router={router} />
+        <OfflineBanner />
         <ToastHost />
         <CelebrateOverlay />
         <ProfileThemeSync />
