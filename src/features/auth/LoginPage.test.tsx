@@ -7,6 +7,7 @@ const { mutateAsync } = vi.hoisted(() => ({ mutateAsync: vi.fn() }))
 vi.mock('../../api/auth', () => ({
   useSession: () => ({ session: null, loading: false, demo: false }),
   useSignIn: () => ({ mutateAsync, isPending: false }),
+  useSignInWithGoogle: () => ({ mutate: () => {}, isPending: false }),
 }))
 
 import LoginPage from './LoginPage'

@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router'
-import { useSession, useSignIn } from '../../api/auth'
+import { useSession, useSignIn, useSignInWithGoogle } from '../../api/auth'
 import { Button3D } from '../../components/Button3D'
 import { TextField } from '../../components/TextField'
 import { Whale } from '../../components/Whale'
@@ -11,6 +11,7 @@ export default function LoginPage() {
   const navigate = useNavigate()
   const { demo } = useSession()
   const signIn = useSignIn()
+  const google = useSignInWithGoogle()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -99,7 +100,8 @@ export default function LoginPage() {
           type="button"
           variant="secondary"
           className="h-[54px]"
-          onClick={() => toast('Đăng nhập Google sắp có')}
+          disabled={google.isPending}
+          onClick={() => google.mutate(undefined, { onError: (e) => toast(e.message) })}
         >
           Tiếp tục với Google
         </Button3D>

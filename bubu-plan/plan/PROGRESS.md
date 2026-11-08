@@ -26,8 +26,8 @@ Làm **từ trên xuống**: mỗi task chỉ bắt đầu khi các task ở c�
 | 18  | 🟡         | [FE-10 · Báo cáo tuần/tháng](fe/FE-10-report.md)                          | BE-08, FE-09        | 3–4 giờ   | `v0.5.0`  |
 | 19  | 🟡         | [BE-09 · API hồ sơ](be/BE-09-profile-api.md)                              | BE-03               | 1–2 giờ   |           |
 | 20  | 🟡         | [FE-11 · Màn Tôi](fe/FE-11-me-screen.md)                                  | BE-09, BE-08        | 2 giờ     |           |
-| 21  | ⬜         | [BE-10 · Google + cấu hình production](be/BE-10-google-oauth-prod.md)     | BE-03               | 2 giờ     |           |
-| 22  | ⬜         | [FE-12 · Hoàn thiện, phát hành](fe/FE-12-polish-release.md)               | tất cả              | 1–2 ngày  | `v1.0.0`  |
+| 21  | 🟡         | [BE-10 · Google + cấu hình production](be/BE-10-google-oauth-prod.md)     | BE-03               | 2 giờ     |           |
+| 22  | 🟡         | [FE-12 · Hoàn thiện, phát hành](fe/FE-12-polish-release.md)               | tất cả              | 1–2 ngày  | `v1.0.0`  |
 
 **Tổng ước lượng:** khoảng 65–80 giờ, tức 7–9 tuần nếu làm 8–10 giờ mỗi tuần.
 

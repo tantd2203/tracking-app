@@ -35,4 +35,11 @@ Thêm useSignInWithGoogle vào src/api/auth.ts và liệt kê checklist cấu h�
 
 ## Ghi chú sau khi làm
 
-…
+- Đã làm (code): `useSignInWithGoogle` trong `src/api/auth.ts`, gọi `signInWithOAuth` với `redirectTo` = `${origin}/boards`. Nút "Tiếp tục với Google" ở màn đăng nhập đã nối vào hook này (xem FE-12 mục 1).
+- Chưa làm (cần làm tay trên dashboard, không thể làm bằng code):
+  1. Google Cloud Console: tạo OAuth Client ID loại Web, Authorized redirect URI = `https://<project-ref>.supabase.co/auth/v1/callback`.
+  2. Supabase → Authentication → Providers → Google: dán Client ID và Secret.
+  3. Supabase → URL Configuration: Site URL = domain production; Redirect URLs gồm `http://localhost:5173/**`, domain production `/**`, và preview `https://<tên>-*-<tài-khoản>.vercel.app/**`.
+  4. Kiểm tra đăng nhập Google trên localhost và domain Vercel, và xem user mới có profile và board mẫu.
+  5. Thử trên iPhone ở chế độ PWA: OAuth có quay lại app được không. Nếu không, ghi lại và giữ đăng nhập email làm chính.
+- `npm run lint`, `npm test` (88 test) và `npm run build` đều qua.
