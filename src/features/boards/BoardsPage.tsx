@@ -1,15 +1,21 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
-import { useBoards } from '../../api/boards'
+import { useBoards, useDeleteBoard, type BoardWithStats } from '../../api/boards'
 import { useSession } from '../../api/auth'
 import { Button3D } from '../../components/Button3D'
+import { ConfirmDialog } from '../../components/ConfirmDialog'
 import { Whale } from '../../components/Whale'
-import { toast } from '../../components/toast'
+import { showUndo } from '../../components/toast'
 import { WEEKDAY_SHORT, addDays, toLocalISO } from '../../lib/date'
 import { matchBoard } from '../../lib/search'
 import { ArchivedSection } from './ArchivedSection'
+import { BoardMenu } from './BoardMenu'
+import { BoardSheet } from './BoardSheet'
 import { BoardTile } from './BoardTile'
 import { StreakBanner, type WeekDay } from './StreakBanner'
+
+/** Sheet đang mở: tạo mới, hoặc sửa một board. */
+type SheetState = { mode: 'create' } | { mode: 'edit'; board: BoardWithStats } | null
 
 /** Ngưỡng hiện ô tìm kiếm: chỉ hiện khi có nhiều hơn số board này. */
 const SEARCH_THRESHOLD = 3
@@ -48,11 +54,22 @@ function BoardsSkeleton() {
 export default function BoardsPage() {
   const { session } = useSession()
   const boards = useBoards()
+  const { scheduleDelete } = useDeleteBoard()
   const [query, setQuery] = useState('')
+  const [sheet, setSheet] = useState<SheetState>(null)
+  const [menuFor, setMenuFor] = useState<BoardWithStats | null>(null)
+  const [confirmFor, setConfirmFor] = useState<BoardWithStats | null>(null)
 
   const active = boards.data?.active ?? []
   const archived = boards.data?.archived ?? []
   const shown = active.filter((b) => matchBoard(b, query))
+
+  function confirmDelete(board: BoardWithStats) {
+    const { undo } = scheduleDelete(board.id)
+    setConfirmFor(null)
+    setMenuFor(null)
+    showUndo(`Đã xoá “${board.name}”`, undo)
+  }
   const showSearch = active.length > SEARCH_THRESHOLD || query.trim() !== ''
 
   const meta = session?.user.user_metadata as { display_name?: string } | undefined
@@ -92,7 +109,7 @@ export default function BoardsPage() {
         <p className="text-lg font-black">
           Board đang dùng <span className="text-sm text-ink2">{active.length} board</span>
         </p>
-        <Button3D size="md" onClick={() => toast('Sắp có')}>
+        <Button3D size="md" onClick={() => setSheet({ mode: 'create' })}>
           + Tạo
         </Button3D>
       </div>
@@ -131,7 +148,7 @@ export default function BoardsPage() {
         <ul className="flex flex-col gap-3">
           {shown.map((board) => (
             <li key={board.id}>
-              <BoardTile board={board} />
+              <BoardTile board={board} onMenu={() => setMenuFor(board)} />
             </li>
           ))}
         </ul>
@@ -154,6 +171,43 @@ export default function BoardsPage() {
       )}
 
       <ArchivedSection boards={archived} />
+
+      {sheet && (
+        <BoardSheet
+          board={sheet.mode === 'edit' ? sheet.board : undefined}
+          initialName={sheet.mode === 'create' ? query.trim() : ''}
+          defaultColor={active.length % 4}
+          onClose={() => setSheet(null)}
+        />
+      )}
+
+      {menuFor && (
+        <BoardMenu
+          board={menuFor}
+          onClose={() => setMenuFor(null)}
+          onEdit={() => {
+            setSheet({ mode: 'edit', board: menuFor })
+            setMenuFor(null)
+          }}
+          onDelete={() => {
+            setConfirmFor(menuFor)
+            setMenuFor(null)
+          }}
+        />
+      )}
+
+      <ConfirmDialog
+        open={confirmFor !== null}
+        title={`Xoá “${confirmFor?.name ?? ''}”?`}
+        text={
+          confirmFor && confirmFor.total > 0
+            ? `${confirmFor.total} card sẽ bị xoá vĩnh viễn.`
+            : 'Board này đang trống.'
+        }
+        confirmLabel="Xoá"
+        onConfirm={() => confirmFor && confirmDelete(confirmFor)}
+        onClose={() => setConfirmFor(null)}
+      />
     </div>
   )
 }

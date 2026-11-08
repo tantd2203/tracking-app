@@ -1,10 +1,11 @@
 import { Link } from 'react-router'
 import type { BoardWithStats } from '../../api/boards'
-import { toast } from '../../components/toast'
 import { boardColor } from '../../lib/palette'
 
+type Props = { board: BoardWithStats; onMenu: () => void }
+
 /** Thẻ board trong danh sách: chữ cái màu, số liệu, thanh tiến độ. */
-export function BoardTile({ board }: { board: BoardWithStats }) {
+export function BoardTile({ board, onMenu }: Props) {
   const color = boardColor(board.color)
   const inProgress = board.doing
   const subtitle = board.description || (board.total === 0 ? 'Chưa có card nào' : '')
@@ -48,7 +49,7 @@ export function BoardTile({ board }: { board: BoardWithStats }) {
       <button
         type="button"
         aria-label="Tuỳ chọn board"
-        onClick={() => toast('Sắp có')}
+        onClick={onMenu}
         className="grid size-10 shrink-0 cursor-pointer place-items-center rounded-full border-2 border-line text-lg font-black text-ink2"
       >
         ⋯

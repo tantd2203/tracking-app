@@ -46,4 +46,8 @@ Làm task FE-03 với hook trong src/api/boards.ts. Liệt kê file trước khi
 
 ## Ghi chú sau khi làm
 
-…
+- Đã làm: `BoardSheet` (tạo/sửa, 4 màu, xem trước, Enter để lưu, điền sẵn từ khoá đang tìm), `BoardMenu` (menu ⋯ với 5 mục), `ConfirmDialog` mới trong `src/components/` (Bubu buồn, không nhấp nhô), xoá có hoàn tác 5 giây qua `scheduleDelete` + `showUndo`.
+- Lưu trữ từ menu chỉ đặt `archived_at`, không tự bỏ ghim như bản thiết kế. Làm theo spec FE-03.
+- Ô mô tả không giới hạn độ dài vì spec không nói.
+- `npm run lint`, `npm test` (34 test) và `npm run build` đều qua.
+- Chưa kiểm tra: tạo/sửa/ghim/nhân bản/lưu trữ/xoá trên Supabase thật, hoàn tác trong 5 giây, Esc và chạm nền, và so với thiết kế ở light/dark. Các mục này chưa tick.
