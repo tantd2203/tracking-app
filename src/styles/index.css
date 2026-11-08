@@ -43,6 +43,11 @@
   color-scheme: dark;
 }
 
+/* Chữ màu brand trên nền tối quá tối (#0284C7 chỉ khoảng 3.7:1), đổi sang xanh sáng để đạt AA. */
+[data-theme='dark'] .text-brand {
+  color: #7dd3fc;
+}
+
 /* Cho Tailwind dùng token: bg-surface, text-ink2, border-line, bg-brand ... */
 @theme inline {
   --font-sans: 'Nunito Variable', system-ui, sans-serif;
