@@ -8,7 +8,7 @@ import {
 } from '@tanstack/react-query'
 import { db } from './client'
 import { useSession } from './auth'
-import { patchCardInBoards, type CardDetail } from './cards'
+import { patchCardInBoards, type BoardData, type CardDetail } from './cards'
 import { toastError, unwrap } from './errors'
 import { qk } from './keys'
 import type { Label } from './types'
@@ -133,6 +133,54 @@ export function useToggleCardLabel(): UseMutationResult<
     },
     onSettled: (_data, _err, { cardId }) => {
       qc.invalidateQueries({ queryKey: qk.card(cardId) })
+      qc.invalidateQueries({ queryKey: ['board'] })
+    },
+  })
+}
+
+/**
+ * Xoá nhãn khỏi danh sách chung. Nhãn cũng được gỡ khỏi mọi card đang dùng nó.
+ * Cache cập nhật trước, lỗi thì quay lại.
+ */
+export function useDeleteLabel(): UseMutationResult<
+  void,
+  Error,
+  { id: string },
+  { prev: Label[] | undefined }
+> {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async ({ id }) => {
+      const { error } = await db().from('labels').delete().eq('id', id)
+      if (error) throw error
+    },
+    onMutate: async ({ id }) => {
+      await qc.cancelQueries({ queryKey: qk.labels })
+      const prev = qc.getQueryData<Label[]>(qk.labels)
+      qc.setQueryData<Label[]>(qk.labels, (old) => (old ?? []).filter((l) => l.id !== id))
+      const drop = (labels: Label[]) => labels.filter((l) => l.id !== id)
+      qc.setQueriesData<CardDetail>({ queryKey: ['card'] }, (old) =>
+        old ? { ...old, labels: drop(old.labels) } : old,
+      )
+      qc.setQueriesData<BoardData>({ queryKey: ['board'] }, (data) => {
+        if (!data) return data
+        const cards = { ...data.cards }
+        for (const key of ['todo', 'doing', 'done'] as const) {
+          cards[key] = data.cards[key].map((c) => ({ ...c, labels: drop(c.labels) }))
+        }
+        return { ...data, cards }
+      })
+      return { prev }
+    },
+    onError: (e, _vars, ctx) => {
+      if (ctx?.prev) qc.setQueryData(qk.labels, ctx.prev)
+      qc.invalidateQueries({ queryKey: ['card'] })
+      qc.invalidateQueries({ queryKey: ['board'] })
+      toastError(e)
+    },
+    onSettled: () => {
+      qc.invalidateQueries({ queryKey: qk.labels })
+      qc.invalidateQueries({ queryKey: ['card'] })
       qc.invalidateQueries({ queryKey: ['board'] })
     },
   })

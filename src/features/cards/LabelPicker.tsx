@@ -1,8 +1,11 @@
 import { useState, type KeyboardEvent } from 'react'
-import { useCreateLabel, useLabels, useToggleCardLabel } from '../../api/labels'
+import { useCreateLabel, useDeleteLabel, useLabels, useToggleCardLabel } from '../../api/labels'
+import { ConfirmDialog } from '../../components/ConfirmDialog'
+import { toast } from '../../components/toast'
 import type { CardDetail } from '../../api/cards'
 import type { Label } from '../../api/types'
 import { LABEL_COLORS } from '../../lib/palette'
+import { isEnterKey } from '../../lib/keys'
 
 type Props = { boardId: string; card: CardDetail }
 
@@ -11,6 +14,8 @@ export function LabelPicker({ boardId, card }: Props) {
   const labels = useLabels()
   const toggle = useToggleCardLabel()
   const [adding, setAdding] = useState(false)
+  const [deleting, setDeleting] = useState<Label | null>(null)
+  const remove = useDeleteLabel()
   const attached = new Set(card.labels.map((l) => l.id))
   const count = card.labels.length
 
@@ -29,6 +34,7 @@ export function LabelPicker({ boardId, card }: Props) {
             key={label.id}
             label={label}
             on={attached.has(label.id)}
+            onDelete={() => setDeleting(label)}
             onClick={() =>
               toggle.mutate({
                 cardId: card.id,
@@ -52,29 +58,65 @@ export function LabelPicker({ boardId, card }: Props) {
           </button>
         )}
       </div>
+
+      <ConfirmDialog
+        open={deleting !== null}
+        title={`Xoá nhãn “${deleting?.name ?? ''}”?`}
+        text="Nhãn sẽ được gỡ khỏi mọi card đang dùng nó."
+        confirmLabel="Xoá"
+        onConfirm={() => {
+          if (!deleting) return
+          const name = deleting.name
+          setDeleting(null)
+          remove.mutate({ id: deleting.id }, { onSuccess: () => toast(`Đã xoá nhãn “${name}”`) })
+        }}
+        onClose={() => setDeleting(null)}
+      />
     </section>
   )
 }
 
-function LabelChip({ label, on, onClick }: { label: Label; on: boolean; onClick: () => void }) {
+function LabelChip({
+  label,
+  on,
+  onClick,
+  onDelete,
+}: {
+  label: Label
+  on: boolean
+  onClick: () => void
+  onDelete: () => void
+}) {
   const c = LABEL_COLORS[label.color] ?? LABEL_COLORS[0]
   return (
-    <button
-      type="button"
-      aria-pressed={on}
-      onClick={onClick}
-      className={`inline-flex h-10 cursor-pointer items-center gap-2 rounded-full border-2 px-4 text-sm font-black transition-colors ${
+    <span
+      className={`inline-flex h-10 items-center rounded-full border-2 pr-1 text-sm font-black transition-colors ${
         on ? 'border-transparent' : 'border-line bg-surface text-ink'
       }`}
       style={on ? { background: c.c, color: c.fg } : undefined}
     >
-      {on ? (
-        <span aria-hidden="true">✓</span>
-      ) : (
-        <span aria-hidden="true" className="size-3 rounded-full" style={{ background: c.c }} />
-      )}
-      {label.name}
-    </button>
+      <button
+        type="button"
+        aria-pressed={on}
+        onClick={onClick}
+        className="inline-flex h-full cursor-pointer items-center gap-2 pr-1 pl-4"
+      >
+        {on ? (
+          <span aria-hidden="true">✓</span>
+        ) : (
+          <span aria-hidden="true" className="size-3 rounded-full" style={{ background: c.c }} />
+        )}
+        {label.name}
+      </button>
+      <button
+        type="button"
+        aria-label={`Xoá nhãn ${label.name}`}
+        onClick={onDelete}
+        className="grid size-7 cursor-pointer place-items-center rounded-full text-base leading-none font-black opacity-70 hover:opacity-100"
+      >
+        ×
+      </button>
+    </span>
   )
 }
 
@@ -100,7 +142,7 @@ function NewLabelRow({
   }
 
   function onKey(e: KeyboardEvent<HTMLInputElement>) {
-    if (e.key === 'Enter') submit()
+    if (isEnterKey(e)) submit()
     if (e.key === 'Escape') onDone()
   }
 
