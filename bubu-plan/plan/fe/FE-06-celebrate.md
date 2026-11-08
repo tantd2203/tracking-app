@@ -39,4 +39,9 @@ Làm task FE-06: CelebrateOverlay + store celebrate(), gắn vào luồng thả 
 
 ## Ghi chú sau khi làm
 
-…
+- Đã làm: store `src/components/celebrate.ts` (`celebrate`, `dismissCelebrate`), `CelebrateOverlay` (Bubu cheer 190 có burst, tiêu đề theo `first`, chip streak và ô hôm nay, nút TIẾP TỤC, rung `[20, 40, 20]`, đóng bằng nút, chạm nền hoặc Esc). Mount trong `main.tsx`.
+- Số liệu popup tính từ cache trước khi kéo (`afterCompletion` trong `src/lib/celebrate.ts`, có test), nên hiện ngay không chờ refetch. Chỉ mở khi `completedNow` = true sau khi server xác nhận.
+- Gọi từ thả vào Done (FE-05). Nút HOÀN THÀNH ở FE-07 chưa làm nên chưa gọi từ đó.
+- Tham số `returnTo` có sẵn để FE-07 đóng popup về Board. Overlay điều hướng bằng `router.navigate`, vì mount ngoài RouterProvider.
+- `npm run lint`, `npm test` (59 test) và `npm run build` đều qua.
+- Chưa kiểm tra: hiệu ứng mượt trên iPhone, giao diện light và dark, và số liệu với dữ liệu thật.

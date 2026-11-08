@@ -17,8 +17,8 @@ Làm **từ trên xuống**: mỗi task chỉ bắt đầu khi các task ở c�
 | 9   | 🟡         | [BE-06 · API card + kéo thả](be/BE-06-cards-api.md)                       | BE-02, BE-04        | 4 giờ     |           |
 | 10  | 🟡         | [FE-04 · Board Kanban](fe/FE-04-kanban-layout.md)                         | BE-06, FE-02        | 4 giờ     |           |
 | 11  | 🟡         | [FE-05 · Kéo thả](fe/FE-05-drag-drop.md)                                  | FE-04               | 5–6 giờ   |           |
-| 12  | ⬜         | [BE-08 · API thống kê + báo cáo](be/BE-08-stats-report-api.md)            | BE-04               | 3–4 giờ   |           |
-| 13  | ⬜         | [FE-06 · Popup ăn mừng](fe/FE-06-celebrate.md)                            | FE-05, BE-08        | 2 giờ     |           |
+| 12  | 🟡         | [BE-08 · API thống kê + báo cáo](be/BE-08-stats-report-api.md)            | BE-04               | 3–4 giờ   |           |
+| 13  | 🟡         | [FE-06 · Popup ăn mừng](fe/FE-06-celebrate.md)                            | FE-05, BE-08        | 2 giờ     |           |
 | 14  | ⬜         | [FE-07 · Chi tiết card](fe/FE-07-card-detail.md)                          | BE-06, FE-04, FE-06 | 3 giờ     | `v0.3.0`  |
 | 15  | ⬜         | [BE-07 · API nhãn, checklist](be/BE-07-labels-checklist-api.md)           | BE-06               | 2–3 giờ   |           |
 | 16  | ⬜         | [FE-08 · Ưu tiên, nhãn, checklist](fe/FE-08-priority-labels-checklist.md) | BE-07, FE-07        | 4 giờ     | `v0.4.0`  |

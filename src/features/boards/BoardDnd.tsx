@@ -14,10 +14,14 @@ import {
 } from '@dnd-kit/core'
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable'
 import { useEffect, useMemo, useRef, useState, type ReactNode, type RefObject } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import { useMoveCard, type BoardData, type CardView } from '../../api/cards'
+import { getCachedYearCounts } from '../../api/stats'
 import type { ListKey } from '../../api/types'
 import { setDragging } from '../../app/dragState'
+import { celebrate } from '../../components/celebrate'
 import { toast } from '../../components/toast'
+import { afterCompletion } from '../../lib/celebrate'
 import { toLocalISO } from '../../lib/date'
 import { CardBody } from './CardTile'
 import { COLUMNS } from './columns'
@@ -51,6 +55,7 @@ type Props = {
 export function BoardDnd({ boardId, data, scrollerRef, onMoved, children }: Props) {
   const [activeId, setActiveId] = useState<string | null>(null)
   const [overId, setOverId] = useState<string | null>(null)
+  const qc = useQueryClient()
   const move = useMoveCard()
   const edge = useRef(0)
   const frame = useRef(0)
@@ -140,7 +145,19 @@ export function BoardDnd({ boardId, data, scrollerRef, onMoved, children }: Prop
       // Done có popup ăn mừng (FE-06) nên không hiện toast.
       if (column && drop.toList !== 'done') toast(`Đã chuyển sang ${column.label}`)
     }
-    move.mutate({ cardId, boardId, toList: drop.toList, toIndex: drop.toIndex })
+    const title = LIST_KEYS.flatMap((k) => data.cards[k]).find((c) => c.id === cardId)?.title ?? ''
+    // Đếm trước khi cache làm mới: popup hiện đúng ngay, không chờ server.
+    const before = getCachedYearCounts(qc)
+    move.mutate(
+      { cardId, boardId, toList: drop.toList, toIndex: drop.toIndex },
+      {
+        onSuccess: (result) => {
+          if (!result.completedNow) return
+          const done = afterCompletion(before ?? {})
+          celebrate({ title, first: done.first, streak: done.streak, today: done.today })
+        },
+      },
+    )
   }
 
   return (
