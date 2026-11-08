@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#DFE9F0;font-family:'Nunito',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#0284C7}a:hover{color:#0369A1}
+input,textarea,button{font-family:inherit}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes drop{0%{transform:translate(0,0) scale(.5);opacity:0}12%{opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(1);opacity:0}}
+@keyframes pop{0%{transform:scale(.7);opacity:0}60%{transform:scale(1.04);opacity:1}100%{transform:scale(1)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(2,132,199,.55)}50%{box-shadow:0 0 0 5px rgba(2,132,199,0)}}
+@keyframes ripple{0%{transform:scaleX(1)}50%{transform:scaleX(1.06)}100%{transform:scaleX(1)}}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:40px;padding:40px 24px">
+
+<div style="flex:none;padding:11px;background:#0A1320;border-radius:62px;box-shadow:0 30px 60px rgba(11,37,64,.25)">
+<div ref="{{ phoneRef }}" style="position:relative;width:390px;height:844px;border-radius:51px;overflow:hidden;background:var(--bg);color:var(--ink);font-family:'Nunito',system-ui,sans-serif;--bg:{{ th.bg }};--surface:{{ th.surface }};--surface2:{{ th.surface2 }};--ink:{{ th.ink }};--ink2:{{ th.ink2 }};--line:{{ th.line }};--col:{{ th.col }};--chip:{{ th.chip }};--chipInk:{{ th.chipInk }};--heat0:{{ th.heat0 }};--red:{{ th.red }};--redBg:{{ th.redBg }};--redLine:{{ th.redLine }};--hero:{{ th.hero }};--overlay:{{ th.overlay }}">
+
+<div style="position:absolute;top:0;left:0;right:0;height:47px;display:flex;align-items:center;justify-content:space-between;padding:4px 34px 0 38px;z-index:40;pointer-events:none">
+<span style="font-size:16px;font-weight:800;color:var(--ink)">9:41</span>
+<div style="position:absolute;left:50%;top:11px;width:122px;height:34px;margin-left:-61px;background:#000;border-radius:20px"></div>
+<div style="display:flex;align-items:center;gap:6px">
+<div style="display:flex;align-items:flex-end;gap:2px;height:12px"><div style="width:3px;height:4px;border-radius:1px;background:var(--ink)"></div><div style="width:3px;height:6px;border-radius:1px;background:var(--ink)"></div><div style="width:3px;height:9px;border-radius:1px;background:var(--ink)"></div><div style="width:3px;height:12px;border-radius:1px;background:var(--ink)"></div></div>
+<div style="width:25px;height:12px;border-radius:4px;border:1.5px solid var(--ink);padding:1.5px"><div style="width:75%;height:100%;border-radius:2px;background:var(--ink)"></div></div>
+</div>
+</div>
+
+<!-- 1. ĐĂNG NHẬP -->
+<sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;inset:0;display:flex;flex-direction:column;overflow-y:auto;scrollbar-width:none;animation:fadeIn .3s ease">
+<div style="position:relative;flex:none;height:390px;background:var(--hero);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:58px;gap:6px">
+<div style="position:relative;background:var(--surface);border:2px solid var(--line);border-radius:20px;padding:10px 16px;font-size:16px;font-weight:800;color:var(--ink);box-shadow:0 3px 0 var(--line);text-align:center;max-width:280px">Chào bạn! Mình là Bubu 👋<br><span style="font-weight:700;color:var(--ink2);font-size:14px">Cùng bơi qua từng việc nhé!</span></div>
+<div style="width:14px;height:14px;background:var(--surface);border-right:2px solid var(--line);border-bottom:2px solid var(--line);transform:rotate(45deg);margin-top:-14px"></div>
+{{ whaleLogin }}
+<div style="position:absolute;left:-10%;right:-10%;bottom:-1px;height:70px;background:var(--bg);border-radius:50% 50% 0 0 / 100% 100% 0 0"></div>
+<div style="position:absolute;left:0;right:0;bottom:44px;height:26px;background:#7DD3FC;opacity:.45;border-radius:50% 50% 0 0 / 100% 100% 0 0"></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;padding:0 24px 32px;margin-top:-18px;position:relative">
+<div style="text-align:center;display:flex;flex-direction:column;gap:2px;margin-bottom:6px">
+<span style="font-size:38px;font-weight:900;color:#0284C7;letter-spacing:-1px">bubu</span>
+<span style="font-size:15px;font-weight:700;color:var(--ink2)">Mỗi card xong là một ô biển xanh.</span>
+</div>
+<input value="{{ email }}" onChange="{{ setEmail }}" placeholder="Email" style="height:56px;border-radius:16px;border:2px solid var(--line);background:var(--surface);padding:0 18px;font-size:16px;font-weight:700;color:var(--ink);outline:none" style-focus="border-color:#0284C7">
+<input type="password" value="{{ password }}" onChange="{{ setPassword }}" placeholder="Mật khẩu" style="height:56px;border-radius:16px;border:2px solid var(--line);background:var(--surface);padding:0 18px;font-size:16px;font-weight:700;color:var(--ink);outline:none" style-focus="border-color:#0284C7">
+<sc-if value="{{ hasLoginError }}"><span style="font-size:14px;font-weight:800;color:var(--ink2);padding:0 4px">{{ loginError }}</span></sc-if>
+<button onClick="{{ doLogin }}" style="height:58px;border:none;border-radius:18px;background:#0284C7;color:#fff;font-size:17px;font-weight:900;letter-spacing:.6px;box-shadow:0 5px 0 #026199;cursor:pointer;margin-top:4px" style-active="transform:translateY(5px);box-shadow:0 0 0 #026199">ĐĂNG NHẬP</button>
+<div style="display:flex;align-items:center;gap:12px;color:var(--ink2);font-size:13px;font-weight:800"><div style="flex:1;height:2px;background:var(--line)"></div>HOẶC<div style="flex:1;height:2px;background:var(--line)"></div></div>
+<button onClick="{{ doLogin }}" style="height:54px;border:2px solid var(--line);border-radius:18px;background:var(--surface);color:var(--ink);font-size:16px;font-weight:900;box-shadow:0 4px 0 var(--line);cursor:pointer" style-active="transform:translateY(4px);box-shadow:0 0 0 var(--line)">Tiếp tục với Google</button>
+<span style="text-align:center;font-size:15px;font-weight:700;color:var(--ink2);margin-top:6px">Chưa có tài khoản? <span style="color:#0284C7;font-weight:900;cursor:pointer">Đăng ký</span></span>
+</div>
+</div>
+</sc-if>
+
+<!-- 2. DANH SÁCH BOARD -->
+<sc-if value="{{ isBoards }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:47px 0 0 0;overflow-y:auto;scrollbar-width:none;padding:14px 20px 120px;display:flex;flex-direction:column;gap:18px;animation:fadeIn .25s ease">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+<div style="display:flex;flex-direction:column;gap:2px">
+<span style="font-size:15px;font-weight:700;color:var(--ink2)">Xin chào, Minh Anh</span>
+<span style="font-size:30px;font-weight:900;color:var(--ink);letter-spacing:-.6px">Board của bạn</span>
+</div>
+<button onClick="{{ goStats }}" style="display:flex;align-items:center;gap:8px;height:46px;padding:0 16px 0 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);box-shadow:0 3px 0 var(--line);font-size:19px;font-weight:900;color:{{ streakColor }};cursor:pointer" style-active="transform:translateY(3px);box-shadow:0 0 0 var(--line)"><span style="width:17px;height:17px;border-radius:50% 0 50% 50%;transform:rotate(-45deg);background:{{ streakColor }}"></span>{{ streak }}</button>
+</div>
+
+<div onClick="{{ goStats }}" style="background:#0284C7;border-radius:26px;box-shadow:0 6px 0 #026199;padding:16px 16px 16px 10px;display:flex;align-items:center;gap:10px;cursor:pointer">
+<div style="flex:none">{{ whaleBanner }}</div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;flex-direction:column;gap:2px">
+<span style="font-size:21px;font-weight:900;color:#fff;letter-spacing:-.3px">{{ bannerTitle }}</span>
+<span style="font-size:14px;font-weight:700;color:#E0F2FE;line-height:1.3;text-wrap:pretty">{{ bannerSub }}</span>
+</div>
+<div style="display:flex;gap:5px">
+<sc-for list="{{ weekDots }}" as="d" hint-placeholder-count="7">
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+<div style="width:26px;height:26px;border-radius:50%;background:{{ d.bg }};border:{{ d.border }};display:flex;align-items:center;justify-content:center;color:#0284C7;font-size:13px;font-weight:900">{{ d.check }}</div>
+<span style="font-size:10px;font-weight:900;color:#BAE6FD">{{ d.label }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:4px">
+<div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:18px;font-weight:900;color:var(--ink)">Board đang dùng</span><span style="font-size:14px;font-weight:800;color:var(--ink2)">{{ boardCountLabel }}</span></div>
+<button onClick="{{ openCreate }}" title="Tạo board" style="flex:none;height:44px;padding:0 14px;border:none;border-radius:14px;background:#0284C7;color:#fff;font-size:15px;font-weight:900;box-shadow:0 4px 0 #026199;cursor:pointer;display:flex;align-items:center;gap:6px" style-active="transform:translateY(4px);box-shadow:none"><span style="font-size:20px;line-height:1">+</span><span>Tạo</span></button>
+</div>
+
+<sc-if value="{{ showSearch }}">
+<div style="display:flex;align-items:center;gap:10px;height:48px;padding:0 14px;border-radius:16px;border:2px solid var(--line);background:var(--surface)">
+<span style="flex:none;width:16px;height:16px;border-radius:50%;border:3px solid var(--ink2)"></span>
+<input value="{{ query }}" onChange="{{ setQuery }}" placeholder="Tìm board…" style="flex:1;min-width:0;border:none;background:transparent;font-size:16px;font-weight:800;color:var(--ink);outline:none">
+<sc-if value="{{ hasQuery }}"><button onClick="{{ clearQuery }}" style="flex:none;width:28px;height:28px;border:none;border-radius:50%;background:var(--surface2);color:var(--ink2);font-size:15px;font-weight:900;cursor:pointer">×</button></sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ noBoards }}">
+<div style="background:var(--surface);border:2px dashed var(--line);border-radius:26px;padding:20px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center">
+<div>{{ whaleNoBoard }}</div>
+<span style="font-size:19px;font-weight:900;color:var(--ink)">{{ noBoardsTitle }}</span>
+<span style="font-size:14px;font-weight:700;color:var(--ink2);line-height:1.4;text-wrap:pretty">{{ noBoardsSub }}</span>
+</div>
+</sc-if>
+
+<sc-for list="{{ boardItems }}" as="b" hint-placeholder-count="4">
+<div onClick="{{ b.open }}" style="background:var(--surface);border:2px solid var(--line);border-radius:24px;box-shadow:0 4px 0 var(--line);padding:16px 12px 16px 16px;display:flex;align-items:center;gap:14px;cursor:pointer" style-active="transform:translateY(3px);box-shadow:0 1px 0 var(--line)">
+<div style="position:relative;width:56px;height:56px;flex:none;border-radius:18px;background:{{ b.color }};box-shadow:0 4px 0 {{ b.shade }};display:flex;align-items:center;justify-content:center;color:#fff;font-size:25px;font-weight:900">{{ b.initial }}<sc-if value="{{ b.pinned }}"><span style="position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;background:var(--surface);border:2px solid var(--line);display:flex;align-items:center;justify-content:center"><span style="width:9px;height:9px;border-radius:50%;background:#0284C7"></span></span></sc-if></div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px">
+<span style="font-size:18px;font-weight:900;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ b.name }}</span>
+<sc-if value="{{ b.hasDesc }}"><span style="font-size:13px;font-weight:700;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:-3px">{{ b.desc }}</span></sc-if>
+<div style="display:flex;gap:8px;font-size:13px;font-weight:800;color:var(--ink2);flex-wrap:wrap"><span>{{ b.countLabel }}</span><sc-if value="{{ b.hasOverdue }}"><span style="color:var(--red)">{{ b.overdueLabel }}</span></sc-if></div>
+<div style="height:10px;border-radius:99px;background:var(--surface2);overflow:hidden"><div style="height:100%;width:{{ b.pct }};background:{{ b.color }};border-radius:99px"></div></div>
+</div>
+<button onClick="{{ b.menu }}" title="Tuỳ chọn board" style="flex:none;width:44px;height:44px;border-radius:14px;border:2px solid var(--line);background:var(--surface);display:flex;align-items:center;justify-content:center;gap:3px;cursor:pointer" style-hover="background:var(--surface2)"><span style="width:5px;height:5px;border-radius:50%;background:var(--ink2)"></span><span style="width:5px;height:5px;border-radius:50%;background:var(--ink2)"></span><span style="width:5px;height:5px;border-radius:50%;background:var(--ink2)"></span></button>
+</div>
+</sc-for>
+
+<button onClick="{{ openCreate }}" style="height:64px;border-radius:24px;border:2.5px dashed #7DD3FC;background:transparent;color:#0284C7;font-size:17px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px" style-hover="background:var(--chip)"><span style="width:28px;height:28px;border-radius:10px;background:#0284C7;color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 3px 0 #026199">+</span><span>Tạo board mới</span></button>
+
+<sc-if value="{{ hasArchived }}">
+<div style="display:flex;flex-direction:column;gap:10px">
+<button onClick="{{ toggleArchived }}" style="height:48px;border:none;border-radius:16px;background:var(--surface2);color:var(--ink2);font-size:15px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:0 16px"><span>{{ archivedLabel }}</span><span style="font-size:13px">{{ archivedChevron }}</span></button>
+<sc-if value="{{ showArchived }}">
+<sc-for list="{{ archivedItems }}" as="a" hint-placeholder-count="1">
+<div style="display:flex;align-items:center;gap:12px;padding:12px;border-radius:20px;border:2px dashed var(--line)">
+<div style="flex:none;width:40px;height:40px;border-radius:13px;background:{{ a.color }};opacity:.55;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:900">{{ a.initial }}</div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column"><span style="font-size:16px;font-weight:900;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ a.name }}</span><span style="font-size:12px;font-weight:800;color:var(--ink2)">{{ a.countLabel }}</span></div>
+<button onClick="{{ a.restore }}" style="flex:none;height:40px;padding:0 12px;border:2px solid var(--line);border-radius:12px;background:var(--surface);color:#0284C7;font-size:14px;font-weight:900;cursor:pointer">Khôi phục</button>
+<button onClick="{{ a.remove }}" title="Xoá vĩnh viễn" style="flex:none;width:40px;height:40px;border:2px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink2);font-size:18px;font-weight:900;cursor:pointer">×</button>
+</div>
+</sc-for>
+</sc-if>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<!-- 3. BOARD -->
+<sc-if value="{{ isBoard }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:47px 0 0 0;display:flex;flex-direction:column;animation:fadeIn .25s ease">
+<div style="flex:none;display:flex;align-items:center;gap:12px;padding:12px 20px 14px">
+<button onClick="{{ goBoards }}" style="flex:none;width:44px;height:44px;border-radius:15px;border:2px solid var(--line);background:var(--surface);box-shadow:0 3px 0 var(--line);font-size:24px;font-weight:900;color:var(--ink);cursor:pointer;line-height:1" style-active="transform:translateY(3px);box-shadow:0 0 0 var(--line)">‹</button>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column">
+<span style="font-size:23px;font-weight:900;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.4px">{{ board.name }}</span>
+<span style="font-size:13px;font-weight:700;color:var(--ink2)">Nhấn giữ card để kéo · vuốt ngang đổi cột</span>
+</div>
+<div style="flex:none;width:14px;height:44px;border-radius:7px;background:{{ board.color }}"></div>
+</div>
+
+<sc-if value="{{ boardEmpty }}">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:0 32px 120px;text-align:center">
+<div style="position:relative;width:240px;height:180px;display:flex;align-items:flex-end;justify-content:center">
+<div style="position:absolute;bottom:8px;left:0;right:0;height:34px;border-radius:50%;background:#FDE68A;opacity:.55"></div>
+<div style="position:relative;margin-bottom:18px">{{ whaleEmptyBoard }}</div>
+<div style="position:absolute;bottom:16px;left:20px;right:20px;height:46px;border-radius:50% 50% 45% 45%;background:#7DD3FC;opacity:.6;animation:ripple 3s ease-in-out infinite"></div>
+</div>
+<span style="font-size:22px;font-weight:900;color:var(--ink)">Nước ở đây còn nông quá…</span>
+<span style="font-size:15px;font-weight:700;color:var(--ink2);line-height:1.4;text-wrap:pretty">Board này chưa có card nào. Thêm việc đầu tiên để Bubu có chỗ bơi nhé!</span>
+<button onClick="{{ startFirstCard }}" style="height:56px;padding:0 26px;border:none;border-radius:18px;background:#0284C7;color:#fff;font-size:16px;font-weight:900;letter-spacing:.5px;box-shadow:0 5px 0 #026199;cursor:pointer;margin-top:6px" style-active="transform:translateY(5px);box-shadow:0 0 0 #026199">+ THÊM CARD ĐẦU TIÊN</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ boardHasCards }}">
+<div style="flex:none;display:flex;gap:6px;margin:0 20px 10px;padding:4px;background:var(--surface2);border-radius:18px">
+<sc-for list="{{ colTabs }}" as="t" hint-placeholder-count="3">
+<button data-drop="{{ t.key }}" onClick="{{ t.go }}" style="flex:1;height:44px;border-radius:14px;border:2px solid {{ t.border }};background:{{ t.bg }};color:{{ t.fg }};box-shadow:{{ t.shadow }};font-size:15px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:background .15s, color .15s;padding:0 6px"><span style="width:10px;height:10px;border-radius:4px;background:{{ t.dot }};flex:none"></span><span>{{ t.name }}</span><span style="min-width:22px;height:20px;padding:0 6px;border-radius:99px;background:{{ t.countBg }};font-size:12px;display:flex;align-items:center;justify-content:center">{{ t.count }}</span></button>
+</sc-for>
+</div>
+<div ref="{{ colsRef }}" onScroll="{{ onColsScroll }}" style="flex:1;min-height:0;display:flex;gap:12px;overflow-x:auto;scroll-snap-type:{{ snapType }};scroll-padding:0 20px;padding:0 20px;scrollbar-width:none;overscroll-behavior-x:contain">
+<sc-for list="{{ columns }}" as="col" hint-placeholder-count="3">
+<div data-drop="{{ col.key }}" data-kind="col" style="flex:none;width:326px;height:100%;scroll-snap-align:start;padding-bottom:102px;display:flex;flex-direction:column">
+<div style="flex:1;min-height:0;background:{{ col.bg }};border:2.5px dashed {{ col.dropBorder }};border-radius:26px;padding:10px;display:flex;flex-direction:column;gap:8px;transition:background .15s, border-color .15s">
+<div style="flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;display:flex;flex-direction:column;gap:10px;padding:2px 2px 6px">
+<sc-for list="{{ col.items }}" as="c" hint-placeholder-count="2">
+<sc-if value="{{ c.isSlot }}"><div style="flex:none;height:{{ c.h }};border-radius:18px;border:2.5px dashed {{ c.border }};background:{{ c.bg }}"></div></sc-if>
+<sc-if value="{{ c.isCard }}">
+<div data-card="{{ c.id }}" onPointerDown="{{ c.onPointerDown }}" onClick="{{ c.open }}" style="flex:none;position:relative;background:var(--surface);border:2px solid {{ c.border }};border-radius:18px;padding:13px 38px 13px 14px;box-shadow:{{ c.shadow }};display:flex;flex-direction:column;gap:10px;cursor:grab;transform:{{ c.transform }};transition:transform .18s, box-shadow .18s;touch-action:pan-x pan-y;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none">
+<span style="position:absolute;top:15px;right:13px;display:grid;grid-template-columns:4px 4px;gap:3px;opacity:.6"><span style="width:4px;height:4px;border-radius:50%;background:var(--ink2)"></span><span style="width:4px;height:4px;border-radius:50%;background:var(--ink2)"></span><span style="width:4px;height:4px;border-radius:50%;background:var(--ink2)"></span><span style="width:4px;height:4px;border-radius:50%;background:var(--ink2)"></span><span style="width:4px;height:4px;border-radius:50%;background:var(--ink2)"></span><span style="width:4px;height:4px;border-radius:50%;background:var(--ink2)"></span></span>
+<sc-if value="{{ c.hasLabels }}"><div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:-2px"><sc-for list="{{ c.labels }}" as="lb" hint-placeholder-count="2"><span style="height:22px;padding:0 9px;border-radius:99px;background:{{ lb.bg }};color:{{ lb.fg }};font-size:11px;font-weight:900;display:flex;align-items:center">{{ lb.name }}</span></sc-for></div></sc-if>
+<div style="display:flex;gap:10px;align-items:flex-start">
+<sc-if value="{{ c.done }}"><span style="flex:none;width:22px;height:22px;border-radius:50%;background:#0284C7;color:#fff;font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center;margin-top:1px">✓</span></sc-if>
+<span style="flex:1;font-size:16px;font-weight:800;line-height:1.3;color:{{ c.titleColor }};text-decoration:{{ c.deco }};text-wrap:pretty">{{ c.title }}</span>
+</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+<span style="display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:10px;background:{{ c.dueBg }};color:{{ c.dueFg }};font-size:13px;font-weight:900"><span style="width:11px;height:11px;border-radius:3px;border:2px solid currentColor;border-top-width:4px"></span><span>{{ c.dueLabel }}</span></span>
+<sc-if value="{{ c.hasPrio }}"><span title="{{ c.prioName }}" style="display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 9px;border-radius:10px;background:var(--surface2);color:var(--ink2);font-size:12px;font-weight:900"><span style="display:flex;align-items:flex-end;gap:2px;height:12px"><span style="width:4px;height:5px;border-radius:1.5px;background:{{ c.b1 }}"></span><span style="width:4px;height:8px;border-radius:1.5px;background:{{ c.b2 }}"></span><span style="width:4px;height:12px;border-radius:1.5px;background:{{ c.b3 }}"></span></span><span>{{ c.prioName }}</span></span></sc-if>
+<sc-if value="{{ c.hasCheck }}"><span style="display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 9px;border-radius:10px;background:{{ c.checkBg }};color:{{ c.checkFg }};font-size:13px;font-weight:900"><span style="width:12px;height:12px;border-radius:4px;border:2px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:8px">✓</span><span>{{ c.checkLabel }}</span></span></sc-if>
+<sc-if value="{{ c.hasDesc }}"><span style="display:inline-flex;flex-direction:column;gap:2px;padding:0 4px"><span style="width:14px;height:2.5px;border-radius:2px;background:var(--ink2)"></span><span style="width:10px;height:2.5px;border-radius:2px;background:var(--ink2)"></span></span></sc-if>
+</div>
+</div>
+</sc-if>
+</sc-for>
+<sc-if value="{{ col.isEmpty }}"><div style="flex:none;height:96px;border-radius:18px;border:2.5px dashed var(--line);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:var(--ink2)">Thả card vào đây</div></sc-if>
+</div>
+<sc-if value="{{ col.adding }}">
+<div style="flex:none;display:flex;flex-direction:column;gap:8px">
+<input autoFocus="{{ true }}" value="{{ newTitle }}" onChange="{{ setNewTitle }}" onKeyDown="{{ newTitleKey }}" placeholder="Tên card…" style="height:50px;border-radius:16px;border:2px solid #0284C7;background:var(--surface);padding:0 14px;font-size:16px;font-weight:800;color:var(--ink);outline:none">
+<div style="display:flex;gap:8px">
+<button onClick="{{ addCard }}" style="flex:1;height:46px;border:none;border-radius:14px;background:#0284C7;color:#fff;font-size:15px;font-weight:900;box-shadow:0 4px 0 #026199;cursor:pointer" style-active="transform:translateY(4px);box-shadow:none">THÊM</button>
+<button onClick="{{ cancelAdd }}" style="height:46px;padding:0 16px;border:2px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink2);font-size:15px;font-weight:900;cursor:pointer">Huỷ</button>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ col.showAdd }}">
+<button onClick="{{ col.startAdd }}" style="flex:none;height:48px;border:2px solid var(--line);border-radius:16px;background:var(--surface);color:#0284C7;font-size:15px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px" style-active="transform:translateY(2px)"><span style="font-size:20px;line-height:1">+</span><span>Thêm card</span></button>
+</sc-if>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<!-- 4. CHI TIẾT CARD -->
+<sc-if value="{{ isCard }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:47px 0 0 0;display:flex;flex-direction:column;animation:fadeIn .25s ease">
+<div style="flex:none;display:flex;align-items:center;gap:12px;padding:12px 20px">
+<button onClick="{{ backToBoard }}" style="flex:none;width:44px;height:44px;border-radius:15px;border:2px solid var(--line);background:var(--surface);box-shadow:0 3px 0 var(--line);font-size:24px;font-weight:900;color:var(--ink);cursor:pointer;line-height:1" style-active="transform:translateY(3px);box-shadow:0 0 0 var(--line)">‹</button>
+<span style="flex:1;font-size:15px;font-weight:800;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ board.name }}</span>
+<span style="height:32px;padding:0 12px;border-radius:99px;background:{{ cd.dueBg }};color:{{ cd.dueFg }};font-size:13px;font-weight:900;display:flex;align-items:center">{{ cd.dueLabel }}</span>
+</div>
+<div style="flex:1;overflow-y:auto;scrollbar-width:none;padding:8px 20px 140px;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;gap:6px;padding:5px;background:var(--surface2);border-radius:18px">
+<sc-for list="{{ statusOpts }}" as="o" hint-placeholder-count="3">
+<button onClick="{{ o.pick }}" style="flex:1;height:40px;border:none;border-radius:13px;background:{{ o.bg }};color:{{ o.fg }};box-shadow:{{ o.shadow }};font-size:15px;font-weight:900;cursor:pointer">{{ o.name }}</button>
+</sc-for>
+</div>
+<textarea value="{{ cd.title }}" onChange="{{ setCardTitle }}" rows="2" style="border:none;background:transparent;resize:none;overflow:hidden;font-size:26px;font-weight:900;line-height:1.25;color:var(--ink);outline:none;padding:0;letter-spacing:-.4px;text-decoration:{{ cd.deco }}"></textarea>
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font-size:13px;font-weight:900;color:var(--ink2);letter-spacing:.6px">HẠN CHÓT</span>
+<div style="display:flex;align-items:center;gap:12px;background:var(--surface);border:2px solid {{ cd.border }};border-radius:20px;padding:12px 14px;box-shadow:0 3px 0 {{ cd.border }}">
+<div style="flex:none;width:44px;height:44px;border-radius:14px;background:{{ cd.iconBg }};display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;line-height:1"><span style="font-size:9px;font-weight:900;opacity:.85">{{ cd.monLabel }}</span><span style="font-size:18px;font-weight:900">{{ cd.dayLabel }}</span></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:2px">
+<input type="date" value="{{ cd.due }}" onChange="{{ setDue }}" style="border:none;background:transparent;font-size:16px;font-weight:800;color:var(--ink);outline:none;padding:0;color-scheme:{{ th.scheme }}">
+<span style="font-size:13px;font-weight:900;color:{{ cd.dueFg }}">{{ cd.dueLong }}</span>
+</div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font-size:13px;font-weight:900;color:var(--ink2);letter-spacing:.6px">MÔ TẢ</span>
+<textarea value="{{ cd.desc }}" onChange="{{ setDesc }}" placeholder="Thêm ghi chú cho card này…" rows="5" style="border:2px solid var(--line);background:var(--surface);border-radius:20px;resize:none;font-size:15px;font-weight:700;line-height:1.5;color:var(--ink);outline:none;padding:14px 16px" style-focus="border-color:#0284C7"></textarea>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:13px;font-weight:900;color:var(--ink2);letter-spacing:.6px">ĐỘ ƯU TIÊN</span><span style="font-size:13px;font-weight:800;color:var(--ink2)">{{ prioHint }}</span></div>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px">
+<sc-for list="{{ prioOpts }}" as="p" hint-placeholder-count="4">
+<button onClick="{{ p.pick }}" style="height:66px;border-radius:18px;border:2px solid {{ p.border }};background:{{ p.bg }};box-shadow:0 3px 0 {{ p.border }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer;transition:background .15s" style-active="transform:translateY(3px);box-shadow:none">
+<span style="display:flex;align-items:flex-end;gap:3px;height:16px"><span style="width:5px;height:6px;border-radius:2px;background:{{ p.b1 }}"></span><span style="width:5px;height:11px;border-radius:2px;background:{{ p.b2 }}"></span><span style="width:5px;height:16px;border-radius:2px;background:{{ p.b3 }}"></span></span>
+<span style="font-size:14px;font-weight:900;color:{{ p.fg }}">{{ p.name }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:13px;font-weight:900;color:var(--ink2);letter-spacing:.6px">NHÃN</span><span style="font-size:13px;font-weight:800;color:var(--ink2)">{{ labelCount }}</span></div>
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<sc-for list="{{ labelOpts }}" as="l" hint-placeholder-count="5">
+<button onClick="{{ l.toggle }}" style="height:44px;padding:0 14px 0 10px;border-radius:99px;border:2px solid {{ l.border }};background:{{ l.bg }};color:{{ l.fg }};font-size:14px;font-weight:900;display:flex;align-items:center;gap:8px;cursor:pointer;transition:background .15s" style-active="transform:scale(.96)"><span style="width:18px;height:18px;border-radius:50%;background:{{ l.dot }};border:2px solid {{ l.dotRing }};display:flex;align-items:center;justify-content:center;color:{{ l.checkFg }};font-size:10px;font-weight:900">{{ l.check }}</span><span>{{ l.name }}</span></button>
+</sc-for>
+<sc-if value="{{ showNewLabelBtn }}"><button onClick="{{ startNewLabel }}" style="height:44px;padding:0 14px;border-radius:99px;border:2px dashed #7DD3FC;background:transparent;color:#0284C7;font-size:14px;font-weight:900;cursor:pointer">+ Nhãn mới</button></sc-if>
+</div>
+<sc-if value="{{ addingLabel }}">
+<div style="display:flex;flex-direction:column;gap:10px;padding:12px;border-radius:20px;background:var(--surface2)">
+<input autoFocus="{{ true }}" value="{{ newLabel.name }}" onChange="{{ setNewLabelName }}" onKeyDown="{{ newLabelKey }}" maxLength="20" placeholder="Tên nhãn, VD: Marketing" style="height:48px;border-radius:14px;border:2px solid var(--line);background:var(--surface);padding:0 14px;font-size:15px;font-weight:800;color:var(--ink);outline:none" style-focus="border-color:#0284C7">
+<div style="display:flex;align-items:center;gap:8px">
+<sc-for list="{{ newLabel.colors }}" as="sw" hint-placeholder-count="5"><button onClick="{{ sw.pick }}" style="width:36px;height:36px;border-radius:50%;background:{{ sw.color }};border:3px solid {{ sw.ring }};cursor:pointer;color:{{ sw.fg }};font-size:13px;font-weight:900">{{ sw.mark }}</button></sc-for>
+<span style="flex:1"></span>
+<button onClick="{{ cancelNewLabel }}" style="height:40px;padding:0 12px;border:none;border-radius:12px;background:transparent;color:var(--ink2);font-size:14px;font-weight:900;cursor:pointer">Huỷ</button>
+<button onClick="{{ addLabel }}" style="height:40px;padding:0 14px;border:none;border-radius:12px;background:#0284C7;color:#fff;font-size:14px;font-weight:900;box-shadow:0 3px 0 #026199;cursor:pointer" style-active="transform:translateY(3px);box-shadow:none">Tạo nhãn</button>
+</div>
+</div>
+</sc-if>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:13px;font-weight:900;color:var(--ink2);letter-spacing:.6px">CHECKLIST</span><span style="font-size:13px;font-weight:900;color:{{ cl.labelColor }}">{{ cl.progressLabel }}</span></div>
+<sc-if value="{{ cl.has }}"><div style="height:10px;border-radius:99px;background:var(--surface2);overflow:hidden"><div style="height:100%;width:{{ cl.pct }};background:#0284C7;border-radius:99px;transition:width .3s cubic-bezier(.3,1.4,.5,1)"></div></div></sc-if>
+<div style="display:flex;flex-direction:column;border:2px solid var(--line);border-radius:20px;overflow:hidden;background:var(--surface);box-shadow:0 3px 0 var(--line)">
+<sc-for list="{{ cl.items }}" as="it" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:2px;min-height:56px;padding:0 4px;border-bottom:2px solid var(--line)">
+<button onClick="{{ it.toggle }}" title="Đánh dấu" style="flex:none;width:48px;height:48px;border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer"><span style="width:26px;height:26px;border-radius:9px;border:2.5px solid {{ it.boxBorder }};background:{{ it.boxBg }};color:#fff;font-size:14px;font-weight:900;display:flex;align-items:center;justify-content:center;transition:background .15s, transform .15s;transform:{{ it.scale }}">{{ it.mark }}</span></button>
+<input value="{{ it.text }}" onChange="{{ it.edit }}" style="flex:1;min-width:0;border:none;background:transparent;font-size:15px;font-weight:800;color:{{ it.color }};text-decoration:{{ it.deco }};outline:none;padding:0">
+<button onClick="{{ it.remove }}" title="Xoá mục" style="flex:none;width:40px;height:40px;border:none;border-radius:12px;background:transparent;color:var(--ink2);font-size:18px;font-weight:900;cursor:pointer" style-hover="background:var(--surface2)">×</button>
+</div>
+</sc-for>
+<div style="display:flex;align-items:center;gap:2px;min-height:56px;padding:0 8px 0 4px">
+<span style="flex:none;width:48px;display:flex;justify-content:center;color:#0284C7;font-size:22px;font-weight:900">+</span>
+<input value="{{ newItem }}" onChange="{{ setNewItem }}" onKeyDown="{{ newItemKey }}" placeholder="Thêm việc nhỏ, Enter để thêm" style="flex:1;min-width:0;border:none;background:transparent;font-size:15px;font-weight:800;color:var(--ink);outline:none;padding:0">
+<sc-if value="{{ hasNewItem }}"><button onClick="{{ addItem }}" style="flex:none;height:38px;padding:0 12px;border:none;border-radius:12px;background:#0284C7;color:#fff;font-size:14px;font-weight:900;box-shadow:0 3px 0 #026199;cursor:pointer">Thêm</button></sc-if>
+</div>
+</div>
+<sc-if value="{{ cl.allDone }}">
+<div style="display:flex;align-items:center;gap:12px;padding:12px 12px 12px 16px;border-radius:18px;background:var(--chip);animation:pop .3s ease">
+<span style="flex:1;font-size:14px;font-weight:800;color:var(--chipInk);line-height:1.35">Xong hết checklist rồi! Hoàn thành card luôn nhé?</span>
+<button onClick="{{ completeCurrent }}" style="flex:none;height:42px;padding:0 14px;border:none;border-radius:12px;background:#0284C7;color:#fff;font-size:14px;font-weight:900;box-shadow:0 3px 0 #026199;cursor:pointer" style-active="transform:translateY(3px);box-shadow:none">Hoàn thành</button>
+</div>
+</sc-if>
+</div>
+</div>
+<div style="position:absolute;left:0;right:0;bottom:0;padding:16px 20px 34px;background:var(--bg);border-top:2px solid var(--line);display:flex;flex-direction:column;gap:10px">
+<sc-if value="{{ cdNotDone }}">
+<button onClick="{{ completeCurrent }}" style="height:62px;border:none;border-radius:20px;background:#0284C7;color:#fff;font-size:19px;font-weight:900;letter-spacing:.8px;box-shadow:0 6px 0 #026199;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px" style-active="transform:translateY(6px);box-shadow:0 0 0 #026199"><span style="width:28px;height:28px;border-radius:50%;background:#fff;color:#0284C7;display:flex;align-items:center;justify-content:center;font-size:16px">✓</span>HOÀN THÀNH</button>
+</sc-if>
+<sc-if value="{{ cdDone }}">
+<div style="height:62px;border-radius:20px;background:var(--chip);color:var(--chipInk);font-size:17px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:10px"><span>✓ {{ cd.doneLabel }}</span></div>
+<button onClick="{{ reopenCurrent }}" style="height:36px;border:none;background:transparent;color:var(--ink2);font-size:14px;font-weight:900;cursor:pointer">Mở lại card</button>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<!-- 5–7. THỐNG KÊ -->
+<sc-if value="{{ isStats }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:47px 0 0 0;overflow-y:auto;scrollbar-width:none;padding:14px 20px 120px;display:flex;flex-direction:column;gap:16px;animation:fadeIn .25s ease">
+<div style="display:flex;align-items:center;justify-content:space-between">
+<span style="font-size:30px;font-weight:900;color:var(--ink);letter-spacing:-.6px">Thống kê</span>
+<div style="display:flex;gap:4px;padding:4px;background:var(--surface2);border-radius:16px">
+<button onClick="{{ viewHeat }}" style="height:36px;padding:0 14px;border:none;border-radius:12px;background:{{ segHeat.bg }};color:{{ segHeat.fg }};box-shadow:{{ segHeat.shadow }};font-size:14px;font-weight:900;cursor:pointer">Heatmap</button>
+<button onClick="{{ viewReport }}" style="height:36px;padding:0 14px;border:none;border-radius:12px;background:{{ segReport.bg }};color:{{ segReport.fg }};box-shadow:{{ segReport.shadow }};font-size:14px;font-weight:900;cursor:pointer">Báo cáo</button>
+</div>
+</div>
+
+<sc-if value="{{ isHeatView }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:16px">
+
+<sc-if value="{{ isEmptyAccount }}">
+<div style="background:var(--surface);border:2px solid var(--line);border-radius:28px;box-shadow:0 5px 0 var(--line);padding:22px 20px 22px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;overflow:hidden">
+<div style="position:relative;width:260px;height:170px;display:flex;align-items:flex-end;justify-content:center">
+<div style="position:absolute;bottom:4px;left:6px;right:6px;height:38px;border-radius:50%;background:#FDE68A;opacity:.55"></div>
+<div style="position:relative;margin-bottom:16px">{{ whaleEmpty }}</div>
+<div style="position:absolute;bottom:12px;left:22px;right:22px;height:48px;border-radius:50% 50% 45% 45%;background:#7DD3FC;opacity:.6;animation:ripple 3s ease-in-out infinite"></div>
+</div>
+<span style="font-size:22px;font-weight:900;color:var(--ink);line-height:1.25;text-wrap:balance">Hoàn thành card đầu tiên để tô màu ô hôm nay</span>
+<span style="font-size:15px;font-weight:700;color:var(--ink2);line-height:1.4;text-wrap:pretty">Mỗi ngày có card xong, nước sẽ sâu thêm một chút để Bubu bơi.</span>
+<button onClick="{{ goBoards }}" style="height:56px;padding:0 28px;border:none;border-radius:18px;background:#0284C7;color:#fff;font-size:16px;font-weight:900;letter-spacing:.5px;box-shadow:0 5px 0 #026199;cursor:pointer;margin-top:6px" style-active="transform:translateY(5px);box-shadow:0 0 0 #026199">ĐI TỚI BOARD</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ showHero }}">
+<div style="background:{{ hero.bg }};border:2px solid {{ hero.border }};border-radius:28px;box-shadow:0 6px 0 {{ hero.shade }};padding:18px 18px 18px 10px;display:flex;align-items:center;gap:6px">
+<div style="flex:none">{{ whaleHero }}</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px">
+<div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:60px;font-weight:900;line-height:.95;color:{{ hero.fg }};letter-spacing:-2px">{{ streak }}</span><span style="font-size:17px;font-weight:900;color:{{ hero.fg }}">ngày streak</span></div>
+<span style="font-size:15px;font-weight:800;color:{{ hero.sub }};line-height:1.3;text-wrap:pretty">{{ hero.text }}</span>
+<span style="align-self:flex-start;margin-top:6px;height:28px;padding:0 12px;border-radius:99px;background:{{ hero.pillBg }};color:{{ hero.pillFg }};font-size:13px;font-weight:900;display:flex;align-items:center"><span>Kỷ lục: {{ record }} ngày</span></span>
+</div>
+</div>
+</sc-if>
+
+<div style="background:var(--surface);border:2px solid var(--line);border-radius:26px;box-shadow:0 4px 0 var(--line);padding:16px 16px 14px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;align-items:baseline;justify-content:space-between">
+<span style="font-size:18px;font-weight:900;color:var(--ink)">52 tuần qua</span>
+<span style="font-size:14px;font-weight:800;color:var(--ink2)">{{ yearTotal }} card · {{ yearActive }} ngày</span>
+</div>
+<div style="display:flex;gap:6px">
+<div style="flex:none;display:flex;flex-direction:column;gap:3px;padding-top:20px">
+<span style="height:15px;font-size:10px;font-weight:900;color:var(--ink2);line-height:15px">T2</span><span style="height:15px"></span><span style="height:15px;font-size:10px;font-weight:900;color:var(--ink2);line-height:15px">T4</span><span style="height:15px"></span><span style="height:15px;font-size:10px;font-weight:900;color:var(--ink2);line-height:15px">T6</span><span style="height:15px"></span><span style="height:15px;font-size:10px;font-weight:900;color:var(--ink2);line-height:15px">CN</span>
+</div>
+<div ref="{{ heatRef }}" style="flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;padding:0 2px 2px">
+<div style="display:flex;gap:3px;width:max-content">
+<sc-for list="{{ weeks }}" as="w" hint-placeholder-count="52">
+<div style="display:flex;flex-direction:column;gap:3px">
+<span style="height:17px;width:15px;font-size:10px;font-weight:900;color:var(--ink2);white-space:nowrap;overflow:visible">{{ w.month }}</span>
+<sc-for list="{{ w.days }}" as="d" hint-placeholder-count="7">
+<div onClick="{{ d.pick }}" style="width:15px;height:15px;border-radius:4px;background:{{ d.bg }};outline:{{ d.outline }};outline-offset:1px;cursor:pointer;animation:{{ d.anim }}"></div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between">
+<span style="font-size:12px;font-weight:800;color:var(--ink2)">Chạm vào ô để xem chi tiết</span>
+<div style="display:flex;align-items:center;gap:4px;font-size:12px;font-weight:800;color:var(--ink2)">Ít<span style="width:13px;height:13px;border-radius:4px;background:var(--heat0)"></span><span style="width:13px;height:13px;border-radius:4px;background:#BAE6FD"></span><span style="width:13px;height:13px;border-radius:4px;background:#7DD3FC"></span><span style="width:13px;height:13px;border-radius:4px;background:#0EA5E9"></span><span style="width:13px;height:13px;border-radius:4px;background:#0369A1"></span>Nhiều</div>
+</div>
+</div>
+
+<div style="background:var(--surface);border:2px solid var(--line);border-radius:26px;box-shadow:0 4px 0 var(--line);padding:16px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;align-items:center;gap:12px">
+<div style="flex:none;width:46px;height:46px;border-radius:15px;background:{{ sel.bg }};border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:900;color:{{ sel.fg }}">{{ sel.count }}</div>
+<div style="flex:1;display:flex;flex-direction:column">
+<span style="font-size:17px;font-weight:900;color:var(--ink)">{{ sel.title }}</span>
+<span style="font-size:14px;font-weight:800;color:var(--ink2)">{{ sel.sub }}</span>
+</div>
+</div>
+<sc-if value="{{ sel.has }}">
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ sel.items }}" as="it" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface2);border-radius:14px"><span style="flex:none;width:20px;height:20px;border-radius:50%;background:#0284C7;color:#fff;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center">✓</span><span style="font-size:15px;font-weight:800;color:var(--ink)">{{ it }}</span></div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<!-- 6. BÁO CÁO -->
+<sc-if value="{{ isReportView }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;gap:6px;padding:5px;background:var(--surface2);border-radius:18px">
+<button onClick="{{ modeWeek }}" style="flex:1;height:40px;border:none;border-radius:13px;background:{{ segWeek.bg }};color:{{ segWeek.fg }};box-shadow:{{ segWeek.shadow }};font-size:15px;font-weight:900;cursor:pointer">Tuần</button>
+<button onClick="{{ modeMonth }}" style="flex:1;height:40px;border:none;border-radius:13px;background:{{ segMonth.bg }};color:{{ segMonth.fg }};box-shadow:{{ segMonth.shadow }};font-size:15px;font-weight:900;cursor:pointer">Tháng</button>
+</div>
+<div style="display:flex;align-items:center;gap:10px">
+<button onClick="{{ prevPeriod }}" style="flex:none;width:46px;height:46px;border-radius:15px;border:2px solid var(--line);background:var(--surface);box-shadow:0 3px 0 var(--line);font-size:24px;font-weight:900;color:var(--ink);cursor:pointer;opacity:{{ rp.prevOpacity }}" style-active="transform:translateY(3px);box-shadow:none">‹</button>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center">
+<span style="font-size:18px;font-weight:900;color:var(--ink)">{{ rp.label }}</span>
+<span style="font-size:13px;font-weight:800;color:var(--ink2)">{{ rp.sub }}</span>
+</div>
+<button onClick="{{ nextPeriod }}" style="flex:none;width:46px;height:46px;border-radius:15px;border:2px solid var(--line);background:var(--surface);box-shadow:0 3px 0 var(--line);font-size:24px;font-weight:900;color:var(--ink);cursor:pointer;opacity:{{ rp.nextOpacity }}" style-active="transform:translateY(3px);box-shadow:none">›</button>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+<div style="background:#0284C7;border-radius:22px;box-shadow:0 5px 0 #026199;padding:14px 12px;display:flex;flex-direction:column;gap:4px;color:#fff">
+<span style="font-size:12px;font-weight:900;color:#E0F2FE;line-height:1.2">Card hoàn thành</span>
+<span style="font-size:34px;font-weight:900;line-height:1">{{ rp.total }}</span>
+<span style="font-size:12px;font-weight:800;color:#E0F2FE;line-height:1.2">{{ rp.delta }}</span>
+</div>
+<div style="background:var(--surface);border:2px solid var(--line);border-radius:22px;box-shadow:0 4px 0 var(--line);padding:12px;display:flex;flex-direction:column;gap:4px">
+<span style="font-size:12px;font-weight:900;color:var(--ink2);line-height:1.2">Ngày hoạt động</span>
+<span style="font-size:34px;font-weight:900;line-height:1;color:var(--ink)">{{ rp.active }}<span style="font-size:18px;color:var(--ink2)">/{{ rp.denom }}</span></span>
+<div style="display:flex;gap:2px;margin-top:4px"><sc-for list="{{ rp.activeDots }}" as="a"><span style="flex:1;height:6px;border-radius:3px;background:{{ a }}"></span></sc-for></div>
+</div>
+<div style="background:var(--surface);border:2px solid {{ rp.odBorder }};border-radius:22px;box-shadow:0 4px 0 {{ rp.odBorder }};padding:12px;display:flex;flex-direction:column;gap:4px">
+<span style="font-size:12px;font-weight:900;color:var(--ink2);line-height:1.2">Card quá hạn</span>
+<span style="font-size:34px;font-weight:900;line-height:1;color:{{ rp.odColor }}">{{ rp.overdue }}</span>
+<span style="font-size:12px;font-weight:800;color:var(--ink2);line-height:1.2">{{ rp.odSub }}</span>
+</div>
+</div>
+
+<div style="background:var(--surface);border:2px solid var(--line);border-radius:26px;box-shadow:0 4px 0 var(--line);padding:16px 14px 12px;display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;align-items:baseline;justify-content:space-between;padding:0 2px">
+<span style="font-size:17px;font-weight:900;color:var(--ink)">Card xong theo ngày</span>
+<span style="font-size:13px;font-weight:800;color:var(--ink2)">TB {{ rp.avg }}/ngày</span>
+</div>
+<div style="display:flex;align-items:flex-end;gap:{{ rp.gap }};height:170px;padding-top:8px">
+<sc-for list="{{ rp.bars }}" as="b" hint-placeholder-count="7">
+<div style="flex:1;min-width:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:5px">
+<span style="font-size:12px;font-weight:900;color:var(--ink2);min-height:14px;white-space:nowrap">{{ b.val }}</span>
+<div style="width:100%;max-width:32px;height:{{ b.h }};border-radius:{{ b.radius }};background:{{ b.bg }};box-shadow:{{ b.shadow }};transition:height .35s cubic-bezier(.3,1.4,.5,1)"></div>
+</div>
+</sc-for>
+</div>
+<div style="display:flex;gap:{{ rp.gap }};border-top:2px solid var(--line);padding-top:7px">
+<sc-for list="{{ rp.bars }}" as="b" hint-placeholder-count="7"><span style="flex:1;min-width:0;text-align:center;font-size:11px;font-weight:900;color:{{ b.labelColor }};white-space:nowrap;overflow:visible">{{ b.label }}</span></sc-for>
+</div>
+</div>
+
+<div style="display:flex;align-items:flex-end;gap:8px">
+<div style="flex:none">{{ whaleReport }}</div>
+<div style="flex:1;position:relative;background:var(--surface);border:2px solid var(--line);border-radius:20px 20px 20px 6px;padding:12px 14px;box-shadow:0 3px 0 var(--line);display:flex;flex-direction:column;gap:4px;margin-bottom:14px">
+<span style="font-size:15px;font-weight:800;color:var(--ink);line-height:1.35;text-wrap:pretty">{{ rp.note }}</span>
+<span style="font-size:13px;font-weight:800;color:var(--ink2)">{{ rp.best }}</span>
+</div>
+</div>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<!-- TÔI -->
+<sc-if value="{{ isMe }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:47px 0 0 0;overflow-y:auto;scrollbar-width:none;padding:14px 20px 120px;display:flex;flex-direction:column;gap:16px;animation:fadeIn .25s ease">
+<span style="font-size:30px;font-weight:900;color:var(--ink);letter-spacing:-.6px">Tôi</span>
+<div style="display:flex;align-items:center;gap:16px">
+<div style="flex:none;width:84px;height:84px;border-radius:28px;background:#0284C7;box-shadow:0 5px 0 #026199;display:flex;align-items:center;justify-content:center;color:#fff;font-size:30px;font-weight:900">MA</div>
+<div style="display:flex;flex-direction:column;gap:2px">
+<span style="font-size:21px;font-weight:900;color:var(--ink)">Nguyễn Minh Anh</span>
+<span style="font-size:14px;font-weight:700;color:var(--ink2)">{{ email }}</span>
+<span style="font-size:13px;font-weight:800;color:#0284C7">Thành viên từ 11/2025</span>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+<div style="background:var(--surface);border:2px solid var(--line);border-radius:20px;box-shadow:0 4px 0 var(--line);padding:12px;display:flex;flex-direction:column;gap:2px"><span style="font-size:26px;font-weight:900;color:#0284C7">{{ streak }}</span><span style="font-size:12px;font-weight:900;color:var(--ink2)">Streak</span></div>
+<div style="background:var(--surface);border:2px solid var(--line);border-radius:20px;box-shadow:0 4px 0 var(--line);padding:12px;display:flex;flex-direction:column;gap:2px"><span style="font-size:26px;font-weight:900;color:var(--ink)">{{ record }}</span><span style="font-size:12px;font-weight:900;color:var(--ink2)">Kỷ lục</span></div>
+<div style="background:var(--surface);border:2px solid var(--line);border-radius:20px;box-shadow:0 4px 0 var(--line);padding:12px;display:flex;flex-direction:column;gap:2px"><span style="font-size:26px;font-weight:900;color:var(--ink)">{{ yearTotal }}</span><span style="font-size:12px;font-weight:900;color:var(--ink2)">Card xong</span></div>
+</div>
+<div style="background:var(--surface);border:2px solid var(--line);border-radius:24px;box-shadow:0 4px 0 var(--line);display:flex;flex-direction:column">
+<div onClick="{{ toggleDark }}" style="display:flex;align-items:center;gap:14px;padding:16px;cursor:pointer;border-bottom:2px solid var(--line)">
+<span style="flex:none;width:38px;height:38px;border-radius:13px;background:#0B1A2B;display:flex;align-items:center;justify-content:center"><span style="width:16px;height:16px;border-radius:50%;box-shadow:inset -5px -2px 0 #FDE68A"></span></span>
+<span style="flex:1;font-size:16px;font-weight:900;color:var(--ink)">Chế độ tối</span>
+<span style="width:54px;height:32px;border-radius:99px;background:{{ sw.bg }};padding:3px;display:flex;transition:background .2s"><span style="width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 2px 0 rgba(0,0,0,.15);transform:translateX({{ sw.x }});transition:transform .2s"></span></span>
+</div>
+<div style="display:flex;align-items:center;gap:14px;padding:16px;border-bottom:2px solid var(--line)">
+<span style="flex:none;width:38px;height:38px;border-radius:13px;background:oklch(0.75 0.14 70);display:flex;align-items:center;justify-content:center"><span style="width:16px;height:16px;border-radius:50%;border:3px solid #fff"></span></span>
+<span style="flex:1;font-size:16px;font-weight:900;color:var(--ink)">Nhắc nhở hằng ngày</span>
+<span style="font-size:15px;font-weight:900;color:var(--ink2)">20:00</span>
+</div>
+<div style="display:flex;align-items:center;gap:14px;padding:16px">
+<span style="flex:none;width:38px;height:38px;border-radius:13px;background:oklch(0.62 0.17 290);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:900">VI</span>
+<span style="flex:1;font-size:16px;font-weight:900;color:var(--ink)">Ngôn ngữ</span>
+<span style="font-size:15px;font-weight:900;color:var(--ink2)">Tiếng Việt</span>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font-size:13px;font-weight:900;color:var(--ink2);letter-spacing:.6px">DỮ LIỆU DEMO</span>
+<div style="display:flex;gap:6px;padding:5px;background:var(--surface2);border-radius:18px">
+<sc-for list="{{ scenarioOpts }}" as="o" hint-placeholder-count="3">
+<button onClick="{{ o.pick }}" style="flex:1;height:40px;border:none;border-radius:13px;background:{{ o.bg }};color:{{ o.fg }};box-shadow:{{ o.shadow }};font-size:14px;font-weight:900;cursor:pointer">{{ o.name }}</button>
+</sc-for>
+</div>
+</div>
+<button onClick="{{ logout }}" style="height:54px;border:2px solid var(--line);border-radius:18px;background:var(--surface);color:var(--ink2);font-size:16px;font-weight:900;box-shadow:0 4px 0 var(--line);cursor:pointer" style-active="transform:translateY(4px);box-shadow:none">Đăng xuất</button>
+</div>
+</sc-if>
+
+<!-- TAB BAR -->
+<sc-if value="{{ showTabBar }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:0;right:0;bottom:0;height:88px;background:var(--surface);border-top:2px solid var(--line);display:flex;padding:8px 12px 22px;gap:6px;z-index:20">
+<sc-for list="{{ tabs }}" as="t" hint-placeholder-count="3">
+<button onClick="{{ t.go }}" style="flex:1;border:none;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer">
+<span style="width:56px;height:36px;border-radius:13px;background:{{ t.tileBg }};border:2px solid {{ t.tileBorder }};display:flex;align-items:center;justify-content:center;color:{{ t.color }}">
+<sc-if value="{{ t.isBoard }}"><span style="display:grid;grid-template-columns:9px 9px;gap:3px"><span style="height:9px;border-radius:3px;background:currentColor"></span><span style="height:9px;border-radius:3px;background:currentColor;opacity:.6"></span><span style="height:9px;border-radius:3px;background:currentColor;opacity:.6"></span><span style="height:9px;border-radius:3px;background:currentColor"></span></span></sc-if>
+<sc-if value="{{ t.isStats }}"><span style="display:flex;align-items:flex-end;gap:3px;height:19px"><span style="width:5px;height:8px;border-radius:2px;background:currentColor;opacity:.6"></span><span style="width:5px;height:19px;border-radius:2px;background:currentColor"></span><span style="width:5px;height:13px;border-radius:2px;background:currentColor;opacity:.8"></span></span></sc-if>
+<sc-if value="{{ t.isMe }}"><span style="display:flex;flex-direction:column;align-items:center;gap:2px"><span style="width:9px;height:9px;border-radius:50%;background:currentColor"></span><span style="width:17px;height:8px;border-radius:8px 8px 3px 3px;background:currentColor"></span></span></sc-if>
+</span>
+<span style="font-size:12px;font-weight:900;color:{{ t.color }}">{{ t.name }}</span>
+</button>
+</sc-for>
+</div>
+</sc-if>
+
+<!-- KÉO THẢ: card nổi + dock thả -->
+<sc-if value="{{ isDragging }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:0;right:0;bottom:0;z-index:65;background:var(--surface);border-top:2px solid var(--line);padding:10px 12px 22px;display:flex;gap:8px;animation:sheetUp .18s ease">
+<sc-for list="{{ dock }}" as="d" hint-placeholder-count="3">
+<div data-drop="{{ d.key }}" style="flex:1;height:56px;border-radius:16px;border:2.5px dashed {{ d.border }};background:{{ d.bg }};color:{{ d.fg }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;transform:{{ d.scale }};transition:transform .12s, background .12s"><span style="font-size:15px;font-weight:900">{{ d.name }}</span><span style="font-size:11px;font-weight:800;opacity:.85">{{ d.hint }}</span></div>
+</sc-for>
+</div>
+<div style="position:absolute;left:{{ ghost.x }};top:{{ ghost.y }};width:{{ ghost.w }};z-index:70;pointer-events:none;transform:rotate(-2.5deg) scale(1.04);background:var(--surface);border:2px solid #0284C7;border-radius:18px;padding:13px 14px;box-shadow:0 20px 34px rgba(11,37,64,.28), 0 4px 0 #0284C7;display:flex;flex-direction:column;gap:10px">
+<span style="font-size:16px;font-weight:800;line-height:1.3;color:var(--ink)">{{ ghost.title }}</span>
+<span style="align-self:flex-start;display:inline-flex;align-items:center;height:28px;padding:0 10px;border-radius:10px;background:{{ ghost.dueBg }};color:{{ ghost.dueFg }};font-size:13px;font-weight:900">{{ ghost.dueLabel }}</span>
+</div>
+</sc-if>
+
+<!-- MENU board -->
+<sc-if value="{{ hasMenu }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ closeMenu }}" style="position:absolute;inset:0;background:var(--overlay);z-index:60;animation:fadeIn .2s ease"></div>
+<div style="position:absolute;left:0;right:0;bottom:0;z-index:61;background:var(--surface);border-radius:32px 32px 0 0;padding:12px 20px 34px;display:flex;flex-direction:column;gap:14px;animation:sheetUp .28s cubic-bezier(.2,.9,.3,1)">
+<div style="align-self:center;width:44px;height:5px;border-radius:3px;background:var(--line)"></div>
+<div style="display:flex;align-items:center;gap:12px">
+<div style="flex:none;width:48px;height:48px;border-radius:16px;background:{{ menu.color }};box-shadow:0 4px 0 {{ menu.shade }};display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;font-weight:900">{{ menu.initial }}</div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column"><span style="font-size:20px;font-weight:900;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ menu.name }}</span><span style="font-size:13px;font-weight:800;color:var(--ink2)">{{ menu.meta }}</span></div>
+</div>
+<div style="display:flex;flex-direction:column;border:2px solid var(--line);border-radius:22px;overflow:hidden">
+<sc-for list="{{ menuItems }}" as="m" hint-placeholder-count="4">
+<button onClick="{{ m.go }}" style="height:60px;display:flex;align-items:center;gap:14px;padding:0 14px;border:none;border-bottom:2px solid var(--line);background:var(--surface);cursor:pointer;text-align:left" style-hover="background:var(--surface2)">
+<span style="flex:none;width:36px;height:36px;border-radius:12px;background:{{ m.color }};color:#fff;font-size:15px;font-weight:900;display:flex;align-items:center;justify-content:center">{{ m.glyph }}</span>
+<span style="flex:1;display:flex;flex-direction:column"><span style="font-size:16px;font-weight:900;color:var(--ink)">{{ m.name }}</span><span style="font-size:12px;font-weight:800;color:var(--ink2)">{{ m.sub }}</span></span>
+</button>
+</sc-for>
+</div>
+<button onClick="{{ menuDelete }}" style="height:54px;border:2px solid var(--line);border-radius:18px;background:var(--surface);color:var(--ink);font-size:16px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px" style-hover="background:var(--surface2)"><span style="font-size:20px;line-height:1">×</span><span>Xoá board</span></button>
+</div>
+</sc-if>
+
+<!-- XÁC NHẬN XOÁ -->
+<sc-if value="{{ hasConfirm }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:75;background:var(--overlay);display:flex;align-items:center;justify-content:center;padding:24px;animation:fadeIn .2s ease">
+<div style="width:100%;background:var(--surface);border-radius:30px;padding:22px 20px 20px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;animation:pop .3s ease">
+<div>{{ whaleConfirm }}</div>
+<span style="font-size:21px;font-weight:900;color:var(--ink);line-height:1.25;text-wrap:balance">{{ confirm.title }}</span>
+<span style="font-size:15px;font-weight:700;color:var(--ink2);line-height:1.45;text-wrap:pretty">{{ confirm.text }}</span>
+<button onClick="{{ doDelete }}" style="width:100%;height:56px;margin-top:8px;border:none;border-radius:18px;background:var(--ink);color:var(--bg);font-size:16px;font-weight:900;letter-spacing:.5px;box-shadow:0 5px 0 rgba(0,0,0,.3);cursor:pointer" style-active="transform:translateY(5px);box-shadow:none">XOÁ BOARD</button>
+<button onClick="{{ cancelDelete }}" style="width:100%;height:52px;border:2px solid var(--line);border-radius:18px;background:var(--surface);color:#0284C7;font-size:16px;font-weight:900;box-shadow:0 4px 0 var(--line);cursor:pointer" style-active="transform:translateY(4px);box-shadow:none">Giữ lại</button>
+</div>
+</div>
+</sc-if>
+
+<!-- SHEET tạo / sửa -->
+<sc-if value="{{ hasSheet }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ closeSheet }}" style="position:absolute;inset:0;background:var(--overlay);z-index:60;animation:fadeIn .2s ease"></div>
+<div style="position:absolute;left:0;right:0;bottom:0;z-index:61;background:var(--surface);border-radius:32px 32px 0 0;padding:12px 22px 34px;display:flex;flex-direction:column;gap:14px;animation:sheetUp .28s cubic-bezier(.2,.9,.3,1)">
+<div style="align-self:center;width:44px;height:5px;border-radius:3px;background:var(--line)"></div>
+<div style="display:flex;align-items:center;gap:12px">
+<div style="flex:none;width:48px;height:48px;border-radius:16px;background:{{ sheet.previewColor }};box-shadow:0 4px 0 {{ sheet.previewShade }};display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;font-weight:900;transition:background .15s">{{ sheet.initial }}</div>
+<span style="font-size:22px;font-weight:900;color:var(--ink)">{{ sheet.title }}</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<span style="font-size:13px;font-weight:900;color:var(--ink2);letter-spacing:.6px">TÊN BOARD</span>
+<input autoFocus="{{ true }}" value="{{ sheet.name }}" onChange="{{ setSheetName }}" onKeyDown="{{ sheetKey }}" maxLength="40" placeholder="VD: Dự án website" style="height:56px;border-radius:16px;border:2px solid {{ sheet.inputBorder }};background:var(--bg);padding:0 18px;font-size:17px;font-weight:800;color:var(--ink);outline:none" style-focus="border-color:#0284C7">
+<div style="display:flex;justify-content:space-between;font-size:13px;font-weight:800;color:var(--ink2);padding:0 4px"><span>{{ sheet.error }}</span><span>{{ sheet.counter }}</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<span style="font-size:13px;font-weight:900;color:var(--ink2);letter-spacing:.6px">MÔ TẢ NGẮN · KHÔNG BẮT BUỘC</span>
+<input value="{{ sheet.desc }}" onChange="{{ setSheetDesc }}" onKeyDown="{{ sheetKey }}" maxLength="60" placeholder="VD: Việc ở công ty" style="height:52px;border-radius:16px;border:2px solid var(--line);background:var(--bg);padding:0 18px;font-size:16px;font-weight:700;color:var(--ink);outline:none" style-focus="border-color:#0284C7">
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font-size:13px;font-weight:900;color:var(--ink2);letter-spacing:.6px">MÀU</span>
+<div style="display:flex;gap:12px">
+<sc-for list="{{ sheet.colors }}" as="sw" hint-placeholder-count="4">
+<button onClick="{{ sw.pick }}" style="width:48px;height:48px;border-radius:16px;background:{{ sw.color }};border:3px solid {{ sw.ring }};box-shadow:0 4px 0 {{ sw.shade }};cursor:pointer;color:#fff;font-size:18px;font-weight:900">{{ sw.mark }}</button>
+</sc-for>
+</div>
+</div>
+<button onClick="{{ saveSheet }}" style="height:58px;border:none;border-radius:18px;background:{{ sheet.ctaBg }};color:#fff;font-size:17px;font-weight:900;letter-spacing:.6px;box-shadow:0 5px 0 {{ sheet.ctaShade }};cursor:pointer;margin-top:4px" style-active="transform:translateY(5px);box-shadow:none">{{ sheet.cta }}</button>
+</div>
+</sc-if>
+
+<!-- ĂN MỪNG -->
+<sc-if value="{{ hasCelebrate }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:80;background:var(--overlay);display:flex;align-items:flex-end;animation:fadeIn .2s ease">
+<div style="width:100%;background:var(--surface);border-radius:34px 34px 0 0;padding:26px 24px 38px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;animation:sheetUp .35s cubic-bezier(.2,.9,.3,1)">
+<div style="margin-top:-110px">{{ whaleCelebrate }}</div>
+<span style="font-size:34px;font-weight:900;color:#0284C7;letter-spacing:-.8px;animation:pop .5s .15s both">{{ cel.headline }}</span>
+<span style="font-size:16px;font-weight:800;color:var(--ink);line-height:1.35;text-wrap:balance">“{{ cel.title }}” đã hoàn thành</span>
+<div style="display:flex;gap:10px;margin:8px 0 6px;animation:pop .5s .3s both">
+<div style="display:flex;align-items:center;gap:8px;height:44px;padding:0 16px;border-radius:16px;background:var(--chip);color:var(--chipInk);font-size:15px;font-weight:900"><span style="width:16px;height:16px;border-radius:50% 0 50% 50%;transform:rotate(-45deg);background:#0EA5E9"></span><span>Streak {{ cel.streak }} ngày</span></div>
+<div style="display:flex;align-items:center;gap:8px;height:44px;padding:0 16px;border-radius:16px;background:var(--chip);color:var(--chipInk);font-size:15px;font-weight:900"><span style="width:16px;height:16px;border-radius:5px;background:{{ cel.cell }}"></span><span>{{ cel.todayLabel }}</span></div>
+</div>
+<button onClick="{{ closeCelebrate }}" style="width:100%;height:60px;border:none;border-radius:20px;background:#0284C7;color:#fff;font-size:18px;font-weight:900;letter-spacing:.8px;box-shadow:0 6px 0 #026199;cursor:pointer" style-active="transform:translateY(6px);box-shadow:0 0 0 #026199">TIẾP TỤC</button>
+</div>
+</div>
+</sc-if>
+
+<div style="position:absolute;left:50%;bottom:8px;width:134px;height:5px;margin-left:-67px;border-radius:3px;background:var(--ink);opacity:.85;z-index:95;pointer-events:none"></div>
+<sc-if value="{{ hasUndo }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:14px;right:14px;bottom:100px;z-index:90;background:#0B2540;border:2px solid #21405F;color:#fff;border-radius:18px;padding:0 8px 0 16px;height:58px;display:flex;align-items:center;gap:10px;box-shadow:0 12px 26px rgba(0,0,0,.25);animation:pop .25s ease">
+<span style="flex:1;min-width:0;font-size:15px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ undo.msg }}</span>
+<button onClick="{{ undoAction }}" style="flex:none;height:42px;padding:0 14px;border:none;border-radius:12px;background:#7DD3FC;color:#0B2540;font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 3px 0 #0EA5E9" style-active="transform:translateY(3px);box-shadow:none">HOÀN TÁC</button>
+</div>
+</sc-if>
+<sc-if value="{{ hasToast }}">
+<div style="position:absolute;left:50%;top:60px;transform:translateX(-50%);z-index:90;background:#0B2540;color:#fff;font-size:14px;font-weight:900;padding:12px 18px;border-radius:16px;white-space:nowrap;animation:pop .3s ease">{{ toast }}</div>
+</sc-if>
+
+</div>
+</div>
+
+<div style="flex:0 1 300px;min-width:260px;display:flex;flex-direction:column;gap:18px;padding-top:12px;color:#0B2540">
+<div style="display:flex;flex-direction:column;gap:4px">
+<span style="font-size:13px;font-weight:900;color:#5B7189;letter-spacing:.8px">PROTOTYPE · 390×844</span>
+<span style="font-size:30px;font-weight:900;color:#0284C7;letter-spacing:-.8px">bubu</span>
+<span style="font-size:15px;font-weight:700;color:#5B7189;line-height:1.45;text-wrap:pretty">App tracking công việc cá nhân với linh vật cá voi Bubu. Mọi thứ trong khung máy đều bấm được.</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ jumps }}" as="j" hint-placeholder-count="8">
+<button onClick="{{ j.go }}" style="display:flex;align-items:center;gap:12px;height:46px;padding:0 14px;border-radius:14px;border:2px solid {{ j.border }};background:{{ j.bg }};cursor:pointer;text-align:left;font-size:15px;font-weight:800;color:#0B2540" style-hover="border-color:#7DD3FC">
+<span style="flex:none;width:26px;height:26px;border-radius:9px;background:{{ j.numBg }};color:{{ j.numFg }};font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center">{{ j.n }}</span><span>{{ j.name }}</span></button>
+</sc-for>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700;color:#5B7189;line-height:1.45">
+<span style="font-size:13px;font-weight:900;letter-spacing:.8px">THỬ NGAY</span>
+<span>· Nhấn giữ card (chuột: kéo luôn) rồi thả vào cột, tab trên hoặc thanh dưới. Thả vào Done để Bubu phun nước</span>
+<span>· Danh sách board: nút ⋯ để sửa, ghim, nhân bản, lưu trữ, xoá (có hoàn tác)</span>
+<span>· Chi tiết card: đặt độ ưu tiên, gắn/tạo nhãn, checklist có tiến độ</span>
+<span>· Chạm ô heatmap để xem việc trong ngày</span>
+<span>· Tab Tôi → bật Chế độ tối, đổi dữ liệu demo (mất streak / tài khoản mới)</span>
+</div>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;login&quot;,&quot;boards&quot;,&quot;board&quot;,&quot;card&quot;,&quot;stats&quot;,&quot;report&quot;,&quot;empty&quot;,&quot;me&quot;],&quot;default&quot;:&quot;login&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;dark&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;scenario&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;normal&quot;,&quot;lost&quot;,&quot;new&quot;],&quot;default&quot;:&quot;normal&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const TODAY = new Date(2026, 10, 8);
+const DAY = 86400000;
+const addDays = (d, n) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+const parse = s => { const [y, m, dd] = s.split('-').map(Number); return new Date(y, m - 1, dd); };
+const diff = (a, b) => Math.round((a - b) / DAY);
+const fmt = d => d.getDate() + '/' + (d.getMonth() + 1);
+const WD = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+const WDS = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+const HEAT = ['var(--heat0)', '#BAE6FD', '#7DD3FC', '#0EA5E9', '#0369A1'];
+const level = c => c <= 0 ? 0 : c === 1 ? 1 : c <= 3 ? 2 : c <= 5 ? 3 : 4;
+const MON = addDays(TODAY, -((TODAY.getDay() + 6) % 7));
+const TODAY_ISO = iso(TODAY);
+const COLORS = [
+  { c: '#0284C7', d: '#026199' },
+  { c: 'oklch(0.62 0.17 290)', d: 'oklch(0.5 0.17 290)' },
+  { c: 'oklch(0.74 0.15 65)', d: 'oklch(0.62 0.15 65)' },
+  { c: 'oklch(0.65 0.18 340)', d: 'oklch(0.53 0.18 340)' },
+];
+const POOL = ['Trả lời email khách hàng', 'Cập nhật báo cáo tiến độ', 'Họp standup nhóm', 'Viết unit test giỏ hàng', 'Thiết kế màn hình hồ sơ', 'Đi chợ cuối tuần', 'Chạy bộ 5km', 'Đọc 20 trang sách', 'Ôn 30 từ vựng tiếng Nhật', 'Dọn dẹp bàn làm việc', 'Gọi điện cho bố mẹ', 'Sửa lỗi hiển thị trên iOS', 'Lên thực đơn tuần', 'Thanh toán hoá đơn internet', 'Review thiết kế landing page', 'Chuẩn bị tài liệu onboarding', 'Tưới cây ban công', 'Học bài 11 Minna no Nihongo', 'Tối ưu truy vấn báo cáo', 'Viết nhật ký cuối ngày'];
+const LIGHT = { bg: '#F3F8FC', surface: '#FFFFFF', surface2: '#EAF3F9', ink: '#0B2540', ink2: '#5B7189', line: '#D9E6EF', col: '#E8F1F7', chip: '#E0F2FE', chipInk: '#0369A1', heat0: '#EBEDF0', red: '#D92D20', redBg: '#FEE4E2', redLine: '#F7B4AE', hero: '#DDF0FC', overlay: 'rgba(11,26,43,.55)', scheme: 'light' };
+const DARK = { bg: '#0B1A2B', surface: '#12263B', surface2: '#1A324D', ink: '#EAF4FB', ink2: '#8FA9C2', line: '#21405F', col: '#0F2235', chip: '#16395A', chipInk: '#7DD3FC', heat0: '#1B3149', red: '#FF7A75', redBg: 'rgba(240,68,56,.16)', redLine: '#7A2E2E', hero: '#10294A', overlay: 'rgba(3,10,20,.72)', scheme: 'dark' };
+
+function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function buildHeat(sc) {
+  const r = rng(sc === 'lost' ? 7 : 42), m = {};
+  for (let i = 363; i >= 0; i--) {
+    const d = addDays(TODAY, -i), a = r(), b = r();
+    let c;
+    if (sc === 'new' || i === 0) c = 0;
+    else if (sc === 'normal' && i <= 12) c = 1 + Math.floor(b * 5);
+    else if (sc === 'normal' && i === 13) c = 0;
+    else if (sc === 'lost' && i <= 3) c = 0;
+    else c = a < 0.36 ? 0 : 1 + Math.floor(b * b * 8);
+    m[iso(d)] = c;
+  }
+  return m;
+}
+
+function insertAt(others, nc, index) {
+  const sib = others.filter(c => c.b === nc.b && c.list === nc.list);
+  if (index == null || index >= sib.length) return others.concat([nc]);
+  const out = others.slice(); out.splice(out.indexOf(sib[index]), 0, nc); return out;
+}
+const COLW = 338;
+const LCOL = [
+  { c: '#0284C7', fg: '#fff' }, { c: 'oklch(0.58 0.17 290)', fg: '#fff' }, { c: 'oklch(0.82 0.13 80)', fg: '#3B2A05' },
+  { c: 'oklch(0.6 0.19 345)', fg: '#fff' }, { c: 'oklch(0.52 0.14 265)', fg: '#fff' },
+];
+const PRIO = { none: { n: 'Không', lv: 0 }, low: { n: 'Thấp', lv: 1, c: '#7DD3FC' }, med: { n: 'Vừa', lv: 2, c: '#0EA5E9' }, high: { n: 'Cao', lv: 3, c: 'oklch(0.72 0.15 65)' } };
+const ck = (arr) => arr.map((t, i) => ({ id: 'k' + i + Math.random().toString(36).slice(2, 6), text: t.replace(/^\+/, ''), done: t.startsWith('+') }));
+const EXTRA = {
+  c1: { labels: ['l4'], priority: 'high', checklist: ck(['+Số liệu doanh thu Q3', '+Kế hoạch nhân sự', 'Roadmap sản phẩm 2027', 'Tập dượt thuyết trình']) },
+  c2: { labels: ['l1'], priority: 'high', checklist: ck(['+Tính chi phí bảo trì', 'Soạn hợp đồng mẫu', 'Gửi email cho anh Tuấn']) },
+  c3: { labels: ['l2'], priority: 'med' },
+  c4: { labels: ['l2'], priority: 'med', checklist: ck(['+Endpoint tạo đơn', '+Endpoint huỷ đơn', 'Endpoint tra cứu', 'Ví dụ request/response']) },
+  c5: { labels: ['l2', 'l1'], priority: 'high' },
+  c6: { labels: ['l4'], checklist: ck(['+Chốt backlog', '+Ước lượng story point', '+Phân công']) },
+  c8: { priority: 'low' }, c9: { labels: ['l5'], priority: 'low' },
+  c10: { labels: ['l5'], priority: 'low', checklist: ck(['+Chương 1–3', 'Chương 4–6', 'Chương 7–9']) },
+  c11: { labels: ['l5'] }, c12: { labels: ['l3'], priority: 'med', checklist: ck(['+Bài 1–5', 'Bài 6–10']) },
+};
+
+function Whale(o) {
+  const h = React.createElement;
+  const { mood = 'happy', size = 120, spout = false, burst = false, bob = true } = o;
+  const ink = '#0B2540', k = [];
+  k.push(h('ellipse', { key: 'ts', cx: 160, cy: 84, rx: 24, ry: 15, fill: '#0284C7', transform: 'rotate(-35 160 84)' }));
+  k.push(h('ellipse', { key: 't1', cx: 176, cy: 54, rx: 22, ry: 10, fill: '#0284C7', transform: 'rotate(-70 176 54)' }));
+  k.push(h('ellipse', { key: 't2', cx: 194, cy: 70, rx: 22, ry: 10, fill: '#0284C7', transform: 'rotate(-15 194 70)' }));
+  k.push(h('defs', { key: 'df' }, h('clipPath', { id: 'wbody' }, h('ellipse', { cx: 92, cy: 100, rx: 78, ry: 56 }))));
+  k.push(h('ellipse', { key: 'b', cx: 92, cy: 100, rx: 78, ry: 56, fill: '#0EA5E9' }));
+  k.push(h('ellipse', { key: 'bl', cx: 86, cy: 140, rx: 66, ry: 32, fill: '#E0F2FE', clipPath: 'url(#wbody)' }));
+  k.push(h('ellipse', { key: 'hl', cx: 70, cy: 64, rx: 18, ry: 8, fill: '#fff', opacity: .35, transform: 'rotate(-20 70 64)' }));
+  k.push(h('ellipse', { key: 'fin', cx: 128, cy: 128, rx: 17, ry: 8, fill: '#0284C7', transform: 'rotate(30 128 128)' }));
+  if (mood === 'calm') {
+    k.push(h('path', { key: 'e1', d: 'M54 92 Q66 82 78 92', stroke: ink, strokeWidth: 5, fill: 'none', strokeLinecap: 'round' }));
+    k.push(h('path', { key: 'e2', d: 'M98 92 Q110 82 122 92', stroke: ink, strokeWidth: 5, fill: 'none', strokeLinecap: 'round' }));
+  } else {
+    const py = mood === 'sad' ? 4 : 1;
+    [[66, 88], [110, 88]].forEach(([x, y], i) => {
+      k.push(h('circle', { key: 'ew' + i, cx: x, cy: y, r: 14, fill: '#fff' }));
+      k.push(h('circle', { key: 'ep' + i, cx: x + 1, cy: y + py, r: 8, fill: ink }));
+      k.push(h('circle', { key: 'eh' + i, cx: x - 2, cy: y + py - 3, r: 3, fill: '#fff' }));
+    });
+    if (mood === 'sad') {
+      k.push(h('path', { key: 'br1', d: 'M52 70 L74 76', stroke: ink, strokeWidth: 4.5, strokeLinecap: 'round' }));
+      k.push(h('path', { key: 'br2', d: 'M124 70 L102 76', stroke: ink, strokeWidth: 4.5, strokeLinecap: 'round' }));
+    }
+  }
+  k.push(h('ellipse', { key: 'c1', cx: 48, cy: 108, rx: 9, ry: 6, fill: '#F9A8D4', opacity: .85 }));
+  k.push(h('ellipse', { key: 'c2', cx: 128, cy: 108, rx: 9, ry: 6, fill: '#F9A8D4', opacity: .85 }));
+  if (mood === 'cheer') {
+    k.push(h('path', { key: 'm', d: 'M74 104 Q88 132 102 104 Z', fill: ink, stroke: ink, strokeWidth: 3, strokeLinejoin: 'round' }));
+    k.push(h('ellipse', { key: 'tg', cx: 88, cy: 117, rx: 7, ry: 4, fill: '#F472B6' }));
+  } else if (mood === 'sad') {
+    k.push(h('path', { key: 'm', d: 'M78 118 Q88 107 98 118', stroke: ink, strokeWidth: 4.5, fill: 'none', strokeLinecap: 'round' }));
+    k.push(h('ellipse', { key: 'tear', cx: 54, cy: 110, rx: 4.5, ry: 7, fill: '#7DD3FC' }));
+  } else {
+    k.push(h('path', { key: 'm', d: mood === 'calm' ? 'M80 108 Q88 115 96 108' : 'M77 106 Q88 120 99 106', stroke: ink, strokeWidth: 4.5, fill: 'none', strokeLinecap: 'round' }));
+  }
+  if (spout && !burst) {
+    k.push(h('rect', { key: 's0', x: 86, y: 28, width: 6, height: 18, rx: 3, fill: '#7DD3FC' }));
+    k.push(h('circle', { key: 's1', cx: 89, cy: 22, r: 7, fill: '#7DD3FC' }));
+    k.push(h('circle', { key: 's2', cx: 74, cy: 28, r: 5, fill: '#BAE6FD' }));
+    k.push(h('circle', { key: 's3', cx: 104, cy: 28, r: 5, fill: '#BAE6FD' }));
+  }
+  const svg = h('svg', { key: 'svg', viewBox: '0 0 220 170', width: size, height: size * 170 / 220, style: { display: 'block', overflow: 'visible' } }, k);
+  const kids = [svg];
+  if (burst) {
+    const drops = [[-70, -110], [-40, -150], [-12, -175], [16, -170], [44, -148], [72, -112], [-90, -60], [92, -64], [0, -130]];
+    drops.forEach(([dx, dy], i) => kids.push(h('span', { key: 'd' + i, style: { position: 'absolute', left: size * 0.405 - 7, top: size * 0.18, width: i % 3 === 0 ? 16 : 11, height: i % 3 === 0 ? 16 : 11, borderRadius: '50% 0 50% 50%', transform: 'rotate(-45deg)', background: i % 2 ? '#7DD3FC' : '#38BDF8', '--dx': dx + 'px', '--dy': dy + 'px', animation: `drop 1.5s ${(i % 5) * 0.12}s ease-out infinite` } })));
+    kids.push(h('span', { key: 'jet', style: { position: 'absolute', left: size * 0.405 - 5, top: size * 0.02, width: 10, height: size * 0.18, borderRadius: 6, background: '#7DD3FC', opacity: .9 } }));
+  }
+  return h('div', { style: { position: 'relative', width: size, height: size * 170 / 220, animation: bob ? 'bob 3s ease-in-out infinite' : undefined } }, kids);
+}
+
+class Component extends DCLogic {
+  state = this.initState();
+  _heat = {};
+
+  initState() {
+    const p = this.props || {};
+    const start = p.startScreen ?? 'login';
+    const map = { report: { screen: 'stats', statsView: 'report' }, empty: { screen: 'stats', scenario: 'new' }, card: { screen: 'card', cardId: 'c2' } };
+    const base = {
+      screen: start, statsView: 'heatmap', reportMode: 'week', reportOffset: 0,
+      dark: p.dark ?? false, scenario: p.scenario ?? 'normal',
+      email: 'minh.anh@gmail.com', password: 'bubu2026', loginError: '',
+      boardId: 'b1', cardId: 'c2', sheet: null, menuFor: null, confirmDel: null, showArchived: false, undo: null, query: '', drag: null, over: null, pressId: null, activeCol: 0, addingList: null, newTitle: '',
+      selectedDay: TODAY_ISO, celebrate: null, toast: null,
+      boards: [
+        { id: 'b1', name: 'Công việc', color: 0, desc: 'Dự án và việc ở công ty', pinned: true },
+        { id: 'b2', name: 'Cá nhân', color: 2, desc: 'Việc nhà, sức khoẻ, đọc sách' },
+        { id: 'b3', name: 'Học tiếng Nhật', color: 1, desc: 'Mục tiêu JLPT N4 tháng 12' },
+        { id: 'b4', name: 'Chuyển nhà', color: 3, desc: '' },
+        { id: 'b5', name: 'Du lịch Đà Lạt', color: 2, desc: 'Chuyến đi tháng 9', archived: true },
+      ],
+      cards: [
+        { id: 'c1', b: 'b1', list: 'todo', title: 'Chuẩn bị slide họp quý 4', due: '2026-11-12', desc: 'Tổng hợp số liệu doanh thu Q3, kế hoạch nhân sự và roadmap sản phẩm.' },
+        { id: 'c2', b: 'b1', list: 'todo', title: 'Gửi báo giá cho khách Phú Mỹ', due: '2026-11-05', desc: 'Báo giá gói bảo trì 12 tháng, gửi kèm hợp đồng mẫu cho anh Tuấn.' },
+        { id: 'c3', b: 'b1', list: 'todo', title: 'Review PR module thanh toán', due: '2026-11-09', desc: '' },
+        { id: 'c4', b: 'b1', list: 'doing', title: 'Viết tài liệu API đơn hàng', due: '2026-11-10', desc: 'Các endpoint tạo, huỷ và tra cứu đơn.' },
+        { id: 'c5', b: 'b1', list: 'doing', title: 'Sửa lỗi đăng nhập trên Android', due: '2026-11-07', desc: 'Lỗi token hết hạn trên Android 12.' },
+        { id: 'c6', b: 'b1', list: 'done', title: 'Lên kế hoạch sprint 23', due: '2026-11-07', doneAt: '2026-11-07', desc: '' },
+        { id: 'c7', b: 'b1', list: 'done', title: 'Phỏng vấn ứng viên frontend', due: '2026-11-06', doneAt: '2026-11-06', desc: '' },
+        { id: 'c8', b: 'b2', list: 'todo', title: 'Đóng tiền điện tháng 11', due: '2026-11-15', desc: '' },
+        { id: 'c9', b: 'b2', list: 'todo', title: 'Đặt lịch khám răng', due: null, desc: '' },
+        { id: 'c10', b: 'b2', list: 'doing', title: 'Đọc "Nhà giả kim" – 40 trang', due: '2026-11-30', desc: '' },
+        { id: 'c11', b: 'b2', list: 'done', title: 'Tập gym 3 buổi tuần này', due: '2026-11-07', doneAt: '2026-11-05', desc: '' },
+        { id: 'c12', b: 'b3', list: 'todo', title: 'Ôn 50 kanji N4', due: '2026-11-08', desc: '' },
+        { id: 'c13', b: 'b3', list: 'doing', title: 'Luyện nghe bài 12', due: '2026-11-04', desc: '' },
+      ],
+    };
+    base.labels = [
+      { id: 'l1', name: 'Khách hàng', color: 2 }, { id: 'l2', name: 'Kỹ thuật', color: 1 }, { id: 'l3', name: 'Học tập', color: 4 },
+      { id: 'l4', name: 'Họp', color: 0 }, { id: 'l5', name: 'Cá nhân', color: 3 },
+    ];
+    base.newItem = ''; base.addingLabel = false; base.newLabel = { name: '', color: 0 };
+    base.cards = base.cards.map(c => Object.assign({ labels: [], priority: 'none', checklist: [] }, c, EXTRA[c.id] || {}));
+    return Object.assign(base, map[start] || {});
+  }
+
+  componentDidUpdate(prev) {
+    const p = this.props;
+    if (prev.dark !== p.dark && p.dark !== undefined) this.setState({ dark: p.dark });
+    if (prev.scenario !== p.scenario && p.scenario) this.setState({ scenario: p.scenario });
+    if (prev.startScreen !== p.startScreen && p.startScreen) this.goTo(p.startScreen);
+  }
+
+  heatRef = el => {
+    if (el && el !== this._heatEl) { this._heatEl = el; requestAnimationFrame(() => { el.scrollLeft = el.scrollWidth; }); }
+  };
+
+  heat() { const s = this.state.scenario; return this._heat[s] || (this._heat[s] = buildHeat(s)); }
+  cardsDone(d, cards) { return (this.state.scenario === 'normal' || d === TODAY_ISO) ? cards.filter(c => c.list === 'done' && c.doneAt === d) : []; }
+  dayCount(d, cards) { return (this.heat()[d] || 0) + this.cardsDone(d, cards).length; }
+  streakOf(cards) {
+    let s = this.dayCount(TODAY_ISO, cards) > 0 ? 1 : 0;
+    for (let i = 1; i < 400; i++) { if (this.dayCount(iso(addDays(TODAY, -i)), cards) > 0) s++; else break; }
+    return s;
+  }
+  recordOf(cards) {
+    let best = 0, run = 0;
+    for (let i = 363; i >= 0; i--) { if (this.dayCount(iso(addDays(TODAY, -i)), cards) > 0) { run++; best = Math.max(best, run); } else run = 0; }
+    return this.state.scenario === 'new' ? best : Math.max(best, 21);
+  }
+  titlesFor(d, cards) {
+    const n = this.heat()[d] || 0, r = rng(parseInt(d.replace(/-/g, ''), 10)), out = [];
+    for (let i = 0; i < n; i++) { let t; do { t = POOL[Math.floor(r() * POOL.length)]; } while (out.includes(t) && out.length < POOL.length); out.push(t); }
+    return this.cardsDone(d, cards).map(c => c.title).concat(out);
+  }
+  periodDays(mode, off) {
+    const days = [];
+    if (mode === 'week') { const st = addDays(MON, 7 * off); for (let i = 0; i < 7; i++) days.push(addDays(st, i)); }
+    else { const m = new Date(2026, 10 + off, 1), n = new Date(m.getFullYear(), m.getMonth() + 1, 0).getDate(); for (let i = 1; i <= n; i++) days.push(new Date(m.getFullYear(), m.getMonth(), i)); }
+    return days;
+  }
+
+  goTo(k) {
+    const m = {
+      login: { screen: 'login' }, boards: { screen: 'boards' }, board: { screen: 'board', boardId: 'b1', addingList: null },
+      card: { screen: 'card', boardId: 'b1', cardId: 'c2' }, stats: { screen: 'stats', statsView: 'heatmap', scenario: this.state.scenario === 'new' ? 'normal' : this.state.scenario },
+      report: { screen: 'stats', statsView: 'report' }, empty: { screen: 'stats', statsView: 'heatmap', scenario: 'new', selectedDay: TODAY_ISO }, me: { screen: 'me' },
+    };
+    this.setState(Object.assign({ sheet: null, celebrate: null }, m[k]));
+  }
+  showUndo(msg, snap) { clearTimeout(this._ut); this.setState({ undo: { msg, snap } }); this._ut = setTimeout(() => this.setState({ undo: null }), 5000); }
+  toast(msg) { clearTimeout(this._tt); this.setState({ toast: msg }); this._tt = setTimeout(() => this.setState({ toast: null }), 1800); }
+  cardExtras(c, th) {
+    const p = PRIO[c.priority || 'none'], cl = c.checklist || [], dn = cl.filter(x => x.done).length;
+    const labels = (c.labels || []).map(id => this.state.labels.find(l => l.id === id)).filter(Boolean).map(l => ({ name: l.name, bg: LCOL[l.color].c, fg: LCOL[l.color].fg }));
+    return {
+      hasLabels: labels.length > 0, labels, hasPrio: p.lv > 0, prioName: p.n,
+      b1: p.lv >= 1 ? p.c : th.line, b2: p.lv >= 2 ? p.c : th.line, b3: p.lv >= 3 ? p.c : th.line,
+      hasCheck: cl.length > 0, checkLabel: dn + '/' + cl.length, checkBg: cl.length && dn === cl.length ? th.chip : th.surface2, checkFg: cl.length && dn === cl.length ? th.chipInk : th.ink2,
+    };
+  }
+  updateCard(id, patch) { this.setState(s => ({ cards: s.cards.map(c => c.id === id ? Object.assign({}, c, patch) : c) })); }
+
+  moveCard(id, list, index) {
+    const card = this.state.cards.find(c => c.id === id);
+    if (!card) return;
+    if (list === 'done' && card.list !== 'done') return this.complete(id, index);
+    const nc = Object.assign({}, card, { list, doneAt: list === 'done' ? card.doneAt : null });
+    this.setState(s => ({ cards: insertAt(s.cards.filter(c => c.id !== id), nc, index) }));
+  }
+  complete(id, index) {
+    const card = this.state.cards.find(c => c.id === id);
+    if (!card || card.list === 'done') return;
+    const cards = insertAt(this.state.cards.filter(c => c.id !== id), Object.assign({}, card, { list: 'done', doneAt: TODAY_ISO }), index);
+    const before = this.dayCount(TODAY_ISO, this.state.cards), after = this.dayCount(TODAY_ISO, cards);
+    navigator.vibrate && navigator.vibrate([20, 40, 20]);
+    this.setState({ cards, selectedDay: TODAY_ISO, celebrate: { title: card.title, first: before === 0, streak: this.streakOf(cards), today: after } });
+  }
+
+  componentDidMount() {
+    this._tm = e => { if (!this._drag) return; e.preventDefault(); const t = e.touches[0]; if (t) this.dragMove({ clientX: t.clientX, clientY: t.clientY }); };
+    this._te = () => { if (this._drag) { this._cleanup && this._cleanup(); this.endDrag(); } };
+    window.addEventListener('touchmove', this._tm, { passive: false });
+    window.addEventListener('touchend', this._te);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('touchmove', this._tm); window.removeEventListener('touchend', this._te);
+    cancelAnimationFrame(this._raf); clearTimeout(this._lp); clearTimeout(this._tt); clearTimeout(this._ut);
+  }
+  phoneRef = el => { this._phone = el; };
+  colsRef = el => { this._cols = el; };
+  scrollToCol(i) {
+    const el = this._cols; if (!el) return;
+    cancelAnimationFrame(this._sraf);
+    const from = el.scrollLeft, to = Math.min(i * COLW, el.scrollWidth - el.clientWidth), t0 = performance.now(), dur = 280;
+    el.style.scrollSnapType = 'none';
+    const step = now => {
+      const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      el.scrollLeft = from + (to - from) * e;
+      if (k < 1) this._sraf = requestAnimationFrame(step);
+      else { el.scrollLeft = to; el.style.scrollSnapType = this._drag ? 'none' : 'x mandatory'; this.setState({ activeCol: i }); }
+    };
+    this._sraf = requestAnimationFrame(step);
+  }
+  onColsScroll = e => {
+    const i = Math.max(0, Math.min(2, Math.round(e.currentTarget.scrollLeft / COLW)));
+    if (i !== this.state.activeCol) this.setState({ activeCol: i });
+    if (this._drag && this._last) this.dragMove(this._last);
+  };
+  cardDown(e, c) {
+    if (e.button > 0) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    const p = { id: c.id, sx: e.clientX, sy: e.clientY, lx: e.clientX, ly: e.clientY, offX: e.clientX - r.left, offY: e.clientY - r.top, w: r.width, h: r.height, mouse: e.pointerType === 'mouse' };
+    const cleanup = () => {
+      clearTimeout(this._lp); this._cleanup = null;
+      window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); window.removeEventListener('pointercancel', cancel);
+      if (this.state.pressId) this.setState({ pressId: null });
+    };
+    const move = ev => {
+      p.lx = ev.clientX; p.ly = ev.clientY;
+      if (this._drag) return this.dragMove(ev);
+      const d = Math.hypot(ev.clientX - p.sx, ev.clientY - p.sy);
+      if (p.mouse && d > 6) this.startDrag(p, ev); else if (!p.mouse && d > 10) cleanup();
+    };
+    const up = () => { const was = !!this._drag; cleanup(); if (was) this.endDrag(); };
+    const cancel = () => { if (!this._drag) cleanup(); };
+    this._cleanup = cleanup;
+    window.addEventListener('pointermove', move); window.addEventListener('pointerup', up); window.addEventListener('pointercancel', cancel);
+    if (!p.mouse) { this.setState({ pressId: c.id }); this._lp = setTimeout(() => this.startDrag(p, { clientX: p.lx, clientY: p.ly }), 280); }
+  }
+  startDrag(p, pt) {
+    const card = this.state.cards.find(c => c.id === p.id); if (!card || this._drag) return;
+    const sib = this.state.cards.filter(c => c.b === card.b && c.list === card.list);
+    const s = this._phone ? this._phone.getBoundingClientRect().width / 390 : 1;
+    this._drag = p;
+    navigator.vibrate && navigator.vibrate(12);
+    this.setState({ pressId: null, drag: { id: p.id, w: p.w / s, h: p.h / s, x: -999, y: -999, from: card.list, fromIndex: sib.indexOf(card) } }, () => this.dragMove(pt));
+    cancelAnimationFrame(this._raf);
+    const tick = () => { if (!this._drag) return; if (this._auto && this._cols) this._cols.scrollLeft += this._auto * 9; this._raf = requestAnimationFrame(tick); };
+    this._raf = requestAnimationFrame(tick);
+  }
+  dragMove(pt) {
+    this._last = { clientX: pt.clientX, clientY: pt.clientY };
+    const p = this._drag, D = this.state.drag; if (!p || !D || !this._phone) return;
+    const pr = this._phone.getBoundingClientRect(), s = pr.width / 390;
+    const x = (pt.clientX - p.offX - pr.left) / s, y = (pt.clientY - p.offY - pr.top) / s;
+    let over = null;
+    const el = document.elementFromPoint(pt.clientX, pt.clientY), z = el && el.closest('[data-drop]');
+    if (z) {
+      let index = null;
+      if (z.getAttribute('data-kind') === 'col') index = [...z.querySelectorAll('[data-card]')].filter(c => { const r = c.getBoundingClientRect(); return r.top + r.height / 2 < pt.clientY; }).length;
+      over = { list: z.getAttribute('data-drop'), index };
+    }
+    const cr = this._cols && this._cols.getBoundingClientRect();
+    this._auto = cr && pt.clientY > cr.top && pt.clientY < cr.bottom - 100 * s ? (pt.clientX < cr.left + 30 * s ? -1 : pt.clientX > cr.right - 30 * s ? 1 : 0) : 0;
+    const o = this.state.over;
+    if (over && (!o || o.list !== over.list) && navigator.vibrate) navigator.vibrate(8);
+    this.setState({ drag: Object.assign({}, D, { x, y }), over });
+  }
+  endDrag() {
+    const p = this._drag, o = this.state.over, D = this.state.drag;
+    this._drag = null; this._auto = 0; cancelAnimationFrame(this._raf);
+    this._justDragged = true; setTimeout(() => { this._justDragged = false; }, 80);
+    this.setState({ drag: null, over: null });
+    if (!p || !o) return;
+    const LK = ['todo', 'doing', 'done'], card = this.state.cards.find(c => c.id === p.id);
+    const changed = card && card.list !== o.list;
+    this.moveCard(p.id, o.list, o.index);
+    if (changed) { this.scrollToCol(LK.indexOf(o.list)); if (o.list !== 'done') this.toast('Đã chuyển sang ' + ({ todo: 'To Do', doing: 'Doing' })[o.list]); }
+  }
+
+  renderVals() {
+    const S = this.state, th = S.dark ? DARK : LIGHT, cards = S.cards;
+    const board = S.boards.find(b => b.id === S.boardId) || S.boards[0] || { id: '_', name: 'Board', color: 0 };
+    const bColor = COLORS[board.color];
+    const tc = this.dayCount(TODAY_ISO, cards), streak = this.streakOf(cards), record = this.recordOf(cards);
+
+    let yearTotal = 0, yearActive = 0;
+    const start = addDays(TODAY, -363), weeks = [];
+    for (let w = 0; w < 52; w++) {
+      const days = [], first = addDays(start, w * 7);
+      for (let r = 0; r < 7; r++) {
+        const d = addDays(first, r), key = iso(d), c = this.dayCount(key, cards);
+        yearTotal += c; if (c > 0) yearActive++;
+        const isSel = key === S.selectedDay, isToday = key === TODAY_ISO;
+        days.push({ bg: HEAT[level(c)], outline: isSel ? '2px solid ' + th.ink : 'none', anim: isToday && c === 0 ? 'pulse 1.6s ease-in-out infinite' : 'none', pick: () => this.setState({ selectedDay: key }) });
+      }
+      const monStart = [0, 1, 2, 3, 4, 5, 6].map(i => addDays(first, i)).find(d => d.getDate() === 1);
+      weeks.push({ days, month: monStart ? 'Th' + (monStart.getMonth() + 1) : '' });
+    }
+    const isEmptyAccount = yearTotal === 0;
+
+    const sd = parse(S.selectedDay), sc = this.dayCount(S.selectedDay, cards), items = this.titlesFor(S.selectedDay, cards);
+    const lv = level(sc);
+    const sel = {
+      count: sc, bg: HEAT[lv], fg: lv >= 3 ? '#fff' : th.ink, has: items.length > 0, items,
+      title: WD[sd.getDay()] + ', ' + fmt(sd) + '/' + sd.getFullYear() + (S.selectedDay === TODAY_ISO ? ' · Hôm nay' : ''),
+      sub: sc > 0 ? sc + ' card đã hoàn thành' : (S.selectedDay === TODAY_ISO ? 'Chưa có card nào xong hôm nay' : 'Không có hoạt động'),
+    };
+
+    const weekDots = [];
+    for (let i = 6; i >= 0; i--) { const d = addDays(TODAY, -i), c = this.dayCount(iso(d), cards); weekDots.push({ label: i === 0 ? 'Nay' : WDS[d.getDay()], bg: c > 0 ? '#fff' : 'rgba(255,255,255,.2)', check: c > 0 ? '✓' : '', border: i === 0 ? '2px solid #fff' : '2px solid transparent' }); }
+
+    let mood, bannerTitle, bannerSub;
+    if (isEmptyAccount) { mood = 'calm'; bannerTitle = 'Bắt đầu streak nào!'; bannerSub = 'Hoàn thành card đầu tiên để tô màu ô hôm nay'; }
+    else if (streak > 0 && tc > 0) { mood = 'cheer'; bannerTitle = 'Streak ' + streak + ' ngày!'; bannerSub = 'Hôm nay đã tô màu rồi. Giỏi quá!'; }
+    else if (streak > 0) { mood = 'happy'; bannerTitle = 'Streak ' + streak + ' ngày'; bannerSub = 'Xong 1 card hôm nay để giữ chuỗi nhé'; }
+    else { mood = 'sad'; bannerTitle = 'Mất streak rồi…'; bannerSub = 'Xong 1 card hôm nay để bơi lại nhé'; }
+    const hero = mood === 'sad'
+      ? { bg: th.surface, border: th.line, shade: th.line, fg: th.ink, sub: th.ink2, pillBg: th.surface2, pillFg: th.ink2, text: 'Bubu buồn quá… Hoàn thành 1 card hôm nay để bắt đầu chuỗi mới nhé.' }
+      : { bg: '#0284C7', border: '#0284C7', shade: '#026199', fg: '#fff', sub: '#E0F2FE', pillBg: 'rgba(255,255,255,.18)', pillFg: '#fff', text: tc > 0 ? 'Ô hôm nay đã xanh! Mai gặp lại nhé.' : 'Còn hôm nay nữa thôi — xong 1 card để giữ chuỗi!' };
+
+    const stat = b => {
+      const bc = cards.filter(c => c.b === b.id), done = bc.filter(c => c.list === 'done').length, doing = bc.filter(c => c.list === 'doing').length;
+      const od = bc.filter(c => c.list !== 'done' && c.due && parse(c.due) < TODAY).length;
+      return { n: bc.length, done, doing, od, countLabel: bc.length ? bc.length + ' card · ' + doing + ' đang làm' : 'Chưa có card' };
+    };
+    const norm = t => t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd');
+    const q = norm(S.query.trim());
+    const activeBoards = S.boards.filter(b => !b.archived);
+    const shown = activeBoards.filter(b => !q || norm(b.name + ' ' + (b.desc || '')).includes(q)).sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
+    const boardItems = shown.map(b => {
+      const st = stat(b);
+      return {
+        name: b.name, desc: b.desc || '', hasDesc: !!b.desc, pinned: !!b.pinned, initial: b.name.trim().charAt(0).toUpperCase(), color: COLORS[b.color].c, shade: COLORS[b.color].d,
+        countLabel: st.countLabel, hasOverdue: st.od > 0, overdueLabel: st.od + ' quá hạn', pct: st.n ? Math.round(st.done / st.n * 100) + '%' : '0%',
+        open: () => this.setState({ screen: 'board', boardId: b.id, addingList: null, activeCol: 0 }),
+        menu: e => { e.stopPropagation(); this.setState({ menuFor: b.id }); },
+      };
+    });
+    const archived = S.boards.filter(b => b.archived);
+    const archivedItems = archived.map(b => ({
+      name: b.name, initial: b.name.trim().charAt(0).toUpperCase(), color: COLORS[b.color].c, countLabel: stat(b).countLabel,
+      restore: () => { this.setState(s => ({ boards: s.boards.map(x => x.id === b.id ? Object.assign({}, x, { archived: false }) : x) })); this.toast('Đã khôi phục “' + b.name + '”'); },
+      remove: () => this.setState({ confirmDel: b.id }),
+    }));
+    const updBoard = (id, patch) => this.setState(s => ({ boards: s.boards.map(x => x.id === id ? Object.assign({}, x, patch) : x) }));
+    const mb = S.boards.find(b => b.id === S.menuFor);
+    const menu = mb ? (() => { const st = stat(mb); return { name: mb.name, initial: mb.name.trim().charAt(0).toUpperCase(), color: COLORS[mb.color].c, shade: COLORS[mb.color].d, meta: st.countLabel + (st.od ? ' · ' + st.od + ' quá hạn' : '') }; })() : {};
+    const menuItems = mb ? [
+      { glyph: 'Aa', color: '#0284C7', name: 'Sửa board', sub: 'Tên, mô tả và màu', go: () => this.setState({ menuFor: null, sheet: { mode: 'edit', id: mb.id, name: mb.name, desc: mb.desc || '', color: mb.color, err: false } }) },
+      { glyph: mb.pinned ? '↓' : '↑', color: 'oklch(0.62 0.17 290)', name: mb.pinned ? 'Bỏ ghim' : 'Ghim lên đầu', sub: mb.pinned ? 'Trả về vị trí bình thường' : 'Luôn hiện trên cùng danh sách', go: () => { updBoard(mb.id, { pinned: !mb.pinned }); this.setState({ menuFor: null }); this.toast(mb.pinned ? 'Đã bỏ ghim' : 'Đã ghim “' + mb.name + '”'); } },
+      { glyph: '×2', color: 'oklch(0.74 0.15 65)', name: 'Nhân bản', sub: 'Sao chép board kèm toàn bộ card', go: () => {
+        const nid = 'b' + Date.now(), nb = Object.assign({}, mb, { id: nid, name: mb.name + ' (bản sao)', pinned: false });
+        this.setState(s => { const i = s.boards.findIndex(x => x.id === mb.id), bs = s.boards.slice(); bs.splice(i + 1, 0, nb); return { menuFor: null, boards: bs, cards: s.cards.concat(s.cards.filter(c => c.b === mb.id).map((c, k) => Object.assign({}, c, { id: c.id + '-' + nid + k, b: nid }))) }; });
+        this.toast('Đã nhân bản board');
+      } },
+      { glyph: '▾', color: 'oklch(0.65 0.18 340)', name: 'Lưu trữ', sub: 'Ẩn khỏi danh sách, khôi phục bất cứ lúc nào', go: () => { const snap = { boards: S.boards, cards: S.cards }; updBoard(mb.id, { archived: true, pinned: false }); this.setState({ menuFor: null }); this.showUndo('Đã lưu trữ “' + mb.name + '”', snap); } },
+    ] : [];
+    const db = S.boards.find(b => b.id === S.confirmDel);
+    const confirm = db ? (() => { const n = stat(db).n; return { title: 'Xoá board “' + db.name + '”?', text: n ? n + ' card trong board sẽ bị xoá cùng. Bạn vẫn có thể hoàn tác ngay sau khi xoá.' : 'Board này đang trống. Bạn vẫn có thể hoàn tác ngay sau khi xoá.' }; })() : {};
+    const doDelete = () => {
+      const snap = { boards: S.boards, cards: S.cards };
+      this.setState(s => ({ confirmDel: null, boards: s.boards.filter(b => b.id !== db.id), cards: s.cards.filter(c => c.b !== db.id), boardId: s.boardId === db.id ? (s.boards.find(b => b.id !== db.id && !b.archived) || {}).id : s.boardId }));
+      this.showUndo('Đã xoá “' + db.name + '”', snap);
+    };
+    const dueInfo = c => {
+      if (c.list === 'done') return { label: c.doneAt ? 'Xong ' + fmt(parse(c.doneAt)) : 'Đã xong', long: 'Đã hoàn thành', bg: th.chip, fg: th.chipInk, od: false };
+      if (!c.due) return { label: 'Không có hạn', long: 'Chưa đặt hạn chót', bg: th.surface2, fg: th.ink2, od: false };
+      const n = diff(parse(c.due), TODAY);
+      if (n < 0) return { label: 'Quá hạn ' + (-n) + ' ngày', long: 'Quá hạn ' + (-n) + ' ngày', bg: th.redBg, fg: th.red, od: true };
+      if (n === 0) return { label: 'Hôm nay', long: 'Đến hạn hôm nay', bg: th.chip, fg: th.chipInk, od: false };
+      if (n === 1) return { label: 'Ngày mai', long: 'Đến hạn ngày mai', bg: th.chip, fg: th.chipInk, od: false };
+      return { label: fmt(parse(c.due)), long: 'Còn ' + n + ' ngày', bg: th.surface2, fg: th.ink2, od: false };
+    };
+
+    const LISTS = [{ k: 'todo', n: 'To Do', dot: '#7DD3FC' }, { k: 'doing', n: 'Doing', dot: 'oklch(0.74 0.15 65)' }, { k: 'done', n: 'Done', dot: '#0284C7' }];
+    const bCards = cards.filter(c => c.b === board.id);
+    const D = S.drag, OV = S.over;
+    const columns = LISTS.map(L => {
+      const all = bCards.filter(c => c.list === L.k);
+      const vis = D ? all.filter(c => c.id !== D.id) : all;
+      const items = vis.map(c => {
+        const di = dueInfo(c), pressed = S.pressId === c.id, border = pressed ? '#0284C7' : di.od ? th.redLine : th.line;
+        return {
+          isCard: true, isSlot: false, id: c.id, title: c.title, done: c.list === 'done', dueLabel: di.label, dueBg: di.bg, dueFg: di.fg, hasDesc: !!c.desc, ...this.cardExtras(c, th),
+          border, shadow: pressed ? '0 12px 22px rgba(11,37,64,.18), 0 3px 0 #0284C7' : '0 3px 0 ' + border, transform: pressed ? 'scale(1.03)' : 'none',
+          titleColor: c.list === 'done' ? th.ink2 : th.ink, deco: c.list === 'done' ? 'line-through' : 'none',
+          onPointerDown: e => this.cardDown(e, c),
+          open: () => { if (this._justDragged) return; this.setState({ screen: 'card', cardId: c.id, newItem: '', addingLabel: false }); },
+        };
+      });
+      if (D) {
+        let at = null, faint = false;
+        if (OV && OV.list === L.k) at = OV.index == null ? items.length : Math.min(OV.index, items.length);
+        else if (!OV && D.from === L.k) { at = Math.min(D.fromIndex, items.length); faint = true; }
+        if (at !== null) items.splice(at, 0, { isSlot: true, isCard: false, h: D.h + 'px', border: faint ? th.line : '#0284C7', bg: faint ? 'transparent' : th.chip });
+      }
+      const over = OV && OV.list === L.k;
+      return {
+        key: L.k, items, isEmpty: items.length === 0, bg: over ? th.chip : th.col, dropBorder: over ? '#0284C7' : 'transparent',
+        adding: S.addingList === L.k && !D, showAdd: S.addingList !== L.k && !D,
+        startAdd: () => this.setState({ addingList: L.k, newTitle: '' }),
+      };
+    });
+    const colTabs = LISTS.map((L, i) => {
+      const over = OV && OV.list === L.k, on = S.activeCol === i;
+      return { key: L.k, name: L.n, dot: L.dot, count: bCards.filter(c => c.list === L.k).length,
+        bg: over ? '#0284C7' : on ? th.surface : 'transparent', fg: over ? '#fff' : on ? th.ink : th.ink2, border: over ? '#0284C7' : 'transparent',
+        shadow: on && !over ? '0 3px 0 ' + th.line : 'none', countBg: over ? 'rgba(255,255,255,.25)' : on ? th.chip : th.surface, go: () => this.scrollToCol(i) };
+    });
+    const dock = LISTS.map(L => {
+      const over = OV && OV.list === L.k, done = L.k === 'done';
+      return { key: L.k, name: L.n, hint: done ? 'Thả để hoàn thành' : 'Thả vào cuối cột', bg: over ? (done ? '#0284C7' : th.chip) : th.surface2, fg: over && done ? '#fff' : over ? '#0284C7' : th.ink2, border: over ? '#0284C7' : th.line, scale: over ? 'scale(1.05)' : 'none' };
+    });
+    const dragCard = D ? cards.find(c => c.id === D.id) : null, gdi = dragCard ? dueInfo(dragCard) : {};
+    const ghost = dragCard ? { x: D.x + 'px', y: D.y + 'px', w: D.w + 'px', title: dragCard.title, dueLabel: gdi.label, dueBg: gdi.bg, dueFg: gdi.fg } : {};
+    const addCard = () => {
+      const t = S.newTitle.trim(); if (!t) return this.setState({ addingList: null });
+      this.setState(s => ({ cards: s.cards.concat([{ id: 'n' + Date.now(), b: board.id, list: s.addingList, title: t, due: null, desc: '' }]), newTitle: '' }));
+    };
+
+    const card = cards.find(c => c.id === S.cardId) || cards[0] || { id: '_', b: board.id, list: 'todo', title: '', due: null, desc: '' };
+    const cdi = dueInfo(card);
+    const dd = card.due ? parse(card.due) : null;
+    const cd = {
+      title: card.title, desc: card.desc || '', due: card.due || '', dueLabel: cdi.label, dueLong: cdi.long, dueBg: cdi.bg, dueFg: cdi.fg,
+      border: cdi.od ? th.redLine : th.line, iconBg: cdi.od ? th.red : '#0284C7', monLabel: dd ? 'TH' + (dd.getMonth() + 1) : '—', dayLabel: dd ? dd.getDate() : '?',
+      deco: card.list === 'done' ? 'line-through' : 'none', doneLabel: 'Đã hoàn thành ' + (card.doneAt ? fmt(parse(card.doneAt)) : ''),
+    };
+    const seg = on => on ? { bg: th.surface, fg: '#0284C7', shadow: '0 3px 0 ' + th.line } : { bg: 'transparent', fg: th.ink2, shadow: 'none' };
+    const statusOpts = LISTS.map(L => Object.assign({ name: L.n, pick: () => L.k === 'done' ? this.complete(card.id) : this.moveCard(card.id, L.k) }, seg(card.list === L.k)));
+
+    // Báo cáo
+    const days = this.periodDays(S.reportMode, S.reportOffset), prevDays = this.periodDays(S.reportMode, S.reportOffset - 1);
+    const counts = days.map(d => d > TODAY ? null : this.dayCount(iso(d), cards));
+    const sum = a => a.reduce((x, y) => x + (y || 0), 0);
+    const total = sum(counts), prevTotal = sum(prevDays.map(d => this.dayCount(iso(d), cards)));
+    const elapsed = counts.filter(c => c !== null).length, active = counts.filter(c => c > 0).length;
+    const max = Math.max(1, ...counts.map(c => c || 0)), bestI = counts.indexOf(Math.max(...counts.map(c => c || 0)));
+    const isWeek = S.reportMode === 'week';
+    const odNow = cards.filter(c => c.list !== 'done' && c.due && parse(c.due) < TODAY).length;
+    const overdue = S.scenario === 'new' ? 0 : S.reportOffset === 0 ? odNow : (Math.abs(S.reportOffset * 7 + (isWeek ? 3 : 11)) % 4) * (isWeek ? 1 : 2);
+    const delta = total - prevTotal;
+    const bars = days.map((d, i) => {
+      const c = counts[i], isBest = i === bestI && c > 0, isT = iso(d) === TODAY_ISO;
+      const h = c === null ? 6 : c === 0 ? 6 : Math.max(10, Math.round(c / max * 128));
+      const show = isWeek ? (c > 0 ? String(c) : '') : (isBest ? String(c) : '');
+      const lbl = isWeek ? (isT ? 'Nay' : WDS[d.getDay()]) : ([1, 8, 15, 22, 29].includes(d.getDate()) ? String(d.getDate()) : '');
+      return { h: h + 'px', val: show, label: lbl, labelColor: isT ? '#0284C7' : th.ink2, radius: isWeek ? '10px 10px 5px 5px' : '4px 4px 2px 2px', bg: c === null ? th.surface2 : c === 0 ? th.heat0 : isBest ? '#0369A1' : '#0EA5E9', shadow: c > 0 && isWeek ? 'inset 0 -4px 0 rgba(0,0,0,.12)' : 'none' };
+    });
+    let label, sub;
+    if (isWeek) { label = fmt(days[0]) + ' – ' + fmt(days[6]) + '/' + days[6].getFullYear(); sub = S.reportOffset === 0 ? 'Tuần này' : S.reportOffset === -1 ? 'Tuần trước' : (-S.reportOffset) + ' tuần trước'; }
+    else { label = 'Tháng ' + (days[0].getMonth() + 1) + '/' + days[0].getFullYear(); sub = S.reportOffset === 0 ? 'Tháng này · đến ' + fmt(TODAY) : S.reportOffset === -1 ? 'Tháng trước' : (-S.reportOffset) + ' tháng trước'; }
+    const pct = prevTotal ? Math.round(Math.abs(delta) / prevTotal * 100) : 0;
+    const note = total === 0 ? 'Kỳ này nước còn nông. Hoàn thành card đầu tiên để Bubu được bơi nhé!' : delta > 0 ? 'Bạn hoàn thành nhiều hơn ' + (prevTotal ? pct + '%' : delta + ' card') + ' so với kỳ trước. Bubu tự hào lắm!' : delta < 0 ? 'Chậm lại một chút cũng không sao. Mình cùng bơi tiếp nhé!' : 'Đều đặn như sóng biển. Giữ nhịp này nhé!';
+    const bd = bestI >= 0 && counts[bestI] > 0 ? days[bestI] : null;
+    const rp = {
+      label, sub, total, active, denom: isWeek ? 7 : elapsed, overdue, avg: elapsed ? (total / elapsed).toFixed(1).replace('.', ',') : '0',
+      delta: delta > 0 ? '+' + delta + ' so với kỳ trước' : delta < 0 ? delta + ' so với kỳ trước' : 'Bằng kỳ trước',
+      activeDots: isWeek ? counts.map(c => c > 0 ? '#0EA5E9' : th.heat0) : [], gap: isWeek ? '10px' : '3px', bars, note,
+      best: bd ? 'Ngày năng suất nhất: ' + WD[bd.getDay()] + ' ' + fmt(bd) + ' (' + counts[bestI] + ' card)' : '',
+      odColor: overdue > 0 ? th.red : th.ink, odBorder: overdue > 0 ? th.redLine : th.line, odSub: overdue > 0 ? 'Cần xử lý' : 'Tuyệt, không có!',
+      prevOpacity: S.reportOffset <= (isWeek ? -50 : -10) ? 0.4 : 1, nextOpacity: S.reportOffset >= 0 ? 0.4 : 1,
+    };
+
+    const tabKey = S.screen === 'stats' ? 'stats' : S.screen === 'me' ? 'me' : 'board';
+    const tabs = [['board', 'Board', 'boards'], ['stats', 'Thống kê', 'stats'], ['me', 'Tôi', 'me']].map(([k, n, go]) => {
+      const on = tabKey === k;
+      return { name: n, isBoard: k === 'board', isStats: k === 'stats', isMe: k === 'me', color: on ? '#0284C7' : th.ink2, tileBg: on ? th.chip : 'transparent', tileBorder: on ? '#7DD3FC' : 'transparent', go: () => this.setState({ screen: go, addingList: null }) };
+    });
+
+    const sh = S.sheet;
+    const sheet = sh ? {
+      title: sh.mode === 'create' ? 'Tạo board mới' : 'Sửa board', cta: sh.mode === 'create' ? 'TẠO BOARD' : 'LƯU THAY ĐỔI', name: sh.name, desc: sh.desc || '',
+      error: sh.err ? 'Đặt tên cho board nhé!' : '', inputBorder: sh.err ? '#0284C7' : th.line, counter: (sh.name || '').length + '/40',
+      initial: ((sh.name || '').trim().charAt(0) || '?').toUpperCase(), previewColor: COLORS[sh.color].c, previewShade: COLORS[sh.color].d,
+      ctaBg: (sh.name || '').trim() ? '#0284C7' : '#7DB9DC', ctaShade: (sh.name || '').trim() ? '#026199' : '#5E9CC0',
+      colors: COLORS.map((c, i) => ({ color: c.c, shade: c.d, ring: i === sh.color ? th.ink : 'transparent', mark: i === sh.color ? '✓' : '', pick: () => this.setState({ sheet: Object.assign({}, sh, { color: i }) }) })),
+    } : { colors: [] };
+    const saveSheet = () => {
+      const name = (sh.name || '').trim();
+      if (!name) return this.setState({ sheet: Object.assign({}, sh, { err: true }) });
+      const desc = (sh.desc || '').trim();
+      if (sh.mode === 'create') { this.setState(s => ({ sheet: null, query: '', boards: s.boards.concat([{ id: 'b' + Date.now(), name, desc, color: sh.color }]) })); this.toast('Đã tạo board “' + name + '”'); }
+      else { this.setState(s => ({ sheet: null, boards: s.boards.map(b => b.id === sh.id ? Object.assign({}, b, { name, desc, color: sh.color }) : b) })); this.toast('Đã lưu thay đổi'); }
+    };
+
+    const cel = S.celebrate ? { title: S.celebrate.title, streak: S.celebrate.streak, headline: S.celebrate.first ? 'Ô hôm nay xanh rồi!' : 'Tuyệt vời!', todayLabel: S.celebrate.today + ' card hôm nay', cell: HEAT[level(S.celebrate.today)] } : {};
+
+    const JUMPS = [['login', 'Đăng nhập'], ['boards', 'Danh sách board'], ['board', 'Board · kéo thả'], ['card', 'Chi tiết card'], ['stats', 'Thống kê · Heatmap'], ['report', 'Báo cáo tuần/tháng'], ['empty', 'Trạng thái trống'], ['me', 'Tôi · Dark mode']];
+    const cur = S.screen === 'stats' ? (S.statsView === 'report' ? 'report' : isEmptyAccount ? 'empty' : 'stats') : S.screen;
+    const jumps = JUMPS.map(([k, n], i) => { const on = cur === k; return { n: i + 1, name: n, bg: on ? '#fff' : 'transparent', border: on ? '#0284C7' : 'rgba(11,37,64,.1)', numBg: on ? '#0284C7' : '#E0F2FE', numFg: on ? '#fff' : '#0369A1', go: () => this.goTo(k) }; });
+
+    return {
+      th, board: { name: board.name, color: bColor.c }, streak, record, streakColor: streak > 0 ? '#0284C7' : th.ink2,
+      isLogin: S.screen === 'login', isBoards: S.screen === 'boards', isBoard: S.screen === 'board', isCard: S.screen === 'card', isStats: S.screen === 'stats', isMe: S.screen === 'me',
+      showTabBar: ['boards', 'board', 'stats', 'me'].includes(S.screen) && !D, tabs, jumps,
+      isDragging: !!D, dock, ghost, colTabs, phoneRef: this.phoneRef, colsRef: this.colsRef, onColsScroll: this.onColsScroll, snapType: D ? 'none' : 'x mandatory',
+      email: S.email, password: S.password, loginError: S.loginError, hasLoginError: !!S.loginError,
+      setEmail: e => this.setState({ email: e.target.value, loginError: '' }), setPassword: e => this.setState({ password: e.target.value, loginError: '' }),
+      doLogin: () => {
+        if (!/^\S+@\S+\.\S+$/.test(S.email)) return this.setState({ loginError: 'Email chưa đúng định dạng, kiểm tra lại giúp Bubu nhé.' });
+        if (S.password.length < 6) return this.setState({ loginError: 'Mật khẩu cần ít nhất 6 ký tự.' });
+        this.setState({ screen: 'boards' });
+      },
+      logout: () => this.setState({ screen: 'login' }),
+      whaleLogin: Whale({ mood: 'happy', size: 200, spout: true }),
+      whaleBanner: Whale({ mood, size: 92, spout: mood === 'cheer', bob: true }),
+      whaleHero: Whale({ mood, size: 128, spout: mood === 'cheer' }),
+      whaleEmpty: Whale({ mood: 'calm', size: 150, bob: true }),
+      whaleEmptyBoard: Whale({ mood: 'calm', size: 140, bob: true }),
+      whaleReport: Whale({ mood: total === 0 ? 'calm' : delta >= 0 ? 'cheer' : 'happy', size: 76, bob: true }),
+      whaleCelebrate: Whale({ mood: 'cheer', size: 190, burst: true }),
+      bannerTitle, bannerSub, weekDots, boardItems, boardCountLabel: activeBoards.length + ' board',
+      showSearch: activeBoards.length > 3 || !!S.query, query: S.query, hasQuery: !!S.query, setQuery: e => this.setState({ query: e.target.value }), clearQuery: () => this.setState({ query: '' }),
+      noBoards: boardItems.length === 0, noBoardsTitle: q ? 'Không tìm thấy board nào' : 'Chưa có board nào', noBoardsSub: q ? 'Thử từ khoá khác, hoặc tạo board mới với tên này.' : 'Tạo board đầu tiên để bắt đầu bơi cùng Bubu nhé!',
+      whaleNoBoard: Whale({ mood: q ? 'happy' : 'calm', size: 100 }), whaleConfirm: Whale({ mood: 'sad', size: 96, bob: false }),
+      hasArchived: archived.length > 0, showArchived: S.showArchived, archivedItems, archivedLabel: 'Đã lưu trữ · ' + archived.length, archivedChevron: S.showArchived ? 'Ẩn ▴' : 'Xem ▾',
+      toggleArchived: () => this.setState({ showArchived: !S.showArchived }),
+      hasMenu: !!mb, menu, menuItems, closeMenu: () => this.setState({ menuFor: null }), menuDelete: () => this.setState({ menuFor: null, confirmDel: mb && mb.id }),
+      hasConfirm: !!db, confirm, doDelete, cancelDelete: () => this.setState({ confirmDel: null }),
+      hasUndo: !!S.undo, undo: S.undo || {}, undoAction: () => { clearTimeout(this._ut); this.setState({ boards: S.undo.snap.boards, cards: S.undo.snap.cards, undo: null }); this.toast('Đã hoàn tác'); },
+      setSheetDesc: e => this.setState({ sheet: Object.assign({}, sh, { desc: e.target.value }) }),
+      goStats: () => this.setState({ screen: 'stats', statsView: 'heatmap' }), goBoards: () => this.setState({ screen: 'boards' }),
+      openCreate: () => this.setState({ sheet: { mode: 'create', name: S.query.trim(), desc: '', color: S.boards.length % 4, err: false } }),
+      boardEmpty: bCards.length === 0 && !S.addingList, boardHasCards: bCards.length > 0 || !!S.addingList, columns,
+      startFirstCard: () => this.setState({ addingList: 'todo', newTitle: '' }),
+      newTitle: S.newTitle, setNewTitle: e => this.setState({ newTitle: e.target.value }), addCard, cancelAdd: () => this.setState({ addingList: null }),
+      newTitleKey: e => { if (e.key === 'Enter') addCard(); if (e.key === 'Escape') this.setState({ addingList: null }); },
+      cd, statusOpts, cdDone: card.list === 'done', cdNotDone: card.list !== 'done',
+      ...(() => {
+        const pr = card.priority || 'none', cl = card.checklist || [], dn = cl.filter(x => x.done).length, sel = card.labels || [];
+        const prioOpts = Object.keys(PRIO).map(k => { const P = PRIO[k], on = pr === k, col = P.c || th.ink2;
+          return { name: P.n, pick: () => this.updateCard(card.id, { priority: k }), bg: on ? th.chip : th.surface, border: on ? (P.c || '#0284C7') : th.line, fg: on ? th.ink : th.ink2,
+            b1: P.lv >= 1 ? col : th.line, b2: P.lv >= 2 ? col : th.line, b3: P.lv >= 3 ? col : th.line }; });
+        const labelOpts = S.labels.map(l => { const on = sel.includes(l.id), C = LCOL[l.color];
+          return { name: l.name, bg: on ? C.c : th.surface, fg: on ? C.fg : th.ink, border: on ? C.c : th.line, dot: on ? 'rgba(255,255,255,.3)' : C.c, dotRing: on ? C.fg : 'transparent', check: on ? '✓' : '', checkFg: C.fg,
+            toggle: () => this.updateCard(card.id, { labels: on ? sel.filter(x => x !== l.id) : sel.concat([l.id]) }) }; });
+        const setCl = next => this.updateCard(card.id, { checklist: next });
+        const items = cl.map(it => ({ text: it.text, mark: it.done ? '✓' : '', boxBg: it.done ? '#0284C7' : 'transparent', boxBorder: it.done ? '#0284C7' : th.line, scale: it.done ? 'scale(1.06)' : 'none',
+          color: it.done ? th.ink2 : th.ink, deco: it.done ? 'line-through' : 'none',
+          toggle: () => { if (!it.done && navigator.vibrate) navigator.vibrate(8); setCl(cl.map(x => x.id === it.id ? Object.assign({}, x, { done: !x.done }) : x)); },
+          edit: e => setCl(cl.map(x => x.id === it.id ? Object.assign({}, x, { text: e.target.value }) : x)),
+          remove: () => setCl(cl.filter(x => x.id !== it.id)) }));
+        const addItem = () => { const t = S.newItem.trim(); if (!t) return; setCl(cl.concat([{ id: 'k' + Date.now(), text: t, done: false }])); this.setState({ newItem: '' }); };
+        const NL = S.newLabel;
+        const addLabel = () => { const n = NL.name.trim(); if (!n) return; const id = 'l' + Date.now(); this.setState(s => ({ labels: s.labels.concat([{ id, name: n, color: NL.color }]), addingLabel: false, newLabel: { name: '', color: (NL.color + 1) % 5 } })); this.updateCard(card.id, { labels: sel.concat([id]) }); };
+        return {
+          prioOpts, prioHint: pr === 'high' ? 'Làm trước tiên' : pr === 'med' ? 'Làm trong tuần' : pr === 'low' ? 'Khi rảnh' : 'Chưa đặt',
+          labelOpts, labelCount: sel.length ? sel.length + ' đã chọn' : 'Chạm để gắn', showNewLabelBtn: !S.addingLabel, addingLabel: S.addingLabel,
+          startNewLabel: () => this.setState({ addingLabel: true }), cancelNewLabel: () => this.setState({ addingLabel: false, newLabel: { name: '', color: NL.color } }),
+          newLabel: { name: NL.name, colors: LCOL.map((C, i) => ({ color: C.c, fg: C.fg, ring: i === NL.color ? th.ink : 'transparent', mark: i === NL.color ? '✓' : '', pick: () => this.setState({ newLabel: Object.assign({}, NL, { color: i }) }) })) },
+          setNewLabelName: e => this.setState({ newLabel: Object.assign({}, NL, { name: e.target.value }) }), addLabel,
+          newLabelKey: e => { if (e.key === 'Enter') addLabel(); if (e.key === 'Escape') this.setState({ addingLabel: false }); },
+          cl: { has: cl.length > 0, items, pct: cl.length ? Math.round(dn / cl.length * 100) + '%' : '0%', progressLabel: cl.length ? dn + '/' + cl.length + ' xong' : 'Chia nhỏ việc để dễ bắt đầu',
+            labelColor: cl.length ? '#0284C7' : th.ink2, allDone: cl.length > 0 && dn === cl.length && card.list !== 'done' },
+          newItem: S.newItem, hasNewItem: !!S.newItem.trim(), setNewItem: e => this.setState({ newItem: e.target.value }), addItem,
+          newItemKey: e => { if (e.key === 'Enter') addItem(); },
+        };
+      })(),
+      backToBoard: () => this.setState({ screen: 'board', boardId: card.b }),
+      setCardTitle: e => this.updateCard(card.id, { title: e.target.value.replace(/\n/g, '') }), setDesc: e => this.updateCard(card.id, { desc: e.target.value }),
+      setDue: e => this.updateCard(card.id, { due: e.target.value || null }),
+      completeCurrent: () => this.complete(card.id), reopenCurrent: () => this.moveCard(card.id, 'todo'),
+      segHeat: seg(S.statsView === 'heatmap'), segReport: seg(S.statsView === 'report'),
+      viewHeat: () => this.setState({ statsView: 'heatmap' }), viewReport: () => this.setState({ statsView: 'report' }),
+      isHeatView: S.statsView === 'heatmap', isReportView: S.statsView === 'report',
+      isEmptyAccount, showHero: !isEmptyAccount, hero, heatRef: this.heatRef, weeks, yearTotal, yearActive, sel,
+      segWeek: seg(isWeek), segMonth: seg(!isWeek),
+      modeWeek: () => this.setState({ reportMode: 'week', reportOffset: 0 }), modeMonth: () => this.setState({ reportMode: 'month', reportOffset: 0 }),
+      prevPeriod: () => this.setState(s => ({ reportOffset: Math.max(s.reportMode === 'week' ? -50 : -10, s.reportOffset - 1) })),
+      nextPeriod: () => this.setState(s => ({ reportOffset: Math.min(0, s.reportOffset + 1) })), rp,
+      sw: { bg: S.dark ? '#0284C7' : th.line, x: S.dark ? '22px' : '0px' }, toggleDark: () => this.setState({ dark: !S.dark }),
+      scenarioOpts: [['normal', 'Bình thường'], ['lost', 'Mất streak'], ['new', 'Mới tạo']].map(([k, n]) => Object.assign({ name: n, pick: () => this.setState({ scenario: k, selectedDay: TODAY_ISO }) }, seg(S.scenario === k))),
+      hasSheet: !!sh, sheet, closeSheet: () => this.setState({ sheet: null }), saveSheet,
+      setSheetName: e => this.setState({ sheet: Object.assign({}, sh, { name: e.target.value, err: false }) }),
+      sheetKey: e => { if (e.key === 'Enter') saveSheet(); },
+      hasCelebrate: !!S.celebrate, cel,
+      closeCelebrate: () => this.setState(s => ({ celebrate: null, screen: s.screen === 'card' ? 'board' : s.screen })),
+      hasToast: !!S.toast, toast: S.toast,
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/nunito';
+
+/* ------------------------------------------------------------------
+   Design tokens – lấy nguyên từ file thiết kế "Bubu App v2".
+   Đổi theme = đổi bộ biến bên dưới, component không cần sửa.
+------------------------------------------------------------------- */
+:root {
+  --bg: #f3f8fc;
+  --surface: #ffffff;
+  --surface2: #eaf3f9;
+  --col: #e8f1f7;
+  --ink: #0b2540;
+  --ink2: #5b7189;
+  --line: #d9e6ef;
+  --chip: #e0f2fe;
+  --chip-ink: #0369a1;
+  --hero: #ddf0fc;
+  --red: #d92d20;
+  --red-bg: #fee4e2;
+  --red-line: #f7b4ae;
+  --heat0: #ebedf0;
+  --overlay: rgba(11, 26, 43, 0.55);
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --bg: #0b1a2b;
+  --surface: #12263b;
+  --surface2: #1a324d;
+  --col: #0f2235;
+  --ink: #eaf4fb;
+  --ink2: #8fa9c2;
+  --line: #21405f;
+  --chip: #16395a;
+  --chip-ink: #7dd3fc;
+  --hero: #10294a;
+  --red: #ff7a75;
+  --red-bg: rgba(240, 68, 56, 0.16);
+  --red-line: #7a2e2e;
+  --heat0: #1b3149;
+  --overlay: rgba(3, 10, 20, 0.72);
+  color-scheme: dark;
+}
+
+/* Cho Tailwind dùng token: bg-surface, text-ink2, border-line, bg-brand ... */
+@theme inline {
+  --font-sans: 'Nunito Variable', system-ui, sans-serif;
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface2: var(--surface2);
+  --color-col: var(--col);
+  --color-ink: var(--ink);
+  --color-ink2: var(--ink2);
+  --color-line: var(--line);
+  --color-chip: var(--chip);
+  --color-chip-ink: var(--chip-ink);
+  --color-hero: var(--hero);
+  --color-red: var(--red);
+  --color-red-bg: var(--red-bg);
+  --color-red-line: var(--red-line);
+  --color-overlay: var(--overlay);
+
+  --color-brand: #0284c7;
+  --color-brand-shade: #026199;
+  --color-brand-light: #e0f2fe;
+
+  --color-heat-0: var(--heat0);
+  --color-heat-1: #bae6fd;
+  --color-heat-2: #7dd3fc;
+  --color-heat-3: #0ea5e9;
+  --color-heat-4: #0369a1;
+
+  --radius-card: 18px;
+  --radius-tile: 16px;
+  --radius-sheet: 20px;
+
+  --animate-bob: bob 3s ease-in-out infinite;
+  --animate-pop: pop 0.32s ease-out both;
+  --animate-fade-in: fadeIn 0.2s ease-out both;
+  --animate-sheet-up: sheetUp 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-pulse-ring: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+@keyframes drop {
+  0% {
+    transform: translate(0, 0) scale(0.5);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--dx), var(--dy)) scale(1);
+    opacity: 0;
+  }
+}
+@keyframes pop {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.04);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes sheetUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.55);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(2, 132, 199, 0);
+  }
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
+  }
+  input,
+  textarea,
+  button {
+    font-family: inherit;
+  }
+  a {
+    color: #0284c7;
+  }
+}
+
+/* Bóng khối kiểu Duolingo: thẻ dùng màu viền, khi bấm thì lún xuống */
+@utility shadow-block {
+  box-shadow: 0 4px 0 var(--line);
+}
+@utility shadow-block-sm {
+  box-shadow: 0 3px 0 var(--line);
+}
+@utility pressable {
+  transition:
+    transform 0.08s ease,
+    box-shadow 0.08s ease;
+  &:active {
+    transform: translateY(4px);
+    box-shadow: none;
+  }
+}
+@utility safe-top {
+  padding-top: max(16px, env(safe-area-inset-top));
+}
+@utility safe-bottom {
+  padding-bottom: max(10px, env(safe-area-inset-bottom));
+}
