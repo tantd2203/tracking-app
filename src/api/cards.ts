@@ -433,3 +433,20 @@ export function useDeleteCard(): UseMutationResult<
     },
   })
 }
+
+/** Khôi phục card đã xoá mềm (dùng cho nút Hoàn tác). */
+export function useRestoreCard(): UseMutationResult<void, Error, { id: string; boardId: string }> {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async ({ id }) => {
+      const { error } = await db().from('cards').update({ archived_at: null }).eq('id', id)
+      if (error) throw error
+    },
+    onError: (e) => toastError(e),
+    onSettled: (_data, _err, { boardId }) => {
+      qc.invalidateQueries({ queryKey: qk.board(boardId) })
+      qc.invalidateQueries({ queryKey: qk.boards })
+      qc.invalidateQueries({ queryKey: ['dayCounts'] })
+    },
+  })
+}

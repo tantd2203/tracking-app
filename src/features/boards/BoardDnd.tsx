@@ -14,14 +14,10 @@ import {
 } from '@dnd-kit/core'
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable'
 import { useEffect, useMemo, useRef, useState, type ReactNode, type RefObject } from 'react'
-import { useQueryClient } from '@tanstack/react-query'
-import { useMoveCard, type BoardData, type CardView } from '../../api/cards'
-import { getCachedYearCounts } from '../../api/stats'
+import { type BoardData, type CardView } from '../../api/cards'
 import type { ListKey } from '../../api/types'
 import { setDragging } from '../../app/dragState'
-import { celebrate } from '../../components/celebrate'
 import { toast } from '../../components/toast'
-import { afterCompletion } from '../../lib/celebrate'
 import { toLocalISO } from '../../lib/date'
 import { CardBody } from './CardTile'
 import { COLUMNS } from './columns'
@@ -29,6 +25,7 @@ import { DragInfoContext, type DragInfo } from './dragContext'
 import { DropDock } from './DropDock'
 import { DOCK_PREFIX, resolveDrop } from './dropTarget'
 import { markDragEnd } from './dragGuard'
+import { useCardMove } from './useCardMove'
 
 const LIST_KEYS: ListKey[] = COLUMNS.map((c) => c.key)
 /** Vùng mép trái/phải (px) kích hoạt tự cuộn, và tốc độ mỗi khung hình. */
@@ -55,8 +52,7 @@ type Props = {
 export function BoardDnd({ boardId, data, scrollerRef, onMoved, children }: Props) {
   const [activeId, setActiveId] = useState<string | null>(null)
   const [overId, setOverId] = useState<string | null>(null)
-  const qc = useQueryClient()
-  const move = useMoveCard()
+  const { moveCard } = useCardMove()
   const edge = useRef(0)
   const frame = useRef(0)
   const today = toLocalISO(new Date())
@@ -146,18 +142,7 @@ export function BoardDnd({ boardId, data, scrollerRef, onMoved, children }: Prop
       if (column && drop.toList !== 'done') toast(`Đã chuyển sang ${column.label}`)
     }
     const title = LIST_KEYS.flatMap((k) => data.cards[k]).find((c) => c.id === cardId)?.title ?? ''
-    // Đếm trước khi cache làm mới: popup hiện đúng ngay, không chờ server.
-    const before = getCachedYearCounts(qc)
-    move.mutate(
-      { cardId, boardId, toList: drop.toList, toIndex: drop.toIndex },
-      {
-        onSuccess: (result) => {
-          if (!result.completedNow) return
-          const done = afterCompletion(before ?? {})
-          celebrate({ title, first: done.first, streak: done.streak, today: done.today })
-        },
-      },
-    )
+    moveCard({ cardId, boardId, toList: drop.toList, toIndex: drop.toIndex }, title)
   }
 
   return (

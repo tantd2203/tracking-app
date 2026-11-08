@@ -44,4 +44,10 @@ Liệt kê file trước khi code.
 
 ## Ghi chú sau khi làm
 
-…
+- Đã làm: `CardPage` (header có tên board, huy hiệu quá hạn, nút ⋯ → Xoá card, Segmented To Do/Doing/Done, tiêu đề một dòng, hạn chót, mô tả, nút HOÀN THÀNH hoặc Mở lại card cố định dưới đáy). `DueDateField` (ô lịch, dd/mm/yyyy, dòng đỏ khi quá hạn, mở ô chọn ngày gốc của trình duyệt). `AutoTextarea` tự giãn.
+- Tiêu đề và mô tả lưu sau 600 ms gõ, lưu ngay khi rời ô và khi rời màn. Hạn chót và trạng thái lưu ngay. Chữ "Đã lưu" hiện 1 giây.
+- Xoá card là xoá mềm, có ConfirmDialog. Toast có nút Hoàn tác, dùng `useRestoreCard` (thêm mới trong `cards.ts`).
+- Chuyển cột và hoàn thành đi qua `useCardMove` (mới, dùng chung với Kanban). Hoàn thành mở popup ăn mừng và đóng popup về Board.
+- Chưa làm: nhãn, độ ưu tiên, checklist (FE-08). Tên board lấy từ `useBoardData`, nên màn chi tiết cũng tải toàn bộ board.
+- `npm run lint`, `npm test` (59 test) và `npm run build` đều qua.
+- Chưa kiểm tra: sửa tiêu đề/mô tả rồi thoát và vào lại, thẻ Kanban cập nhật theo, popup khi hoàn thành từ màn này, xoá rồi hoàn tác, và giao diện light/dark so với ảnh 04. Chưa test trên iPhone thật (ô chọn ngày gốc).
