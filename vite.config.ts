@@ -23,7 +23,7 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,svg,png}', '**/*{latin,vietnamese}*.woff2'],
         navigateFallback: '/index.html',
       },
-      includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
+      includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'splash/*.png'],
       manifest: {
         name: 'Bubu – Theo dõi công việc',
         short_name: 'Bubu',

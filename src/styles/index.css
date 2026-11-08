@@ -155,8 +155,14 @@
   #root {
     height: 100%;
   }
+  html {
+    /* Không phóng to khi chạm đúp, không kéo quá đà ở mép trang (iOS Safari). */
+    touch-action: manipulation;
+    overscroll-behavior-y: none;
+  }
   body {
     margin: 0;
+    touch-action: manipulation;
     background: var(--bg);
     color: var(--ink);
     font-family: var(--font-sans);

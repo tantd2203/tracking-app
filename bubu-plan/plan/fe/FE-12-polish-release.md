@@ -39,5 +39,8 @@ Làm lần lượt từng mục 1→7 của FE-12, mỗi mục một commit riê
 
 - Mục 1 (Google): đã làm rồi gỡ bỏ theo yêu cầu. Màn đăng nhập chỉ còn bằng email.
 - Mục 2 (dark mode): đã rà mã màu cứng và thêm override `text-brand` cho dark (`#7dd3fc`) để đạt tương phản. Đã kiểm tra màn đăng nhập và trang components. Chưa kiểm tra các màn cần đăng nhập ở dark mode.
-- Các mục 3–9 chưa làm. Theo prompt của task, dừng sau mỗi mục để kiểm tra trên iPhone, mỗi mục một commit riêng.
+- Mục 3 (iPhone/PWA): đã làm: splash cho 6 cỡ iPhone (`public/splash/`, thẻ `apple-touch-startup-image` trong `index.html`, precache trong `vite.config.ts`), chặn zoom chạm đúp và overscroll (`touch-action: manipulation`, `overscroll-behavior-y: none`), toast tôn trọng safe-area. Header, TabBar và nút cố định đáy đã có `safe-top` / `safe-bottom`. `display: standalone` và apple-touch-icon đã có từ trước.
+  - Splash dùng nền sáng cho cả dark mode. Có thể làm splash tối sau nếu cần.
+  - Chưa kiểm tra trên iPhone thật: splash có hiện đúng cỡ, có thanh Safari khi mở từ màn hình chính không, và chạm đúp.
+- Các mục 4–9 chưa làm. Theo prompt của task, dừng sau mỗi mục để kiểm tra trên iPhone, mỗi mục một commit riêng.
 - Mục 8 (tag `v1.0.0`) và mục 9 (dùng thật 3 ngày) cần bạn quyết định và làm trên thiết bị.
