@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
 import { useBoards, useDeleteBoard, type BoardWithStats } from '../../api/boards'
+import { useStreakSummary, useYearCounts } from '../../api/stats'
 import { useSession } from '../../api/auth'
 import { Button3D } from '../../components/Button3D'
 import { ConfirmDialog } from '../../components/ConfirmDialog'
 import { Whale } from '../../components/Whale'
 import { showUndo } from '../../components/toast'
 import { WEEKDAY_SHORT, addDays, toLocalISO } from '../../lib/date'
+import type { DayCounts } from '../../lib/heat'
 import { matchBoard } from '../../lib/search'
 import { ArchivedSection } from './ArchivedSection'
 import { BoardMenu } from './BoardMenu'
@@ -20,17 +22,29 @@ type SheetState = { mode: 'create' } | { mode: 'edit'; board: BoardWithStats } |
 /** Ngưỡng hiện ô tìm kiếm: chỉ hiện khi có nhiều hơn số board này. */
 const SEARCH_THRESHOLD = 3
 
-/** 7 ngày gần nhất, hôm nay ở cuối. Chưa có dữ liệu card nên chưa ngày nào được đánh dấu xong (FE-09). */
-function lastSevenDays(): WeekDay[] {
+/** 7 ngày gần nhất, hôm nay ở cuối. Ngày có card xong là đã đánh dấu. */
+function lastSevenDays(counts: DayCounts): WeekDay[] {
   const today = new Date()
   return Array.from({ length: 7 }, (_, i) => {
     const d = addDays(today, i - 6)
     return {
       label: i === 6 ? 'Nay' : WEEKDAY_SHORT[d.getDay()],
-      done: false,
+      done: (counts[toLocalISO(d)] ?? 0) > 0,
       today: toLocalISO(d) === toLocalISO(today),
     }
   })
+}
+
+/** Câu chữ banner streak theo bảng "Banner streak" trong plan/design/README.md. */
+function streakCopy(s: { streak: number; today: number; totalYear: number; loading: boolean }) {
+  if (s.loading) return { title: 'Đang tải streak…', sub: '' }
+  if (s.totalYear === 0)
+    return { title: 'Bắt đầu streak nào!', sub: 'Xong 1 card hôm nay để bắt đầu chuỗi nhé' }
+  if (s.today > 0)
+    return { title: `Streak ${s.streak} ngày!`, sub: 'Hôm nay đã tô màu rồi. Giỏi quá!' }
+  if (s.streak > 0)
+    return { title: `Streak ${s.streak} ngày!`, sub: 'Xong 1 card hôm nay để giữ chuỗi nhé' }
+  return { title: 'Mất streak rồi…', sub: 'Xong 1 card hôm nay để bơi lại nhé' }
 }
 
 function BoardsSkeleton() {
@@ -56,6 +70,9 @@ export default function BoardsPage() {
   const boards = useBoards()
   const { scheduleDelete } = useDeleteBoard()
   const [query, setQuery] = useState('')
+  const counts = useYearCounts()
+  const streak = useStreakSummary()
+  const copy = streakCopy(streak)
   const [sheet, setSheet] = useState<SheetState>(null)
   const [menuFor, setMenuFor] = useState<BoardWithStats | null>(null)
   const [confirmFor, setConfirmFor] = useState<BoardWithStats | null>(null)
@@ -92,16 +109,16 @@ export default function BoardsPage() {
           <svg width="16" height="18" viewBox="0 0 16 18" aria-hidden="true">
             <path d="M8 1C8 1 2 8 2 11.5a6 6 0 0 0 12 0C14 8 8 1 8 1z" fill="#0284C7" />
           </svg>
-          <span className="text-brand">0</span>
+          <span className="text-brand">{streak.streak}</span>
         </Link>
       </header>
 
       <div className="mb-4">
         <StreakBanner
-          title="Bắt đầu streak nào!"
-          sub="Xong 1 card hôm nay để bắt đầu chuỗi nhé"
-          mood="calm"
-          week={lastSevenDays()}
+          title={copy.title}
+          sub={copy.sub}
+          mood={streak.mood}
+          week={lastSevenDays(counts.data ?? {})}
         />
       </div>
 

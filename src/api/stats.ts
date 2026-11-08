@@ -78,3 +78,18 @@ export function useStreakSummary(): StreakSummary {
     loading: query.isPending,
   }
 }
+
+export type DayCard = { id: string; title: string; boardName: string }
+
+/** Card đã xong trong một ngày, kể cả card đã xoá mềm (theo RPC day_cards). */
+export function useDayCards(day: string): UseQueryResult<DayCard[]> {
+  const { demo, session } = useSession()
+  return useQuery({
+    queryKey: qk.dayCards(day),
+    queryFn: async () => {
+      const rows = unwrap(await db().rpc('day_cards', { p_day: day }))
+      return rows.map((r) => ({ id: r.card_id, title: r.title, boardName: r.board_name }))
+    },
+    enabled: !demo && Boolean(session) && Boolean(day),
+  })
+}

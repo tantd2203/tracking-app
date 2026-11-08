@@ -45,4 +45,9 @@ Liệt kê file trước khi code.
 
 ## Ghi chú sau khi làm
 
-…
+- Đã làm: `StatsPage` (Segmented Heatmap/Báo cáo đồng bộ `?view=report`), `StreakHero` (cheer/happy/sad, Bubu 128, pill kỷ lục), `EmptyStats` (khi chưa có card xong), `Heatmap` (52 tuần, nhãn T2/T4/T6/CN, nhãn tháng, tự cuộn tới tuần hiện tại, ô hôm nay trống có `animate-pulse-ring`, chú thích Ít/Nhiều), `DayDetail` (danh sách card của ngày đã chọn kèm tên board).
+- `buildWeeks` và `mondayOf` trong `src/lib/heat.ts`, có test (`heat.grid.test.ts`). `useDayCards` trong `src/api/stats.ts`.
+- Banner ở Danh sách board dùng số thật: 7 chấm từ `useYearCounts`, câu chữ theo bảng "Banner streak", huy hiệu streak thay số 0 cố định.
+- Báo cáo (`?view=report`) vẫn là chỗ giữ, làm ở FE-10.
+- `npm run lint`, `npm test` (66 test) và `npm run build` đều qua.
+- Chưa kiểm tra: hoàn thành card rồi quay lại Thống kê thấy ô hôm nay đậm lên, 4 tâm trạng với dữ liệu thật, cuộn tới tuần hiện tại trên thiết bị, và giao diện light/dark so với ảnh 05 và 07.

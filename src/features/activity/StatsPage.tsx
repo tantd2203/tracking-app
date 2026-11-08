@@ -1,27 +1,40 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router'
-import { Button3D } from '../../components/Button3D'
+import { useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router'
+import { useStreakSummary, useYearCounts } from '../../api/stats'
 import { Segmented } from '../../components/Segmented'
-import { Whale } from '../../components/Whale'
+import { toLocalISO } from '../../lib/date'
+import { buildWeeks } from '../../lib/heat'
+import { DayDetail } from './DayDetail'
+import { EmptyStats } from './EmptyStats'
+import { Heatmap } from './Heatmap'
+import { StreakHero } from './StreakHero'
 
-const HEAT = ['bg-heat-0', 'bg-heat-1', 'bg-heat-2', 'bg-heat-3', 'bg-heat-4']
+type View = 'heatmap' | 'report'
 
 /**
- * Màn 5–7 – Thống kê (Heatmap / Báo cáo) và trạng thái trống.
- * Giai đoạn 0 hiển thị trạng thái trống; heatmap làm ở giai đoạn 6, báo cáo ở giai đoạn 7.
+ * Màn Thống kê. Chế độ Heatmap có streak, lưới 52 tuần và chi tiết ngày.
+ * Chế độ Báo cáo (`?view=report`) làm ở FE-10.
  */
 export default function StatsPage() {
-  const navigate = useNavigate()
-  const [view, setView] = useState<'heatmap' | 'report'>('heatmap')
+  const [params, setParams] = useSearchParams()
+  const view: View = params.get('view') === 'report' ? 'report' : 'heatmap'
+  const counts = useYearCounts()
+  const summary = useStreakSummary()
+  const [picked, setPicked] = useState<string | null>(null)
+
+  const today = toLocalISO(new Date())
+  const selected = picked ?? today
+  const grid = useMemo(() => buildWeeks(counts.data ?? {}, new Date()), [counts.data])
+  const dayCount = counts.data?.[selected] ?? 0
 
   return (
-    <div className="px-5">
-      <header className="safe-top flex items-center justify-between pb-4">
+    <div className="px-5 pb-32">
+      <header className="safe-top flex items-center justify-between gap-3 pb-4">
         <h1 className="text-[30px] font-black">Thống kê</h1>
-        <Segmented
+        <Segmented<View>
           className="w-48"
           value={view}
-          onChange={setView}
+          onChange={(v) => setParams(v === 'report' ? { view: 'report' } : {})}
           options={[
             { value: 'heatmap', label: 'Heatmap' },
             { value: 'report', label: 'Báo cáo' },
@@ -30,26 +43,31 @@ export default function StatsPage() {
       </header>
 
       {view === 'heatmap' ? (
-        <section className="flex flex-col items-center rounded-card border-2 border-line bg-surface px-6 py-8 text-center shadow-block">
-          <Whale mood="calm" size={150} />
-          <h2 className="mt-3 text-xl font-black">Hoàn thành card đầu tiên để tô màu ô hôm nay</h2>
-          <p className="mt-1 text-[15px] font-bold text-ink2">
-            Mỗi ngày có card xong, nước sẽ sâu thêm một chút để Bubu bơi.
-          </p>
-          <Button3D size="md" className="mt-5 px-6" onClick={() => navigate('/boards')}>
-            ĐI TỚI BOARD
-          </Button3D>
-          <div className="mt-6 flex items-center gap-1.5 text-xs font-bold text-ink2">
-            Ít
-            {HEAT.map((c) => (
-              <span key={c} className={`size-3.5 rounded-[4px] ${c}`} />
-            ))}
-            Nhiều
-          </div>
-        </section>
+        <div className="flex flex-col gap-4">
+          {counts.isPending ? (
+            <div
+              className="h-[260px] animate-pulse rounded-card bg-surface"
+              aria-label="Đang tải"
+            />
+          ) : summary.totalYear === 0 ? (
+            <EmptyStats />
+          ) : (
+            <StreakHero streak={summary.streak} record={summary.record} mood={summary.mood} />
+          )}
+
+          <Heatmap
+            grid={grid}
+            total={summary.totalYear}
+            activeDays={summary.activeDays}
+            selected={selected}
+            onSelect={setPicked}
+          />
+
+          <DayDetail date={selected} count={dayCount} isToday={selected === today} />
+        </div>
       ) : (
         <section className="rounded-card border-2 border-line bg-surface p-6 text-center font-bold text-ink2 shadow-block">
-          Báo cáo tuần / tháng sẽ được code ở giai đoạn 7.
+          Báo cáo tuần / tháng sẽ được làm ở FE-10.
         </section>
       )}
     </div>
