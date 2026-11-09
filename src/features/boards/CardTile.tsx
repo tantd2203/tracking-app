@@ -6,6 +6,15 @@ import { dueLabel } from '../../lib/due'
 import { LABEL_COLORS, PRIORITY } from '../../lib/palette'
 import { wasJustDragged } from './dragGuard'
 import { PriorityBars } from '../../components/PriorityBars'
+import { COLUMNS } from './columns'
+import { useCardSwipe } from './useCardSwipe'
+import { useCardMove } from './useCardMove'
+
+const COLUMN_KEYS = COLUMNS.map((c) => c.key)
+
+function vibrate(ms: number) {
+  if (navigator.vibrate) navigator.vibrate(ms)
+}
 
 const CHIP = 'inline-flex h-[26px] items-center gap-1 rounded-lg px-2 text-xs font-extrabold'
 
@@ -116,6 +125,18 @@ export function CardTile({ card, today }: Props) {
     id: card.id,
     data: { list: card.list },
   })
+  const { moveCard } = useCardMove()
+
+  const { offset, handlers } = useCardSwipe((dir) => {
+    const to = COLUMN_KEYS[COLUMN_KEYS.indexOf(card.list) + dir]
+    if (!to) return
+    vibrate(10)
+    // Thêm vào cuối list đích (toIndex được kẹp theo số card hiện có).
+    moveCard(
+      { cardId: card.id, boardId: card.board_id, toList: to, toIndex: Number.MAX_SAFE_INTEGER },
+      card.title,
+    )
+  }, !isDragging)
 
   return (
     <div
@@ -123,6 +144,7 @@ export function CardTile({ card, today }: Props) {
       style={{ transform: CSS.Transform.toString(transform), transition }}
       {...attributes}
       {...listeners}
+      {...handlers}
       onClickCapture={(e) => {
         if (wasJustDragged()) {
           e.preventDefault()
@@ -131,13 +153,18 @@ export function CardTile({ card, today }: Props) {
       }}
       className="touch-none [-webkit-touch-callout:none] select-none transition-transform active:scale-[0.98]"
     >
-      {isDragging ? (
-        <CardBody card={card} today={today} ghost />
-      ) : (
-        <Link to={`/cards/${card.id}`} className="block" draggable={false}>
-          <CardBody card={card} today={today} />
-        </Link>
-      )}
+      <div
+        style={{ transform: offset ? `translateX(${offset}px)` : undefined }}
+        className={offset ? '' : 'transition-transform duration-200'}
+      >
+        {isDragging ? (
+          <CardBody card={card} today={today} ghost />
+        ) : (
+          <Link to={`/cards/${card.id}`} className="block" draggable={false}>
+            <CardBody card={card} today={today} />
+          </Link>
+        )}
+      </div>
     </div>
   )
 }
