@@ -116,16 +116,15 @@ export function buildReport(
 
   const bars: ReportBar[] = days.map((d, i) => {
     const isToday = startOfDay(d).getTime() === t
+    // Tháng: ô hôm nay ghi số ngày (không ghi "Nay") để không đè lên nhãn số bên cạnh.
     const label =
       kind === 'week'
         ? isToday
           ? 'Nay'
           : WEEKDAY_SHORT[d.getDay()]
-        : isToday
-          ? 'Nay'
-          : MONTH_LABEL_DAYS.includes(d.getDate()) || d.getDate() === days.length
-            ? String(d.getDate())
-            : ''
+        : isToday || MONTH_LABEL_DAYS.includes(d.getDate()) || d.getDate() === days.length
+          ? String(d.getDate())
+          : ''
     return {
       label,
       value: values[i],

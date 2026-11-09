@@ -108,6 +108,13 @@ describe('buildReport', () => {
     expect(r.bars[2].isBest).toBe(true)
   })
 
+  it('tháng: ô hôm nay ghi số ngày, không ghi "Nay" (tránh đè nhãn bên cạnh)', () => {
+    const r = buildReport({}, 'month', 0, new Date(2026, 10, 9))
+    const today = r.bars.find((b) => b.isToday)!
+    expect(today.label).toBe('9')
+    expect(r.bars.some((b) => b.label === 'Nay')).toBe(false)
+  })
+
   it('tháng: nhãn chỉ ở 1, 5, 10, 15, 20, 25 và ngày cuối', () => {
     const r = buildReport({}, 'month', -1, SUNDAY) // tháng 10 có 31 ngày
     const labels = r.bars.filter((b) => b.label !== '').map((b) => b.label)
