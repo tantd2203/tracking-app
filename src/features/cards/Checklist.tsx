@@ -7,6 +7,7 @@ import {
 import type { CardDetail } from '../../api/cards'
 import type { ChecklistItem } from '../../api/types'
 import { isEnterKey } from '../../lib/keys'
+import { FOLD_MIN_DONE, foldChecklist } from '../../lib/checklistFold'
 
 type Props = { boardId: string; card: CardDetail }
 
@@ -14,8 +15,17 @@ type Props = { boardId: string; card: CardDetail }
 export function Checklist({ boardId, card }: Props) {
   const add = useAddChecklistItem()
   const [draft, setDraft] = useState('')
+  const [expanded, setExpanded] = useState(false)
+  // Việc vừa tick xong trong phiên này: vẫn hiện khi danh sách đang gọn.
+  const [keep, setKeep] = useState<ReadonlySet<string>>(() => new Set())
   const { done, total } = card.checklist
   const pct = total > 0 ? Math.round((done / total) * 100) : 0
+  const { visible, hiddenCount } = foldChecklist(card.checklistItems, { expanded, keep })
+  const canFold = done >= FOLD_MIN_DONE
+
+  function markDone(id: string) {
+    setKeep((prev) => new Set(prev).add(id))
+  }
 
   function submit() {
     const text = draft.trim()
@@ -43,15 +53,26 @@ export function Checklist({ boardId, card }: Props) {
       )}
 
       <ul className="flex flex-col gap-2">
-        {card.checklistItems.map((item) => (
+        {visible.map((item) => (
           <ChecklistRow
             key={`${item.id}:${item.text}`}
             item={item}
             cardId={card.id}
             boardId={boardId}
+            onMarkDone={markDone}
           />
         ))}
       </ul>
+
+      {canFold && (
+        <button
+          type="button"
+          onClick={() => setExpanded((v) => !v)}
+          className="mt-2 flex h-10 w-full cursor-pointer items-center justify-center rounded-2xl text-[14px] font-extrabold text-brand"
+        >
+          {expanded ? 'Ẩn việc đã xong' : `Hiện ${hiddenCount || done} việc đã xong`}
+        </button>
+      )}
 
       <input
         value={draft}
@@ -69,10 +90,12 @@ function ChecklistRow({
   item,
   cardId,
   boardId,
+  onMarkDone,
 }: {
   item: ChecklistItem
   cardId: string
   boardId: string
+  onMarkDone: (id: string) => void
 }) {
   const update = useUpdateChecklistItem()
   const remove = useDeleteChecklistItem()
@@ -80,6 +103,7 @@ function ChecklistRow({
 
   function toggle() {
     if (navigator.vibrate) navigator.vibrate(8)
+    if (!item.done) onMarkDone(item.id)
     update.mutate({ id: item.id, cardId, boardId, patch: { done: !item.done } })
   }
 

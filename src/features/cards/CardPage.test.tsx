@@ -19,6 +19,10 @@ vi.mock('../boards/useCardMove', () => ({
   useCardMove: () => ({ moveCard: vi.fn(), isPending: false }),
 }))
 
+vi.mock('../../api/cardDuplicate', () => ({
+  useDuplicateCard: () => ({ mutate: vi.fn(), isPending: false }),
+}))
+
 vi.mock('./PriorityPicker', () => ({ PriorityPicker: () => null }))
 vi.mock('./LabelPicker', () => ({ LabelPicker: () => null }))
 vi.mock('./Checklist', () => ({ Checklist: () => null }))

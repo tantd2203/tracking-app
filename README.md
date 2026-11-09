@@ -31,7 +31,6 @@ PWA dạng Kanban: mỗi card hoàn thành tô màu một ô heatmap (kiểu Git
 7. Trên thanh công cụ, dropdown Run đã có sẵn: **npm dev**, **npm test**, **npm build**, **npm lint** → bấm ▶ `npm dev` rồi mở http://localhost:5173.
 
 > Không có `.env.local` thì app chạy **chế độ demo**: làm giao diện bình thường, đăng nhập chỉ chuyển màn.
-> Trang **http://localhost:5173/dev/components** hiển thị toàn bộ component để so với file thiết kế.
 
 ## Lệnh
 

@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { useNavigate } from 'react-router'
 import { useSignOut, useSession } from '../../api/auth'
 import { useProfile, useUpdateProfile } from '../../api/profile'
 import { useStreakSummary } from '../../api/stats'
@@ -75,17 +75,7 @@ export default function MePage() {
         Đăng xuất
       </button>
 
-      <p className="mt-6 text-center text-xs font-bold text-ink2">
-        Bubu v{__APP_VERSION__}
-        {import.meta.env.DEV && (
-          <>
-            {' · '}
-            <Link to="/dev/components" className="font-black">
-              Xem bộ component
-            </Link>
-          </>
-        )}
-      </p>
+      <p className="mt-6 text-center text-xs font-bold text-ink2">Bubu v{__APP_VERSION__}</p>
 
       {editing && (
         <EditNameSheet current={data?.display_name ?? ''} onClose={() => setEditing(false)} />

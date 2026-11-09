@@ -19,6 +19,7 @@ import { showUndo, toast } from '../../components/toast'
 import { toLocalISO } from '../../lib/date'
 import { dueLabel } from '../../lib/due'
 import { useCardMove } from '../boards/useCardMove'
+import { useDuplicateCard } from '../../api/cardDuplicate'
 import { AutoTextarea } from './AutoTextarea'
 import { Checklist } from './Checklist'
 import { DueDateField } from './DueDateField'
@@ -74,6 +75,7 @@ function CardEditor({ card, boardName }: EditorProps) {
   const update = useUpdateCard()
   const remove = useDeleteCard()
   const restore = useRestoreCard()
+  const duplicate = useDuplicateCard()
   const { moveCard, isPending: moving } = useCardMove()
 
   const [title, setTitle] = useState(card.title)
@@ -324,6 +326,31 @@ function CardEditor({ card, boardName }: EditorProps) {
 
       <BottomSheet open={menuOpen} onClose={() => setMenuOpen(false)}>
         <div className="pb-4">
+          <button
+            type="button"
+            disabled={duplicate.isPending}
+            onClick={() => {
+              setMenuOpen(false)
+              duplicate.mutate(
+                { source: card },
+                {
+                  onSuccess: (copy) => {
+                    toast('Đã nhân bản card')
+                    navigate(`/cards/${copy.id}`)
+                  },
+                },
+              )
+            }}
+            className="flex min-h-14 w-full cursor-pointer items-center gap-3 rounded-2xl px-2 text-left text-[16px] font-black text-ink disabled:opacity-60"
+          >
+            <span
+              aria-hidden="true"
+              className="grid size-10 place-items-center rounded-xl bg-brand text-lg text-white"
+            >
+              ⧉
+            </span>
+            Nhân bản card
+          </button>
           <button
             type="button"
             onClick={() => {

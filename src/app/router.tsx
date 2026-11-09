@@ -5,7 +5,6 @@ import RegisterPage from '../features/auth/RegisterPage'
 import BoardPage from '../features/boards/BoardPage'
 import BoardsPage from '../features/boards/BoardsPage'
 import CardPage from '../features/cards/CardPage'
-import ComponentsPage from '../features/dev/ComponentsPage'
 import MePage from '../features/me/MePage'
 import { PlainLayout, TabLayout } from './AppLayout'
 import { GuestOnly, RequireAuth } from './RequireAuth'
@@ -45,10 +44,6 @@ export const router = createBrowserRouter([
         ],
       },
     ],
-  },
-  {
-    element: <PlainLayout />,
-    children: [{ path: '/dev/components', element: <ComponentsPage /> }],
   },
   { path: '*', element: <Navigate to="/boards" replace /> },
 ])
