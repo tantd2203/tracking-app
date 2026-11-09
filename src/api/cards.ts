@@ -196,7 +196,7 @@ export function useCreateCard(): UseMutationResult<
   Card,
   Error,
   { boardId: string; list: ListKey; title: string },
-  { prev: BoardData | undefined }
+  { prev: BoardData | undefined; tempId: string }
 > {
   const qc = useQueryClient()
   return useMutation({
@@ -212,12 +212,13 @@ export function useCreateCard(): UseMutationResult<
     onMutate: async ({ boardId, list, title }) => {
       await qc.cancelQueries({ queryKey: qk.board(boardId) })
       const prev = qc.getQueryData<BoardData>(qk.board(boardId))
+      const tempId = `temp-${Date.now()}`
       if (prev) {
         const inList = prev.cards[list]
         const last = inList[inList.length - 1]
         const now = new Date().toISOString()
         const temp: CardView = {
-          id: `temp-${Date.now()}`,
+          id: tempId,
           board_id: boardId,
           user_id: prev.board.user_id,
           list_id: prev.lists[list].id,
@@ -239,15 +240,32 @@ export function useCreateCard(): UseMutationResult<
           ...prev,
           cards: { ...prev.cards, [list]: [...inList, temp] },
         })
+        return { prev, tempId }
       }
-      return { prev }
+      return { prev, tempId }
+    },
+    // Thành công: đổi card tạm thành card thật ngay trong cache, không tải lại cả board
+    // (tải lại chậm trên mạng di động và làm list nhấp nháy).
+    onSuccess: (card, { boardId }, ctx) => {
+      const prev = qc.getQueryData<BoardData>(qk.board(boardId))
+      if (!prev || !ctx) return
+      const next = { ...prev, cards: { ...prev.cards } }
+      for (const key of LIST_KEYS) {
+        next.cards[key] = prev.cards[key].map((c) =>
+          c.id === ctx.tempId
+            ? { ...c, ...card, list: c.list, labels: c.labels, checklist: c.checklist }
+            : c,
+        )
+      }
+      qc.setQueryData<BoardData>(qk.board(boardId), next)
     },
     onError: (e, { boardId }, ctx) => {
       if (ctx?.prev) qc.setQueryData(qk.board(boardId), ctx.prev)
       toastError(e)
     },
-    onSettled: (_data, _err, { boardId }) => {
-      qc.invalidateQueries({ queryKey: qk.board(boardId) })
+    onSettled: (_data, err, { boardId }) => {
+      // Chỉ tải lại board khi lỗi (để chắc chắn về trạng thái server).
+      if (err) qc.invalidateQueries({ queryKey: qk.board(boardId) })
       qc.invalidateQueries({ queryKey: qk.boards })
     },
   })

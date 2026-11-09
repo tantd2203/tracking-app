@@ -104,10 +104,8 @@ function CardEditor({ card, boardName }: EditorProps) {
 
   function saveTitle(raw: string) {
     const next = raw.trim()
-    if (!next) {
-      setTitle(lastTitle.current)
-      return
-    }
+    // Tiêu đề rỗng không lưu. Khi rời ô thì mới trả lại tên cũ (onTitleBlur), để không giật chữ lúc đang gõ.
+    if (!next) return
     if (next === lastTitle.current) return
     const previous = lastTitle.current
     lastTitle.current = next
@@ -164,6 +162,11 @@ function CardEditor({ card, boardName }: EditorProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  function onTitleBlur() {
+    flushTitle()
+    if (!title.trim()) setTitle(lastTitle.current)
+  }
 
   function onTitleChange(value: string) {
     setTitle(value)
@@ -253,7 +256,7 @@ function CardEditor({ card, boardName }: EditorProps) {
         value={title}
         singleLine
         onChange={onTitleChange}
-        onBlur={flushTitle}
+        onBlur={onTitleBlur}
         className="mb-6 text-[22px] leading-tight font-black"
       />
 
