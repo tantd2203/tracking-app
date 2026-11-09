@@ -12,6 +12,16 @@ import { useSession } from './auth'
 import { unwrap } from './errors'
 import { qk } from './keys'
 
+/**
+ * Chuỗi logic thống kê (để nhớ khi sửa):
+ * - Card hoàn thành có `completed_on` (ngày) và `completed_at`; xoá card = đặt `archived_at` (xoá mềm).
+ * - DB: `day_counts` (heatmap, streak, báo cáo) và `day_cards` (danh sách trong một ngày) đều
+ *   bỏ card có `archived_at` (migration 0003, 0004). `board_stats` cũng bỏ card đã xoá từ đầu.
+ * - Client: heatmap và streak tính từ `useRangeCounts` (lib/heat.ts). Danh sách lấy từ `useDayCards`.
+ * - Mọi mutation làm đổi `completed_on` hoặc `archived_at` (move, delete, restore) phải làm mới
+ *   cả `['dayCounts']` và `['dayCards']` (xem src/api/cards.ts).
+ */
+
 /** 364 ngày gần nhất: đủ cho heatmap 52 tuần và streak. */
 export const YEAR_DAYS = 364
 
@@ -81,7 +91,7 @@ export function useStreakSummary(): StreakSummary {
 
 export type DayCard = { id: string; title: string; boardName: string }
 
-/** Card đã xong trong một ngày, kể cả card đã xoá mềm (theo RPC day_cards). */
+/** Card đã xong trong một ngày, không gồm card đã xoá mềm (RPC day_cards, migration 0003). */
 export function useDayCards(day: string): UseQueryResult<DayCard[]> {
   const { demo, session } = useSession()
   return useQuery({

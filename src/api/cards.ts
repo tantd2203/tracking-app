@@ -364,7 +364,10 @@ export function useMoveCard(): UseMutationResult<
     },
     onSuccess: (_data, { cardId }) => {
       pending.current.delete(cardId)
+      // Heatmap/streak (dayCounts) và danh sách "card xong trong ngày" (dayCards) đều phụ thuộc
+      // completed_on và archived_at, nên phải làm mới cả hai. Xem chuỗi logic ở src/api/stats.ts.
       qc.invalidateQueries({ queryKey: ['dayCounts'] })
+      qc.invalidateQueries({ queryKey: ['dayCards'] })
       qc.invalidateQueries({ queryKey: qk.boards })
       qc.invalidateQueries({ queryKey: qk.overdue })
     },
@@ -449,7 +452,10 @@ export function useDeleteCard(): UseMutationResult<
     onSettled: (_data, _err, { boardId }) => {
       qc.invalidateQueries({ queryKey: qk.board(boardId) })
       qc.invalidateQueries({ queryKey: qk.boards })
+      // Heatmap/streak (dayCounts) và danh sách "card xong trong ngày" (dayCards) đều phụ thuộc
+      // completed_on và archived_at, nên phải làm mới cả hai. Xem chuỗi logic ở src/api/stats.ts.
       qc.invalidateQueries({ queryKey: ['dayCounts'] })
+      qc.invalidateQueries({ queryKey: ['dayCards'] })
       qc.invalidateQueries({ queryKey: qk.overdue })
     },
   })
@@ -467,7 +473,10 @@ export function useRestoreCard(): UseMutationResult<void, Error, { id: string; b
     onSettled: (_data, _err, { boardId }) => {
       qc.invalidateQueries({ queryKey: qk.board(boardId) })
       qc.invalidateQueries({ queryKey: qk.boards })
+      // Heatmap/streak (dayCounts) và danh sách "card xong trong ngày" (dayCards) đều phụ thuộc
+      // completed_on và archived_at, nên phải làm mới cả hai. Xem chuỗi logic ở src/api/stats.ts.
       qc.invalidateQueries({ queryKey: ['dayCounts'] })
+      qc.invalidateQueries({ queryKey: ['dayCards'] })
       qc.invalidateQueries({ queryKey: qk.overdue })
     },
   })

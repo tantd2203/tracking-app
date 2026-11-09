@@ -25,7 +25,7 @@ Mọi hàm `security invoker` (để RLS vẫn áp dụng), `language plpgsql`, 
 | `duplicate_board` | `p_board_id uuid`                                                                | Sao chép board (tên + " (bản sao)"), 3 list, mọi card chưa xoá (giữ list, vị trí, nhãn, checklist; **xoá** `completed_at/completed_on` để không tính trùng heatmap). Trả board mới.                                                                                         |
 | `move_card`       | `p_card_id uuid, p_to_list text, p_position double precision, p_local_date date` | Đổi list + vị trí. Vào Done từ list khác: set `completed_at = now()`, `completed_on = p_local_date`, ghi activity `card_completed`. Ra khỏi Done: xoá 2 cột, ghi `card_reopened`. Đổi list khác: ghi `card_moved`. Cùng list: chỉ đổi vị trí, không ghi activity. Trả card. |
 | `create_card`     | `p_board_id uuid, p_list text, p_title text, p_local_date date`                  | Thêm card cuối list (position = max + 1024), ghi `card_created`.                                                                                                                                                                                                            |
-| `day_counts`      | `p_from date, p_to date`                                                         | Trả `(day date, count int)` – số card có `completed_on` trong khoảng, gồm cả card đã xoá mềm.                                                                                                                                                                               |
+| `day_counts`      | `p_from date, p_to date`                                                         | Trả `(day date, count int)` – số card có `completed_on` trong khoảng, không gồm card đã xoá mềm (migration 0004).                                                                                                                                                                               |
 | `day_cards`       | `p_day date`                                                                     | Trả `(card_id, title, board_id, board_name, completed_at)` của card xong ngày đó.                                                                                                                                                                                           |
 | `board_stats`     | `p_today date`                                                                   | Mỗi board chưa lưu trữ: `board_id, total, doing, done, overdue` (overdue = chưa xong và `due_date < p_today`); không đếm card đã xoá mềm.                                                                                                                                   |
 
@@ -41,7 +41,7 @@ Sau khi viết: chạy `npm run db:push` rồi `npm run db:types`.
 
 - [x] Đăng ký user mới → có sẵn board "Việc của tôi" với 3 list
 - [x] `move_card` vào/ra Done cập nhật đúng 2 cột ngày và ghi đúng loại activity
-- [x] `day_counts` vẫn đếm card đã xoá mềm
+- [x] `day_counts` không đếm card đã xoá mềm (migration 0004)
 - [x] User A gọi hàm với id của user B → không đọc/sửa được gì
 - [x] File SQL có chú thích tiếng Việt cho từng hàm
 

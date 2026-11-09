@@ -46,7 +46,7 @@ Lớp phủ: sheet tạo/sửa board, menu ⋯ board, hộp xác nhận xoá, po
 1. **List cố định** mỗi board: `todo` (To Do), `doing` (Doing), `done` (Done). List `done` có `is_done_list = true`.
 2. **Hoàn thành card** = chuyển vào list Done (kéo thả hoặc nút HOÀN THÀNH): ghi `completed_at = now()` và `completed_on = ngày theo giờ máy`, ghi activity `card_completed`, mở popup ăn mừng.
 3. **Mở lại** = chuyển card ra khỏi Done: xoá `completed_at`, `completed_on`, ghi `card_reopened`. Nút "Mở lại" đưa card về To Do.
-4. **Điểm một ngày** = số card có `completed_on` = ngày đó (kể cả card đã xoá mềm).
+4. **Điểm một ngày** = số card có `completed_on` = ngày đó, không tính card đã xoá mềm (migration 0004). Xoá card thì heatmap và streak của ngày đó giảm theo.
 5. **Mức màu heatmap:** 0 → mức 0 · 1 → mức 1 · 2–3 → mức 2 · 4–5 → mức 3 · ≥6 → mức 4. (Đã có `heatLevel()` trong `src/lib/heat.ts`.)
 6. **Streak:** số ngày liên tiếp có ≥1 card xong, đếm lùi từ hôm nay; hôm nay chưa xong thì giữ chuỗi tới hôm qua. **Kỷ lục** = chuỗi dài nhất trong 364 ngày. (Đã có `currentStreak()`, `bestStreak()`.)
 7. **Tâm trạng Bubu:** cả năm chưa có card xong → `calm`; streak > 0 và hôm nay đã xong → `cheer`; streak > 0 chưa xong hôm nay → `happy`; streak = 0 → `sad`. (Đã có `whaleMood()`.)
@@ -54,7 +54,7 @@ Lớp phủ: sheet tạo/sửa board, menu ⋯ board, hộp xác nhận xoá, po
 9. **Tuần** bắt đầu Thứ Hai; **tháng** từ ngày 1. Kỳ đang diễn ra chỉ tính số ngày đã qua.
 10. **Board:** tên 1–40 ký tự; màu 0–3; board ghim lên đầu; lưu trữ thì ẩn khỏi danh sách; xoá có xác nhận + hoàn tác 5 giây; nhân bản sao chép cả card.
 11. **Nhãn** thuộc người dùng, dùng chung mọi board; màu 0–4. **Độ ưu tiên:** `none | low | med | high`.
-12. **Xoá card** là xoá mềm (`archived_at`) để không làm nhạt heatmap của ngày cũ.
+12. **Xoá card** là xoá mềm (`archived_at`) để còn hoàn tác. Card đã xoá không được tính ở heatmap, streak, báo cáo và danh sách "card xong trong ngày".
 
 ## Đã có sẵn trong project base (v0.1.0)
 
